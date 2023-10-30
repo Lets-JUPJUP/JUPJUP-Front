@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: "Pretendard";
+  width: 100%;
+  min-width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  font-family: "Pretendard";
+  width: 100%;
+  min-width: 100%;
+}
+
+button {
+  font-family: "Pretendard";
+  cursor: pointer;
+}
+
+input {
+  font-family: "Pretendard";
+}
+
+:root {
+  /* color */
+  --black: #09090a;
+  --midgrey: #7e7e7e;
+  --grey: #e8e8e8;
+  --white: #ffffff;
+  --light: #f3efff;
+  --main: #410fd4;
+  --darken: #290886;
+  --sub: #beef62;
+  --subbright: #eeffce;
+}
