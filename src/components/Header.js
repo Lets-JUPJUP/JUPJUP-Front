@@ -27,12 +27,13 @@ const Header = ({ title, isLogin = false }) => {
 
 export default Header;
 const Wrapper = styled.div`
-  height: 48px;
+  height: 57px;
   display: flex;
   justify-content: space-between;
   .left {
+    height: 48px;
     display: flex;
-    align-items: end;
+    align-items: start;
 
     .logo {
       margin-left: 24px;
@@ -42,14 +43,16 @@ const Wrapper = styled.div`
     }
 
     .title {
+      align-self: flex-end;
       margin-left: 8px;
     }
   }
 
   .btns {
+    margin-top: 9px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 48px;
     justify-content: space-between;
 
     margin-right: 16px;
