@@ -1,16 +1,14 @@
 import React from "react";
 import { styled } from "styled-components";
-import logo from "../assets/login/logo.png";
 import background2 from "../assets/login/background2.png";
 import edit from "../assets/login/edit.png";
 import tag from "../assets/login/tag.png";
+
+import Header from "../components/Header";
 const LoginSettingsPage = () => {
   return (
     <Wrapper>
-      <Top>
-        <img className="logo" src={logo} alt="Let's JUPJUP" />
-        <div className="welcome">ㅇㅇㅇ님, 반가워요!</div>
-      </Top>
+      <Header title={"ooo님, 반가워요!"} />
 
       <Mid>
         <div className="profile">
@@ -64,21 +62,6 @@ const Wrapper = styled.div`
     width: 100%;
     height: 314px;
     flex-shrink: 0;
-  }
-`;
-
-const Top = styled.div`
-  display: flex;
-  align-items: end;
-  .logo {
-    margin-left: 24px;
-    width: 151.386px;
-    height: 48px;
-    flex-shrink: 0;
-  }
-
-  .welcome {
-    margin-left: 8px;
   }
 `;
 
