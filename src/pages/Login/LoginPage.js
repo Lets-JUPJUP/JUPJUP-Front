@@ -1,8 +1,8 @@
 import React from "react";
 import { styled } from "styled-components";
-import background from "../assets/login/background.png";
-import logo from "../assets/login/logo.png";
-import kakao from "../assets/login/kakao.png";
+import background from "../../assets/login/background.png";
+import logo from "../../assets/login/logo.png";
+import kakao from "../../assets/login/kakao.png";
 const LoginPage = () => {
   return (
     <Wrapper>

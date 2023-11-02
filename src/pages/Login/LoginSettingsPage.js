@@ -1,10 +1,10 @@
 import React from "react";
 import { styled } from "styled-components";
-import background2 from "../assets/login/background2.png";
-import edit from "../assets/login/edit.png";
-import tag from "../assets/login/tag.png";
+import background2 from "../../assets/login/background2.png";
+import edit from "../../assets/login/edit.png";
+import tag from "../../assets/login/tag.png";
 
-import Header from "../components/Header";
+import Header from "../../components/Header";
 const LoginSettingsPage = () => {
   return (
     <Wrapper>
