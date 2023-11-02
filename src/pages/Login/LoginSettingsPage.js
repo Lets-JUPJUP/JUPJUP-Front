@@ -89,12 +89,17 @@ const Mid = styled.div`
   .name {
     margin-top: 40px;
     display: flex;
+
     .name-button {
       margin-left: 9px;
       margin-top: 2px;
       width: 16px;
       height: 20px;
       flex-shrink: 0;
+    }
+
+    .name-value {
+      color: black;
     }
   }
   .line {
