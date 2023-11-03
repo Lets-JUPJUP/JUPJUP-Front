@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import RangeSlider from "./RangeSlider";
 import { age_marks, count_marks } from "./marks";
 import add from "../../assets/create/add.png";
+import AddPhoto from "../common/AddPhoto";
 const Form = () => {
   return (
     <Wrapper>
@@ -46,15 +47,7 @@ const Form = () => {
         <div className="subjects">본문</div>
         <Content placeholder="본문 내용을 작성해주세요." />
 
-        <Photo>
-          <div className="subjects">
-            <img className="add-icon" src={add} alt="" />
-            사진 추가하기
-          </div>
-          <div className="preview">
-            <img src="" />
-          </div>
-        </Photo>
+        <AddPhoto />
       </Container>
 
       <Footer>
@@ -167,31 +160,6 @@ const Content = styled.textarea`
   border-radius: 8px;
   background: var(--light, #f3efff);
   resize: none;
-`;
-const Photo = styled.div`
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: end;
-
-  .subjects {
-    display: flex;
-    align-items: center;
-  }
-  .add-icon {
-    width: 12px;
-    height: 12px;
-    margin-right: 3px;
-  }
-  .preview {
-    display: flex;
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
-    border-radius: 8px;
-    background: url(<path-to-image>), lightgray 50% / cover no-repeat;
-  }
 `;
 const Footer = styled.div`
   margin-top: 16px;
