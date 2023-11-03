@@ -26,6 +26,10 @@ const Photo = styled.div`
   .subjects {
     display: flex;
     align-items: center;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
   }
   .add-icon {
     width: 12px;

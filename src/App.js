@@ -3,6 +3,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import LoginSettingsPage from "./pages/Login/LoginSettingsPage";
 import CreatePlogPage from "./pages/Plogging/CreatePlogPage";
 import PloggingListPage from "./pages/PloggingListPage";
+import UserReportPage from "./pages/User/UserReportPage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="login-settings" element={<LoginSettingsPage />} />
       <Route path="create-plogging" element={<CreatePlogPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
+      <Route path="user-report" element={<UserReportPage />} />
     </Routes>
   );
 }
