@@ -1,8 +1,8 @@
 import React from "react";
 import { styled } from "styled-components";
-import logo from "../assets/common/logo.png";
-import alarm from "../assets/common/alarm.png";
-import user from "../assets/common/user.png";
+import logo from "../../assets/common/logo.png";
+import alarm from "../../assets/common/alarm.png";
+import user from "../../assets/common/user.png";
 const Header = ({ title, isLogin = false }) => {
   return (
     <Wrapper>
