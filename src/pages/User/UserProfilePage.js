@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 import report from "../../assets/user/report.png";
 import Tag from "../../components/common/Tag";
+import History from "../../components/common/History";
+import Badges from "../../components/common/Badges";
 const UserProfilePage = () => {
   return (
     <>
@@ -24,34 +26,18 @@ const UserProfilePage = () => {
           <Tag name={"20대"} /> <Tag name={"여성"} />
         </div>
 
-        <Badges>
-          <div className="badge">
-            <div className="circle-num">❶</div>
-            <div className="badge-name">함께 또 걷고 싶은 플로깅 파트너</div>
-          </div>
-          <div className="badge">
-            <div className="circle-num">❷</div>
-            <div className="badge-name">함께 또 걷고 싶은 플로깅 파트너</div>
-          </div>
-          <div className="badge">
-            <div className="circle-num">❸</div>
-            <div className="badge-name">함께 또 걷고 싶은 플로깅 파트너</div>
-          </div>
-        </Badges>
+        <div className="badges"></div>
+        <Badges
+          list={[
+            "함께 또 걷고 싶은 플로깅 파트너",
+            "함께 또 걷고 싶은 플로깅 파트너",
+            "함께 또 걷고 싶은 플로깅 파트너",
+          ]}
+        />
 
-        <History>
-          <div className="container">
-            <div className="count">00개</div>
-            <div className="title">주최한 플로깅 모임</div>
-          </div>
-
-          <div className="divider" />
-
-          <div className="container">
-            <div className="count">00회</div>
-            <div className="title">플로깅 참여 횟수</div>
-          </div>
-        </History>
+        <div className="history">
+          <History />
+        </div>
       </Wrapper>
     </>
   );
@@ -81,10 +67,7 @@ const Wrapper = styled.div`
     color: #000;
     text-align: center;
 
-    /* semibold16pt */
-    font-family: Pretendard;
     font-size: 16px;
-    font-style: normal;
     font-weight: 600;
     line-height: 24px; /* 150% */
   }
@@ -93,6 +76,15 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     gap: 8px;
+  }
+
+  .badges {
+    margin-top: 16vh;
+  }
+
+  .history {
+    position: absolute;
+    bottom: 30px;
   }
 `;
 
@@ -128,63 +120,5 @@ const Top = styled.div`
     width: 16px;
     height: 16px;
     flex-shrink: 0;
-  }
-`;
-
-const Badges = styled.div`
-  margin-top: 16vh;
-  color: #000;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px; /* 150% */
-
-  .badge {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 12px;
-  }
-
-  .circle-num {
-    margin-top: 1px;
-  }
-`;
-
-const History = styled.div`
-  width: 358px;
-  height: 68px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: var(--light, #f3efff);
-  position: absolute;
-  bottom: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .divider {
-    width: 2px;
-    height: 44px;
-    background: #09090a;
-  }
-  .container {
-    width: 50%;
-  }
-  .count {
-    color: var(--black, #09090a);
-    text-align: center;
-
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px; /* 150% */
-  }
-
-  .title {
-    color: var(--black, #09090a);
-    text-align: center;
-
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 18px; /* 150% */
   }
 `;
