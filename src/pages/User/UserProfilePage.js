@@ -36,7 +36,15 @@ const UserProfilePage = () => {
         />
 
         <div className="history">
-          <History />
+          <History
+            contents={[
+              {
+                count: 0,
+                text: "주최한 플로깅 모임",
+              },
+              { count: 0, text: "플로깅 참여 횟수" },
+            ]}
+          />
         </div>
       </Wrapper>
     </>

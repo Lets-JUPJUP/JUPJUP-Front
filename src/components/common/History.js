@@ -1,18 +1,18 @@
 import React from "react";
 import { styled } from "styled-components";
-const History = () => {
+const History = ({ contents }) => {
   return (
     <Wrapper>
       <div className="container">
-        <div className="count">00개</div>
-        <div className="title">주최한 플로깅 모임</div>
+        <div className="count">{contents[0].count}개</div>
+        <div className="title">{contents[0].text}</div>
       </div>
 
       <div className="divider" />
 
       <div className="container">
-        <div className="count">00회</div>
-        <div className="title">플로깅 참여 횟수</div>
+        <div className="count">{contents[1].count}회</div>
+        <div className="title">{contents[1].text}</div>
       </div>
     </Wrapper>
   );
