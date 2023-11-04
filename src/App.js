@@ -4,7 +4,7 @@ import LoginSettingsPage from "./pages/Login/LoginSettingsPage";
 import CreatePlogPage from "./pages/Plogging/CreatePlogPage";
 import PloggingListPage from "./pages/PloggingListPage";
 import UserReportPage from "./pages/User/UserReportPage";
-
+import UserProfilePage from "./pages/User/UserProfilePage";
 function App() {
   return (
     <Routes>
@@ -13,6 +13,7 @@ function App() {
       <Route path="create-plogging" element={<CreatePlogPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
       <Route path="user-report" element={<UserReportPage />} />
+      <Route path="user-profile/:id" element={<UserProfilePage />} />
     </Routes>
   );
 }
