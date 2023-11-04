@@ -5,14 +5,14 @@ const History = ({ contents }) => {
     <Wrapper>
       <div className="container">
         <div className="count">{contents[0].count}개</div>
-        <div className="title">{contents[0].text}</div>
+        <div className="text">{contents[0].text}</div>
       </div>
 
       <div className="divider" />
 
       <div className="container">
         <div className="count">{contents[1].count}회</div>
-        <div className="title">{contents[1].text}</div>
+        <div className="text">{contents[1].text}</div>
       </div>
     </Wrapper>
   );
@@ -47,7 +47,7 @@ const Wrapper = styled.div`
     line-height: 24px; /* 150% */
   }
 
-  .title {
+  .text {
     color: var(--black, #09090a);
     text-align: center;
 
