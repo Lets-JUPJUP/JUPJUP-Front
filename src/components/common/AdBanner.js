@@ -2,9 +2,9 @@ import styled from "styled-components";
 import ic_info from "../../assets/common/ic_info.png";
 
 // 광고 배너
-const AdBanner = () => {
+const AdBanner = ({ isFixed }) => {
   return (
-    <Wrapper>
+    <Wrapper className={isFixed === true ? "isFixed" : ""}>
       <img src={ic_info} alt="info" className="info" />
       <div>(광고배너)</div>
     </Wrapper>
@@ -18,12 +18,16 @@ const Wrapper = styled.div`
   height: 68px;
   background: var(--grey, #e8e8e8);
 
-  position: fixed;
-  bottom: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
+
+  position: relative;
+
+  &.isFixed {
+    position: fixed;
+    bottom: 0;
+  }
 
   .info {
     width: 16px;
