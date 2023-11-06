@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 
-const Badges = ({
+const Top3Badges = ({
   list = [
     "획득한 뱃지가 없습니다",
     "획득한 뱃지가 없습니다",
@@ -26,7 +26,7 @@ const Badges = ({
   );
 };
 
-export default Badges;
+export default Top3Badges;
 
 const Wrapper = styled.div`
   color: #000;

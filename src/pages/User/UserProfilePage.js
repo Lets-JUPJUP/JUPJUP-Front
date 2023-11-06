@@ -4,7 +4,7 @@ import Header from "../../components/common/Header";
 import report from "../../assets/user/report.png";
 import Tag from "../../components/common/Tag";
 import History from "../../components/common/History";
-import Badges from "../../components/common/Badges";
+import Top3Badges from "../../components/common/Top3Badges";
 const UserProfilePage = () => {
   return (
     <>
@@ -27,7 +27,7 @@ const UserProfilePage = () => {
         </div>
 
         <div className="badges"></div>
-        <Badges
+        <Top3Badges
           list={[
             "함께 또 걷고 싶은 플로깅 파트너",
             "함께 또 걷고 싶은 플로깅 파트너",
