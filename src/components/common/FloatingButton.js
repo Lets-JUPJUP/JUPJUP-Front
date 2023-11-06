@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import styled from "styled-components";
 import fab_write from "../../assets/common/fab_write.png";
 import fab_trash from "../../assets/common/fab_trash.png";
