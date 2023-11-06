@@ -5,7 +5,21 @@ import alarm from "../../assets/common/alarm.png";
 import user from "../../assets/common/user.png";
 import GradientLine from "./GradientLine";
 
-const Header = ({ title, isLogin = false, isDetailPage = false }) => {
+const Header = ({
+  title,
+  isLogin = false,
+  isDetailPage = false,
+  title2 = false,
+  link = false,
+}) => {
+  const toHome = () => {
+    window.location.href = "/";
+  };
+
+  const toLink = () => {
+    window.location.href = `${link}`;
+  };
+
   return (
     <>
       <Wrapper>
@@ -13,8 +27,13 @@ const Header = ({ title, isLogin = false, isDetailPage = false }) => {
           <div className="detailTitle">{title}</div>
         ) : (
           <div className="left">
-            <img className="logo" src={logo} alt="Let's JUPJUP" />
+            <img className="logo" src={logo} alt="Let's JUPJUP" onClick={toHome}/>
             <div className="title">{title}</div>
+            {title2 && link && (
+              <div className="title2" onClick={toLink}>
+                {title2}
+              </div>
+            )}
           </div>
         )}
 
@@ -29,6 +48,7 @@ const Header = ({ title, isLogin = false, isDetailPage = false }) => {
           </div>
         )}
       </Wrapper>
+
       {isDetailPage === true ? <GradientLine /> : null}
     </>
   );
@@ -55,6 +75,7 @@ const Wrapper = styled.div`
       width: 151.386px;
       height: 48px;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     .title {
@@ -62,6 +83,15 @@ const Wrapper = styled.div`
       margin-left: 8px;
       font-size: 16px;
       font-weight: 600;
+    }
+
+    .title2 {
+      align-self: flex-end;
+      margin-left: 8px;
+      font-size: 16px;
+      font-weight: 600;
+
+      color: var(--grey, #e8e8e8);
     }
   }
 
@@ -87,6 +117,7 @@ const Wrapper = styled.div`
       img {
         width: 20px;
         height: 20px;
+        cursor: pointer;
       }
     }
   }
