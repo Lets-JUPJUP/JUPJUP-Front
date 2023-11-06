@@ -45,6 +45,8 @@ const Wrapper = styled.div`
     .title {
       align-self: flex-end;
       margin-left: 8px;
+      font-size: 16px;
+      font-weight: 600;
     }
   }
 

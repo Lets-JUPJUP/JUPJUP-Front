@@ -4,7 +4,11 @@ import LoginSettingsPage from "./pages/Login/LoginSettingsPage";
 import CreatePlogPage from "./pages/Plogging/CreatePlogPage";
 import PloggingListPage from "./pages/PloggingListPage";
 import UserReportPage from "./pages/User/UserReportPage";
-
+import UserProfilePage from "./pages/User/UserProfilePage";
+import MainPage from "./pages/Main/MainPage";
+import KakaoLoginPage from "./pages/Login/KakaoLoginPage";
+import ReviewPage from "./pages/User/ReviewPage";
+import AlarmPage from "./pages/User/AlarmPage";
 function App() {
   return (
     <Routes>
@@ -13,6 +17,11 @@ function App() {
       <Route path="create-plogging" element={<CreatePlogPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
       <Route path="user-report" element={<UserReportPage />} />
+      <Route path="user-profile/:id" element={<UserProfilePage />} />
+      <Route path="/" element={<MainPage />} />
+      <Route path="/kakao-login" element={<KakaoLoginPage />} />
+      <Route path="/review/:id" element={<ReviewPage />} />
+      <Route path="/alarm" element={<AlarmPage />} />
     </Routes>
   );
 }
