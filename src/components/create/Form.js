@@ -130,10 +130,11 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 12px;
   .btns {
+    display: flex;
     margin-left: 5px;
+    gap: 8px;
   }
   .btn {
-    margin-right: 8px;
     border-radius: 4px;
     background: var(--midgrey, #7e7e7e);
     display: inline-flex;
