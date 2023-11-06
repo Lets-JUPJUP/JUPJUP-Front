@@ -2,9 +2,9 @@ import styled from "styled-components";
 import ic_info from "../../assets/common/ic_info.png";
 
 // 광고 배너
-const AdBanner = ({ isFixed }) => {
+const AdBanner = ({ isNotFixed }) => {
   return (
-    <Wrapper className={isFixed === true ? "isFixed" : ""}>
+    <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
       <img src={ic_info} alt="info" className="info" />
       <div>(광고배너)</div>
     </Wrapper>

@@ -16,7 +16,7 @@ const PloggingListPage = () => {
 
       <PloggingListSection />
       <FloatingButton />
-      <AdBanner isFixed={true}/>
+      <AdBanner />
     </>
   );
 };
