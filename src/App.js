@@ -12,6 +12,8 @@ import ReviewPage from "./pages/User/ReviewPage";
 import AlarmPage from "./pages/User/AlarmPage";
 import MyInterestPage from "./pages/MyPage/MyInterestPage";
 import MyCommentPage from "./pages/MyPage/MyCommentPage";
+import MySchedulePage from "./pages/MyPage/MySchedulePage";
+
 function App() {
   return (
     <Routes>
@@ -29,6 +31,7 @@ function App() {
 
       <Route path="/mypage/interest" element={<MyInterestPage />} />
       <Route path="/mypage/comment" element={<MyCommentPage />} />
+      <Route path="/mypage/schedule" element={<MySchedulePage />} />
     </Routes>
   );
 }
