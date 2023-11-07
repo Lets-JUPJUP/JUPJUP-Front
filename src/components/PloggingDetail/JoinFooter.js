@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   background: var(--main, #410fd4);
 
   box-sizing: border-box;
-  padding: 0 24px;
+  padding: 0 5%;
 
   display: flex;
   flex-direction: column;
