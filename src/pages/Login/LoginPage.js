@@ -3,11 +3,22 @@ import { styled } from "styled-components";
 import background from "../../assets/login/background.png";
 import logo from "../../assets/login/logo.png";
 import kakao from "../../assets/login/kakao.png";
+import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handlekakaoLogin = () => {
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+    const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+    const KAKAO_AUTH_URL = `${SERVER_DOMAIN}/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI}`;
+
+    window.location.href = KAKAO_AUTH_URL;
+  };
   return (
     <Wrapper>
       <img className="logo" src={logo} alt="Let's JUPJUP" />
-      <div className="login-button">
+      <div className="login-button" onClick={handlekakaoLogin}>
         <img src={kakao} className="kakao-icon" alt="" />
         카카오 로그인
       </div>
@@ -30,6 +41,7 @@ const Wrapper = styled.div`
   }
 
   .login-button {
+    cursor: pointer;
     z-index: 1;
     position: absolute;
     bottom: 18%;

@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 90%;
-  margin: 12px auto 0;
+  margin: 0 auto 0;
 
   .photo-container {
     width: 100%;
