@@ -11,7 +11,7 @@ const KakaoLoginPage = () => {
 
   useEffect(() => {
     const accessToken = searchParams.get("accessToken");
-
+    console.log(accessToken);
     if (accessToken) {
       localStorage.setItem("juptoken", accessToken); // 로컬 스토리지에 저장
       navigate("/");
