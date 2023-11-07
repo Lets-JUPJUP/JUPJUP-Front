@@ -3,33 +3,68 @@ import { styled } from "styled-components";
 import logo from "../../assets/common/logo.png";
 import alarm from "../../assets/common/alarm.png";
 import user from "../../assets/common/user.png";
-const Header = ({ title, isLogin = false }) => {
-  return (
-    <Wrapper>
-      <div className="left">
-        <img className="logo" src={logo} alt="Let's JUPJUP" />
-        <div className="title">{title}</div>
-      </div>
+import GradientLine from "./GradientLine";
 
-      {isLogin && (
-        <div className="btns">
-          <div className="btn">
-            <img src={alarm} alt="알림모음으로" />
+const Header = ({
+  title,
+  isLogin = false,
+  isDetailPage = false,
+  title2 = false,
+  link = false,
+}) => {
+  const toHome = () => {
+    window.location.href = "/";
+  };
+
+  const toLink = () => {
+    window.location.href = `${link}`;
+  };
+
+  return (
+    <>
+      <Wrapper>
+        {isDetailPage === true ? (
+          <div className="detailTitle">{title}</div>
+        ) : (
+          <div className="left">
+            <img className="logo" src={logo} alt="Let's JUPJUP" onClick={toHome}/>
+            <div className="title">{title}</div>
+            {title2 && link && (
+              <div className="title2" onClick={toLink}>
+                {title2}
+              </div>
+            )}
           </div>
-          <div className="btn">
-            <img src={user} alt="마이페이지로" />
+        )}
+
+        {isLogin && (
+          <div className="btns">
+            <div className="btn">
+              <img src={alarm} alt="알림모음으로" />
+            </div>
+            <div className="btn">
+              <img src={user} alt="마이페이지로" />
+            </div>
           </div>
-        </div>
-      )}
-    </Wrapper>
+        )}
+      </Wrapper>
+
+      {isDetailPage === true ? <GradientLine /> : null}
+    </>
   );
 };
 
 export default Header;
+
 const Wrapper = styled.div`
-  height: 57px;
+  width: 100%;
+  /* height: 57px; */
+  height: 70px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background: var(--white, #fff);
+
   .left {
     height: 48px;
     display: flex;
@@ -40,6 +75,7 @@ const Wrapper = styled.div`
       width: 151.386px;
       height: 48px;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     .title {
@@ -48,10 +84,25 @@ const Wrapper = styled.div`
       font-size: 16px;
       font-weight: 600;
     }
+
+    .title2 {
+      align-self: flex-end;
+      margin-left: 8px;
+      font-size: 16px;
+      font-weight: 600;
+
+      color: var(--grey, #e8e8e8);
+    }
+  }
+
+  .detailTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 24px;
   }
 
   .btns {
-    margin-top: 9px;
+    /* margin-top: 9px; */
     display: flex;
     flex-direction: column;
     height: 48px;
@@ -66,6 +117,7 @@ const Wrapper = styled.div`
       img {
         width: 20px;
         height: 20px;
+        cursor: pointer;
       }
     }
   }

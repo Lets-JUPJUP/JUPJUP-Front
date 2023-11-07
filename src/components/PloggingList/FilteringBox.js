@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import ic_reset from "../../assets/PloggingList/ic_reset.png";
+import GradientLine from "../common/GradientLine";
 
 const FilteringBox = () => {
   // 필터링 버튼
@@ -29,28 +30,31 @@ const FilteringBox = () => {
   };
 
   return (
-    <Wrapper>
-      <img
-        src={ic_reset}
-        alt="새로고침"
-        onClick={() => {
-          window.location.reload();
-        }}
-      />
-      {buttonList.map((item, index) => {
-        return (
-          <FilterButton
-            key={index}
-            className={item.isClicked ? "isClicked" : ""}
-            onClick={() => {
-              toggleButtonClick(index);
-            }}
-          >
-            {item.title}
-          </FilterButton>
-        );
-      })}
-    </Wrapper>
+    <>
+      <Wrapper>
+        <img
+          src={ic_reset}
+          alt="새로고침"
+          onClick={() => {
+            window.location.reload();
+          }}
+        />
+        {buttonList.map((item, index) => {
+          return (
+            <FilterButton
+              key={index}
+              className={item.isClicked ? "isClicked" : ""}
+              onClick={() => {
+                toggleButtonClick(index);
+              }}
+            >
+              {item.title}
+            </FilterButton>
+          );
+        })}
+      </Wrapper>
+      <GradientLine />
+    </>
   );
 };
 

@@ -67,6 +67,9 @@ const Wrapper = styled.div`
 
   padding: 8px;
 
+  // padding이 width 안쪽으로 생기게 수정
+  box-sizing: border-box;
+
   border-radius: 8px;
 
   // join(참여 완료)일 때는 연초록, finish(모집 완료)일 때는 회색, 나머지는 보라색 배경

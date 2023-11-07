@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Header from "../../components/common/Header";
-import report from "../../assets/user/report.png";
+import report from "../../assets/common/report.png";
 import Badge from "../../components/user/Badge";
 import AdBanner from "../../components/common/AdBanner";
 const ReviewPage = () => {
