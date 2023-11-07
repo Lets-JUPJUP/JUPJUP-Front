@@ -3,12 +3,19 @@ import { styled } from "styled-components";
 import CommentBox from "../common/CommentBox";
 import CoCommentBox from "./CoCommentBox";
 
-const PloggingComment = () => {
+const PloggingComment = ({ setWriteMode }) => {
   return (
     <Wrapper>
       <MainDiv>
         <BigBoldText>댓글 00</BigBoldText>
-        <SmallBoldText className="linkText">댓글 작성하기 &gt;</SmallBoldText>
+        <SmallBoldText
+          className="linkText"
+          onClick={() => {
+            setWriteMode(true);
+          }}
+        >
+          댓글 작성하기 &gt;
+        </SmallBoldText>
       </MainDiv>
       <CommentDiv>
         <CommentBox />
