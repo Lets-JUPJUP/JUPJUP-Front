@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Header from "../../components/common/Header";
-import report from "../../assets/user/report.png";
+import report from "../../assets/common/report.png";
 import Tag from "../../components/common/Tag";
 import History from "../../components/common/History";
 import Top3Badges from "../../components/common/Top3Badges";
