@@ -56,7 +56,7 @@ const Wrapper = styled.div`
   }
 
   .carousel {
-    margin-top: 20px;
+    margin-top: 8px;
     margin-bottom: 30px;
   }
 

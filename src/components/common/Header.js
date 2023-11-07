@@ -27,7 +27,12 @@ const Header = ({
           <div className="detailTitle">{title}</div>
         ) : (
           <div className="left">
-            <img className="logo" src={logo} alt="Let's JUPJUP" onClick={toHome}/>
+            <img
+              className="logo"
+              src={logo}
+              alt="Let's JUPJUP"
+              onClick={toHome}
+            />
             <div className="title">{title}</div>
             {title2 && link && (
               <div className="title2" onClick={toLink}>
@@ -64,6 +69,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   background: var(--white, #fff);
+  margin-bottom: 10px;
 
   .left {
     height: 48px;

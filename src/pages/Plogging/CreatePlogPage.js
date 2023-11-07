@@ -16,6 +16,5 @@ const CreatePlogPage = () => {
 export default CreatePlogPage;
 const Wrapper = styled.div`
   .gap {
-    height: 12px;
   }
 `;

@@ -65,7 +65,6 @@ const Wrapper = styled.div`
   align-items: center;
 
   .gradient {
-    margin-top: 12px;
     display: flex;
     width: 100%;
     height: 20px;
