@@ -15,6 +15,7 @@ import ReviewPage from "./pages/User/ReviewPage";
 import AlarmPage from "./pages/User/AlarmPage";
 import EventPage from "./pages/Event/EventPage";
 
+import MyPage from "./pages/MyPage/MyPage";
 import MyInterestPage from "./pages/MyPage/MyInterestPage";
 import MyCommentPage from "./pages/MyPage/MyCommentPage";
 import MySchedulePage from "./pages/MyPage/MySchedulePage";
@@ -38,6 +39,7 @@ function App() {
       <Route path="/alarm" element={<AlarmPage />} />
       <Route path="/event/:id" element={<EventPage />} />
 
+      <Route path="/mypage" element={<MyPage />} />
       <Route path="/mypage/interest" element={<MyInterestPage />} />
       <Route path="/mypage/comment" element={<MyCommentPage />} />
       <Route path="/mypage/schedule" element={<MySchedulePage />} />
