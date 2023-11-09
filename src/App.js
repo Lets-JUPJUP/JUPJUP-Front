@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import MainPage from "./pages/Main/MainPage";
 import LoginPage from "./pages/Login/LoginPage";
 import LoginSettingsPage from "./pages/Login/LoginSettingsPage";
-// import KakaoLoginPage from "./pages/Login/KakaoLoginPage";
+import KakaoLoginPage from "./pages/Login/KakaoLoginPage";
 
 import CreatePlogPage from "./pages/Plogging/CreatePlogPage";
 import PloggingListPage from "./pages/Plogging/PloggingListPage";
@@ -10,7 +10,6 @@ import PloggingDetailPage from "./pages/Plogging/PloggingDetailPage";
 
 import UserReportPage from "./pages/User/UserReportPage";
 import UserProfilePage from "./pages/User/UserProfilePage";
-
 import ReviewPage from "./pages/User/ReviewPage";
 import AlarmPage from "./pages/User/AlarmPage";
 import EventPage from "./pages/Event/EventPage";
@@ -27,7 +26,7 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="login-settings" element={<LoginSettingsPage />} />
-      {/* <Route path="/kakao-login" element={<KakaoLoginPage />} /> */}
+      <Route path="/kakao-login" element={<KakaoLoginPage />} />
 
       <Route path="create-plogging" element={<CreatePlogPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
