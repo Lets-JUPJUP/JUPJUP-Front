@@ -9,12 +9,15 @@ import PloggingComment from "../../components/PloggingDetail/PloggingComment";
 
 import FloatingButton from "../../components/common/FloatingButton";
 import JoinFooter from "../../components/PloggingDetail/JoinFooter";
+import { useState } from "react";
+import CommentInput from "../../components/common/CommentInput";
 
 const PloggingDetailPage = () => {
+  const [writeMode, setWriteMode] = useState(false);
   return (
     <>
       <Fixed>
-        <Header title={"제목"} isLogin={true} isDetailPage={true}/>
+        <Header title={"제목"} isLogin={true} isDetailPage={true} />
       </Fixed>
       <Wrapper>
         <PostImageBox />
@@ -27,9 +30,10 @@ const PloggingDetailPage = () => {
         <PloggingInfo />
         <CommentLine />
         {/* 플로깅 댓글 */}
-        <PloggingComment />
+        <PloggingComment setWriteMode={setWriteMode} />
         <FloatingButton isWriteBtnHidden={true} />
-        <JoinFooter />
+
+        {writeMode === true ? <CommentInput /> : <JoinFooter />}
       </Wrapper>
     </>
   );
