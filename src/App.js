@@ -34,7 +34,7 @@ function App() {
 
       <Route path="user-report" element={<UserReportPage />} />
       <Route path="user-profile/:id" element={<UserProfilePage />} />
-      <Route path="/" element={<MainPage />} />
+
       <Route path="/review/:id" element={<ReviewPage />} />
       <Route path="/alarm" element={<AlarmPage />} />
       <Route path="/event/:id" element={<EventPage />} />
