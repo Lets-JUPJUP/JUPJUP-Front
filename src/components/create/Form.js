@@ -6,6 +6,11 @@ import add from "../../assets/create/add.png";
 import AddPhoto from "../common/AddPhoto";
 import DateInputs from "./DateInputs";
 const Form = () => {
+  const [inputs, setInputs] = useState({
+    title: "",
+    startPlace: "",
+    content: "",
+  });
   const [count, setCount] = useState([2, 10]);
   const [ageRange, setAgeRange] = useState([10, 70]);
   const [startDate, setStartDate] = useState({
@@ -20,13 +25,22 @@ const Form = () => {
     hour: "",
     min: "",
   });
+  const [postGender, setPostGender] = useState("ANY");
+  const [withPet, setWithPet] = useState(false);
 
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
   return (
     <Wrapper>
       <div className="gradient" />
       <Container>
         <div className="title">제목</div>
-        <Input placeholder="입력하기" />
+        <Input name="title" placeholder="입력하기" onChange={handleChange} />
         <Divider />
         <div className="subjects">출발 일시</div>
         <div className="start-inputs">
@@ -38,7 +52,11 @@ const Form = () => {
         </div>
 
         <div className="subjects">출발 장소</div>
-        <Input placeholder="입력하기" />
+        <Input
+          name="startPlace"
+          placeholder="입력하기"
+          onChange={handleChange}
+        />
         <div className="subjects">참여 인원</div>
         <div className="slider-container">
           <RangeSlider
@@ -53,13 +71,45 @@ const Form = () => {
         <div className="subjects">참여 성별</div>
         <ButtonContainer>
           <div className="btns">
-            <div className="btn">성별무관</div>
-            <div className="btn">여성만</div>
-            <div className="btn">남성만</div>
+            <Btn
+              className="btn"
+              $isclicked={String(postGender === "ANY")}
+              onClick={() => {
+                setPostGender("ANY");
+              }}
+            >
+              성별무관
+            </Btn>
+            <Btn
+              className="btn"
+              $isclicked={String(postGender === "FEMALE")}
+              onClick={() => {
+                setPostGender("FEMALE");
+              }}
+            >
+              여성만
+            </Btn>
+            <Btn
+              className="btn"
+              $isclicked={String(postGender === "MALE")}
+              onClick={() => {
+                setPostGender("MALE");
+              }}
+            >
+              남성만
+            </Btn>
           </div>
 
           <div className="btns">
-            <div className="btn">반려동물과 함께</div>
+            <Btn
+              $isclicked={String(withPet)}
+              className="btn"
+              onClick={() => {
+                setWithPet(!withPet);
+              }}
+            >
+              반려동물과 함께
+            </Btn>
           </div>
         </ButtonContainer>
         <div className="subjects">참여 연령</div>
@@ -75,7 +125,11 @@ const Form = () => {
         </div>
         <Divider />
         <div className="subjects">본문</div>
-        <Content placeholder="본문 내용을 작성해주세요." />
+        <Content
+          name="content"
+          placeholder="본문 내용을 작성해주세요."
+          onChange={handleChange}
+        />
         <AddPhoto />
       </Container>
 
@@ -174,20 +228,23 @@ const ButtonContainer = styled.div`
     margin-left: 5px;
     gap: 8px;
   }
-  .btn {
-    border-radius: 4px;
-    background: var(--midgrey, #7e7e7e);
-    display: inline-flex;
-    padding: 5px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+`;
 
-    color: var(--white, #fff);
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 18px;
-  }
+const Btn = styled.div`
+  background: ${(props) =>
+    props.$isclicked === "true" ? "#BEEF62" : "#7e7e7e"};
+  border-radius: 4px;
+
+  display: inline-flex;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: ${(props) => (props.$isclicked === "true" ? "#410FD4" : "#fff")};
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
 `;
 const Content = styled.textarea`
   display: flex;
@@ -222,24 +279,7 @@ const Footer = styled.div`
     font-size: 16px;
     font-weight: 600;
     line-height: 24px; /* 150% */
-    display: flex;
-    gap: 4px;
     padding-top: 8px;
-    input {
-      outline: none;
-      border: none;
-      width: 21px;
-      height: 24px;
-      display: flex;
-      padding: 0px 4px;
-      align-items: flex-start;
-      border-radius: 4px;
-
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 24px; /* 150% */
-    }
   }
 
   .text {
