@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { memberGetMyProfile } from "../../api/member";
 
