@@ -4,7 +4,10 @@ import RangeSlider from "./RangeSlider";
 import { age_marks, count_marks } from "./marks";
 import add from "../../assets/create/add.png";
 import AddPhoto from "../common/AddPhoto";
+import DateInputs from "./DateInputs";
 const Form = () => {
+  const [count, setCount] = useState([2, 10]);
+  const [ageRange, setAgeRange] = useState([10, 70]);
   const [startDate, setStartDate] = useState({
     month: "",
     date: "",
@@ -18,26 +21,6 @@ const Form = () => {
     min: "",
   });
 
-  const handleStartDateChange = (e) => {
-    const { value, name } = e.target;
-    setStartDate({
-      ...startDate,
-      [name]: String(value).padStart(2, "0"),
-    });
-
-    console.log(startDate);
-  };
-
-  const handleJoinDateChange = (e) => {
-    const { value, name } = e.target;
-    setJoinDate({
-      ...joinDate,
-      [name]: String(value).padStart(2, "0"),
-    });
-
-    console.log(startDate);
-  };
-
   return (
     <Wrapper>
       <div className="gradient" />
@@ -47,73 +30,25 @@ const Form = () => {
         <Divider />
         <div className="subjects">출발 일시</div>
         <div className="start-inputs">
-          <input
-            className="month"
-            name="month"
-            placeholder="00"
-            type="number"
-            min="1"
-            max="12"
-            onChange={handleStartDateChange}
-            maxLength="2"
-            onInput={(e) => {
-              if (e.target.value.length > e.target.maxLength)
-                e.target.value = e.target.value.slice(0, e.target.maxLength);
-            }}
+          <DateInputs
+            date={startDate}
+            setDate={setStartDate}
+            isColored={"true"}
           />
-          월
-          <input
-            className="date"
-            name="date"
-            placeholder="00"
-            type="number"
-            min="1"
-            max="31"
-            onChange={handleStartDateChange}
-            maxLength="2"
-            onInput={(e) => {
-              if (e.target.value.length > e.target.maxLength)
-                e.target.value = e.target.value.slice(0, e.target.maxLength);
-            }}
-          />
-          일
-          <input
-            className="hour"
-            name="hour"
-            placeholder="00"
-            type="number"
-            min="0"
-            max="23"
-            onChange={handleStartDateChange}
-            maxLength="2"
-            onInput={(e) => {
-              if (e.target.value.length > e.target.maxLength)
-                e.target.value = e.target.value.slice(0, e.target.maxLength);
-            }}
-          />
-          시
-          <input
-            className="min"
-            name="min"
-            placeholder="00"
-            type="number"
-            min="0"
-            max="60"
-            onChange={handleStartDateChange}
-            maxLength="2"
-            onInput={(e) => {
-              if (e.target.value.length > e.target.maxLength)
-                e.target.value = e.target.value.slice(0, e.target.maxLength);
-            }}
-          />
-          분
         </div>
 
         <div className="subjects">출발 장소</div>
         <Input placeholder="입력하기" />
         <div className="subjects">참여 인원</div>
         <div className="slider-container">
-          <RangeSlider marks={count_marks} min={2} max={10} step={1} />
+          <RangeSlider
+            marks={count_marks}
+            min={2}
+            max={10}
+            step={1}
+            value={count}
+            setValue={setCount}
+          />
         </div>
         <div className="subjects">참여 성별</div>
         <ButtonContainer>
@@ -129,7 +64,14 @@ const Form = () => {
         </ButtonContainer>
         <div className="subjects">참여 연령</div>
         <div className="slider-container">
-          <RangeSlider marks={age_marks} min={10} max={70} step={10} />
+          <RangeSlider
+            marks={age_marks}
+            min={10}
+            max={70}
+            step={10}
+            value={ageRange}
+            setValue={setAgeRange}
+          />
         </div>
         <Divider />
         <div className="subjects">본문</div>
@@ -140,66 +82,7 @@ const Form = () => {
       <Footer>
         <div className="container">
           <div className="join-inputs">
-            <input
-              className="month"
-              name="month"
-              placeholder="00"
-              type="number"
-              min="1"
-              max="12"
-              onChange={handleJoinDateChange}
-              maxLength="2"
-              onInput={(e) => {
-                if (e.target.value.length > e.target.maxLength)
-                  e.target.value = e.target.value.slice(0, e.target.maxLength);
-              }}
-            />
-            월
-            <input
-              className="date"
-              name="date"
-              placeholder="00"
-              type="number"
-              min="1"
-              max="31"
-              onChange={handleJoinDateChange}
-              maxLength="2"
-              onInput={(e) => {
-                if (e.target.value.length > e.target.maxLength)
-                  e.target.value = e.target.value.slice(0, e.target.maxLength);
-              }}
-            />
-            일
-            <input
-              className="hour"
-              name="hour"
-              placeholder="00"
-              type="number"
-              min="0"
-              max="23"
-              onChange={handleJoinDateChange}
-              maxLength="2"
-              onInput={(e) => {
-                if (e.target.value.length > e.target.maxLength)
-                  e.target.value = e.target.value.slice(0, e.target.maxLength);
-              }}
-            />
-            시
-            <input
-              className="min"
-              name="min"
-              placeholder="00"
-              type="number"
-              min="0"
-              max="60"
-              onChange={handleJoinDateChange}
-              maxLength="2"
-              onInput={(e) => {
-                if (e.target.value.length > e.target.maxLength)
-                  e.target.value = e.target.value.slice(0, e.target.maxLength);
-              }}
-            />
-            분
+            <DateInputs date={joinDate} setDate={setJoinDate} />
           </div>
           <div className="text">까지 모집</div>
         </div>
@@ -252,31 +135,12 @@ const Container = styled.div`
   align-self: center;
 
   .start-inputs {
-    display: flex;
-    gap: 4px;
     color: var(--black, #09090a);
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: 24px; /* 150% */
     margin-bottom: 14px;
-
-    input {
-      outline: none;
-      border: none;
-      width: 21px;
-      height: 24px;
-      display: flex;
-      padding: 0px 4px;
-      align-items: flex-start;
-      border-radius: 4px;
-      background: var(--light, #f3efff);
-
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 24px; /* 150% */
-    }
   }
 `;
 const Input = styled.input`
