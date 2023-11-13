@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { memberGetMyProfile } from "../../api/member";
 
 const KakaoLoginPage = () => {
-  const location = useLocation();
   const [searchParams, _] = useSearchParams();
 
   const navigate = useNavigate();
 
   const navigateUser = async () => {
+    //프로필 생성 완료했는지, 중간 이탈했는지 여부 확인해서 navigate
     const data = await memberGetMyProfile();
 
     if (data.isProfileCreated) {

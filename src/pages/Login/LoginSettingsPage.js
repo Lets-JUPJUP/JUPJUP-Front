@@ -10,14 +10,24 @@ import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 import { useNavigate } from "react-router-dom";
 
+//추가 처리 해야 할 것
+//기존 닉네임 수정없이 중복체크했을때 예외처리
+//성별 정보 없는 유저 성별 설정 모달 띄우기
+//프로필 이미지 수정
+
 const LoginSettingsPage = () => {
   const [myProfile, setMyProfile] = useState({});
-  const [isHaveGender, setIsHaveGender] = useState(false);
+
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [profileImage, setProfileImage] = useState("");
+
+  //닉네임 유효성 체크 (중복, 유효문자)
   const [isValid, setIsValid] = useState(false);
+  const [isHaveGender, setIsHaveGender] = useState(false);
+
   const navigate = useNavigate();
+
   useEffect(() => {
     getData();
   }, []);
@@ -33,6 +43,7 @@ const LoginSettingsPage = () => {
   };
 
   const handleSubmit = async () => {
+    //성별 정보있고, 유효 닉네임일 경우 post
     if (isHaveGender && isValid) {
       const status = await memberUpdateProfile(nickname, gender, profileImage);
       if (status === 200) {
