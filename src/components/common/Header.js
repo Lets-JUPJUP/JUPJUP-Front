@@ -20,6 +20,10 @@ const Header = ({
     window.location.href = `${link}`;
   };
 
+  if (localStorage.getItem("juptoken")) {
+    isLogin = true;
+  }
+
   return (
     <>
       <Wrapper>
