@@ -1,39 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import background2 from "../../assets/login/background2.png";
-
 import tag from "../../assets/login/tag.png";
 
 import Header from "../../components/common/Header";
-import NameSetting from "../../components/common/NameSetting";
+import ValidNameCheck from "../../components/common/ValidNameCheck";
+import { memberGetMyProfile, memberUpdateProfile } from "../../api/member";
+import { getAgeRange } from "../../components/common/ageRange";
+import { getKorGender } from "../../components/common/gender";
+import { useNavigate } from "react-router-dom";
+
 const LoginSettingsPage = () => {
+  const [myProfile, setMyProfile] = useState({});
+  const [isHaveGender, setIsHaveGender] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [gender, setGender] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const data = await memberGetMyProfile();
+    setMyProfile(data);
+    if (data.gender !== "NOT_DEFINED") {
+      setIsHaveGender(true);
+      setGender(data.gender);
+    }
+    setNickname(data.nickname);
+  };
+
+  const handleSubmit = async () => {
+    if (isHaveGender && isValid) {
+      const status = await memberUpdateProfile(nickname, gender, profileImage);
+      if (status === 200) {
+        alert("회원가입 완료");
+        navigate("/");
+      }
+    } else {
+      alert("유효하지 않은 닉네임입니다.");
+    }
+  };
   return (
     <Wrapper>
-      <Header title={"ooo님, 반가워요!"} />
+      <Header title={`${myProfile.nickname}님, 반가워요!`} />
 
-      <Mid>
-        <div className="profile">
-          <img className="profile-image" src="" alt="profile" />
-        </div>
-        <NameSetting></NameSetting>
-        <div className="tags">
-          <div className="tag">
-            <img src={tag} className="tag-icon" alt="연령" />
-            20대
+      {myProfile.nickname && (
+        <Mid>
+          <div className="profile">
+            <img
+              className="profile-image"
+              src={myProfile.profileImageUrl}
+              alt="profile"
+            />
           </div>
-          <div className="tag">
-            <img src={tag} className="tag-icon" alt="성별" />
-            여성
+          <ValidNameCheck
+            setNickname={setNickname}
+            nickname={nickname}
+            isValid={isValid}
+            setIsValid={setIsValid}
+          />
+          <div className="tags">
+            <div className="tag">
+              <img src={tag} className="tag-icon" alt="연령" />
+              {getAgeRange(myProfile.ageRange)}대
+            </div>
+            {isHaveGender && (
+              <div className="tag">
+                <img src={tag} className="tag-icon" alt="성별" />
+                {getKorGender(myProfile.gender)}
+              </div>
+            )}
           </div>
-        </div>
-      </Mid>
+        </Mid>
+      )}
 
       <Bottom>
         <div className="start-msg">
           레츠줍줍과 함께
           <br />더 깨끗하고 활기찬 성동구를 만들어봐요!
         </div>
-        <div className="start-button">좋아요!</div>
+        <div onClick={handleSubmit} className="start-button">
+          좋아요!
+        </div>
       </Bottom>
       <img className="background" src={background2} alt="" />
     </Wrapper>
