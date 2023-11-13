@@ -2,23 +2,16 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import Slider from "@mui/material/Slider";
 
-const RangeSlider = ({ marks, min, max, step }) => {
-  //   function valuetext(value) {
-  //     return `${value}대`;
-  //   }
-  const [value, setValue] = useState([min, max]);
-
+const RangeSlider = ({ marks, min, max, step, value, setValue }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <div>
       <CustomedSlider
-        //getAriaLabel={() => "XXX range"}
         value={value}
         onChange={handleChange}
         valueLabelDisplay="on"
-        //getAriaValueText={valuetext}
         min={min}
         max={max}
         marks={marks}
