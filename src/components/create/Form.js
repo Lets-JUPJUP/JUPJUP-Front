@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import RangeSlider from "./RangeSlider";
 import { age_marks, count_marks } from "./marks";
-import add from "../../assets/create/add.png";
 import AddPhoto from "../common/AddPhoto";
-import DateInputs from "./DateInputs";
 
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
