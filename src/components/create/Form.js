@@ -5,6 +5,11 @@ import { age_marks, count_marks } from "./marks";
 import add from "../../assets/create/add.png";
 import AddPhoto from "../common/AddPhoto";
 import DateInputs from "./DateInputs";
+
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { forwardRef } from "react";
+
 const Form = () => {
   const [inputs, setInputs] = useState({
     title: "",
@@ -13,18 +18,9 @@ const Form = () => {
   });
   const [count, setCount] = useState([2, 10]);
   const [ageRange, setAgeRange] = useState([10, 70]);
-  const [startDate, setStartDate] = useState({
-    month: "",
-    date: "",
-    hour: "",
-    min: "",
-  });
-  const [joinDate, setJoinDate] = useState({
-    month: "",
-    date: "",
-    hour: "",
-    min: "",
-  });
+
+  const [startDate, setStartDate] = useState(null);
+  const [dueDate, setDueDate] = useState(null);
   const [postGender, setPostGender] = useState("ANY");
   const [withPet, setWithPet] = useState(false);
 
@@ -35,6 +31,25 @@ const Form = () => {
       [name]: value,
     });
   };
+
+  const ExampleCustomInput = forwardRef(
+    ({ isColored = "false", isBigFont = "false", value, onClick }, ref) => (
+      <CustomCalendarInput
+        $isColored={isColored}
+        $isBigFont={isBigFont}
+        className="custom-date-input"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value !== "" ? (
+          value
+        ) : (
+          <div className="placeholder">날짜를 선택하세요</div>
+        )}
+      </CustomCalendarInput>
+    )
+  );
+
   return (
     <Wrapper>
       <div className="gradient" />
@@ -44,10 +59,14 @@ const Form = () => {
         <Divider />
         <div className="subjects">출발 일시</div>
         <div className="start-inputs">
-          <DateInputs
-            date={startDate}
-            setDate={setStartDate}
-            isColored={"true"}
+          <ReactDatePicker
+            dateFormat="yyyy.MM.dd HH:mm"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            timeInputLabel="Time:"
+            customInput={<ExampleCustomInput isColored={"true"} />}
+            showTimeSelect
+            timeFormat="HH:mm"
           />
         </div>
 
@@ -136,7 +155,15 @@ const Form = () => {
       <Footer>
         <div className="container">
           <div className="join-inputs">
-            <DateInputs date={joinDate} setDate={setJoinDate} />
+            <ReactDatePicker
+              dateFormat="yyyy.MM.dd HH:mm"
+              selected={dueDate}
+              onChange={(date) => setDueDate(date)}
+              timeInputLabel="Time:"
+              customInput={<ExampleCustomInput isBigFont={"true"} />}
+              showTimeSelect
+              timeFormat="HH:mm"
+            />
           </div>
           <div className="text">까지 모집</div>
         </div>
@@ -279,7 +306,7 @@ const Footer = styled.div`
     font-size: 16px;
     font-weight: 600;
     line-height: 24px; /* 150% */
-    padding-top: 8px;
+    padding-top: 4px;
   }
 
   .text {
@@ -307,5 +334,22 @@ const Footer = styled.div`
     font-size: 16px;
     font-weight: 600;
     line-height: 24px; /* 150% */
+  }
+`;
+const CustomCalendarInput = styled.div`
+  height: 34px;
+  display: flex;
+  padding: 0px 8px;
+  align-items: center;
+  border-radius: 4px;
+
+  font-size: ${(props) => (props.$isBigFont === "true" ? "16px" : "14px")};
+  font-weight: ${(props) => (props.$isBigFont === "true" ? "600" : "400")};
+  line-height: 18px;
+  border-radius: 8px;
+  color: #000;
+  background: ${(props) => (props.$isColored === "true" ? "#f3efff" : "#fff")};
+  .placeholder {
+    color: gray;
   }
 `;
