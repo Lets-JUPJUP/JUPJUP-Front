@@ -69,7 +69,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   background: var(--white, #fff);
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  padding-bottom: 10px;
 
   .left {
     height: 48px;
