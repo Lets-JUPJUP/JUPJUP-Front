@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ic_user from "../../assets/common/user.png";
-import ic_report from "../../assets/common/report.png";
+import ic_comment from "../../assets/common/ic_comment.png";
+import ic_report from "../../assets/common/ic_report.png";
 
 // 댓글 컴포넌트
 const CommentBox = () => {
@@ -13,10 +14,13 @@ const CommentBox = () => {
         </div>
         <div className="right">
           <div>00/00 00:00</div>
-          <img src={ic_report} alt="report" className="report" />
+          <img src={ic_comment} alt="comment" className="comment" />
         </div>
       </HeadDiv>
-      <BodyDiv>오 좋은 행사네요 전 신청했습니다~</BodyDiv>
+      <BodyDiv>
+        <div>오 좋은 행사네요 전 신청했습니다~</div>
+        <img src={ic_report} alt="report" className="report" />
+      </BodyDiv>
     </Wrapper>
   );
 };
@@ -50,7 +54,7 @@ const HeadDiv = styled.div`
     width: 20px;
   }
 
-  .report {
+  .comment {
     width: 16px;
     cursor: pointer;
   }
@@ -59,7 +63,18 @@ const HeadDiv = styled.div`
 const BodyDiv = styled.div`
   /* margin-left: 24px; // user icon 20px + gap 4px;
   margin-right: 20px; // report icon 16px + gap 4px; */
-  margin: 4px 20px 0px 24px;
+  margin-top: 4px;
+  margin-left: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .report {
+    width: 16px;
+    cursor: pointer;
+    margin-left: 4px; // gap
+  }
 `;
 
 // 글씨 종류
