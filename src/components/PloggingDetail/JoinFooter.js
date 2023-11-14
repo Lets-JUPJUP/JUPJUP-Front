@@ -6,13 +6,23 @@ import ic_star_clicked from "../../assets/common/ic_star_clicked.png";
 
 import useBottomDetection from "../common/useBottomDetection";
 
-const JoinFooter = () => {
+const JoinFooter = ({ bsOpen, setBsOpen, setModalOpen }) => {
   const isScrollBottom = useBottomDetection();
   // 별 클릭 여부
   const [isStarClicked, setIsStarClicked] = useState(false);
   const onStarClick = () => {
     setIsStarClicked(!isStarClicked);
   };
+
+  // 00 / 00 참여 중 클릭 시 실행되는 함수
+  const openParticipantList = () => {
+    setBsOpen(true);
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
   return (
     <Wrapper className={isScrollBottom === true ? "displayNone" : ""}>
       <div className="main">
@@ -23,10 +33,18 @@ const JoinFooter = () => {
             alt="star"
             onClick={onStarClick}
           />
-          <JoinButton>참여하기</JoinButton>
+          <JoinButton onClick={openModal}>참여하기</JoinButton>
         </div>
       </div>
-      <SmallBoldText className="linkText">00 / 00 참여중 &gt;</SmallBoldText>
+      <div>
+        <span
+          className="participant"
+          onClick={openParticipantList}
+          style={{ visibility: bsOpen === true ? "hidden" : "visible" }}
+        >
+          00 / 00 참여중 &gt;
+        </span>
+      </div>
     </Wrapper>
   );
 };
@@ -50,6 +68,8 @@ const Wrapper = styled.div`
   position: fixed;
   bottom: 0;
 
+  z-index: 10;
+
   &.displayNone {
     display: none;
   }
@@ -69,6 +89,11 @@ const Wrapper = styled.div`
       width: 23px;
       cursor: pointer;
     }
+  }
+
+  .participant {
+    font-weight: 600;
+    cursor: pointer;
   }
 `;
 
@@ -92,5 +117,4 @@ const BigBoldText = styled.div`
 
 const SmallBoldText = styled.div`
   font-weight: 600;
-  cursor: pointer;
 `;
