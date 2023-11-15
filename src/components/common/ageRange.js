@@ -39,3 +39,24 @@ export const getAgeRange = (key) => {
 
   return range;
 };
+
+export const getAgeRangeKey = (range) => {
+  let range_key;
+  ageRange.map((el) => {
+    if (el.range === range) {
+      range_key = el.key;
+    }
+  });
+
+  return range_key;
+};
+
+export const getFormattedAgeRange = (ageRange) => {
+  let collection_age_range = [];
+  let gap = (ageRange[1] - ageRange[0]) / 10; // 10-40세 선택시, 10-19, 20-29, 30-39세개의 키로 나누어야함. (40-10)/10=3
+
+  while (gap--) {
+    collection_age_range.push(getAgeRangeKey(ageRange[0] + 10 * gap));
+  }
+  return collection_age_range;
+};

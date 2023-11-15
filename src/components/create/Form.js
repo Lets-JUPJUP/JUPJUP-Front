@@ -8,6 +8,8 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { forwardRef } from "react";
 
+import { getFormattedAgeRange } from "../common/ageRange";
+
 const Form = () => {
   const [inputs, setInputs] = useState({
     title: "",
@@ -28,6 +30,36 @@ const Form = () => {
       ...inputs,
       [name]: value,
     });
+  };
+
+  const handleSubmit = () => {
+    if (
+      inputs.title &&
+      inputs.startPlace &&
+      inputs.content &&
+      startDate &&
+      dueDate
+    ) {
+      setInputs({
+        ...inputs,
+        startDate: handleDateFormat(startDate),
+        minMember: count[0],
+        maxMember: count[1],
+        postGender: [postGender],
+        postAgeRanges: getFormattedAgeRange(ageRange),
+        dueDate: handleDateFormat(dueDate),
+        withPet: withPet,
+        images: null,
+      });
+    } else {
+      alert("내용을 모두 입력하세요.");
+    }
+  };
+
+  const handleDateFormat = (date) => {
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = new Date(date - tzoffset).toISOString().substr(0, 16);
+    console.log(localISOTime);
   };
 
   const ExampleCustomInput = forwardRef(
@@ -138,6 +170,8 @@ const Form = () => {
             step={10}
             value={ageRange}
             setValue={setAgeRange}
+            minDistance={10}
+            disableSwap={true}
           />
         </div>
         <Divider />
@@ -165,7 +199,9 @@ const Form = () => {
           </div>
           <div className="text">까지 모집</div>
         </div>
-        <div className="submit">작성하기</div>
+        <div className="submit" onClick={handleSubmit}>
+          작성하기
+        </div>
       </Footer>
     </Wrapper>
   );
