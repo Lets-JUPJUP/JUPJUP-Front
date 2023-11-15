@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { forwardRef } from "react";
 
 import { getFormattedAgeRange } from "../common/ageRange";
+import { postsCreatePlogging } from "../../api/posts";
 
 const Form = () => {
   const [inputs, setInputs] = useState({
@@ -40,17 +41,27 @@ const Form = () => {
       startDate &&
       dueDate
     ) {
-      setInputs({
+      if (startDate < dueDate) {
+        alert("모집 마감 일시는 시작 일시보다 빨라야 합니다.");
+        return;
+      }
+      let formatted_due = handleDateFormat(dueDate);
+      let formatted_start = handleDateFormat(startDate);
+
+      let inputs_to_send = {
         ...inputs,
-        startDate: handleDateFormat(startDate),
+        startDate: formatted_start,
         minMember: count[0],
         maxMember: count[1],
         postGender: [postGender],
         postAgeRanges: getFormattedAgeRange(ageRange),
-        dueDate: handleDateFormat(dueDate),
+        dueDate: formatted_due,
         withPet: withPet,
         images: null,
-      });
+      };
+      setInputs(inputs_to_send);
+
+      postsCreatePlogging(inputs_to_send);
     } else {
       alert("내용을 모두 입력하세요.");
     }
@@ -59,7 +70,7 @@ const Form = () => {
   const handleDateFormat = (date) => {
     var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
     var localISOTime = new Date(date - tzoffset).toISOString().substr(0, 16);
-    console.log(localISOTime);
+    return localISOTime;
   };
 
   const ExampleCustomInput = forwardRef(
@@ -97,6 +108,7 @@ const Form = () => {
             customInput={<ExampleCustomInput isColored={"true"} />}
             showTimeSelect
             timeFormat="HH:mm"
+            minDate={new Date()}
           />
         </div>
 
@@ -195,6 +207,8 @@ const Form = () => {
               customInput={<ExampleCustomInput isBigFont={"true"} />}
               showTimeSelect
               timeFormat="HH:mm"
+              maxDate={startDate}
+              minDate={new Date()}
             />
           </div>
           <div className="text">까지 모집</div>
