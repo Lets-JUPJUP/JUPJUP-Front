@@ -10,6 +10,7 @@ import { forwardRef } from "react";
 
 import { getFormattedAgeRange } from "../common/ageRange";
 import { postsCreatePlogging } from "../../api/posts";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [inputs, setInputs] = useState({
@@ -25,6 +26,8 @@ const Form = () => {
   const [postGender, setPostGender] = useState("ANY");
   const [withPet, setWithPet] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { value, name } = e.target;
     setInputs({
@@ -33,7 +36,7 @@ const Form = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       inputs.title &&
       inputs.startPlace &&
@@ -53,15 +56,19 @@ const Form = () => {
         startDate: formatted_start,
         minMember: count[0],
         maxMember: count[1],
-        postGender: [postGender],
+        postGender: postGender,
         postAgeRanges: getFormattedAgeRange(ageRange),
         dueDate: formatted_due,
         withPet: withPet,
-        images: null,
+        images: [],
       };
       setInputs(inputs_to_send);
 
-      postsCreatePlogging(inputs_to_send);
+      const res_status = await postsCreatePlogging(inputs_to_send);
+      if (res_status === 200) {
+        alert("모집글이 등록 되었습니다.");
+        navigate("/"); //리스트 목록으로 추후 수정
+      }
     } else {
       alert("내용을 모두 입력하세요.");
     }

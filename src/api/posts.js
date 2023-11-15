@@ -5,9 +5,8 @@ export const postsCreatePlogging = async (inputs) => {
     console.log(inputs);
     const res = await client.post("api/v1/posts", inputs);
 
-    console.log(res);
-    // return res;
+    return res.status;
   } catch (err) {
-    console.log(err);
+    alert("글 작성 오류");
   }
 };
