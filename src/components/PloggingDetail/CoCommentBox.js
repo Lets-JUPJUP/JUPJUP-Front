@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ic_arrow from "../../assets/PloggingDetail/ic_arrow.png";
 import ic_user from "../../assets/common/user.png";
-import ic_report from "../../assets/common/report.png";
+import ic_report from "../../assets/common/ic_report.png";
 
 // 대댓글 컴포넌트
 const CoCommentBox = () => {
@@ -45,7 +45,7 @@ const MainBox = styled.div`
   width: 90%;
   min-height: 40px;
 
-  padding: 8px;
+  padding: 8px 6px; // border 크기 때문에 양옆은 2px 줄이기
   box-sizing: border-box;
 
   border-radius: 8px;
@@ -75,9 +75,9 @@ const HeadDiv = styled.div`
 `;
 
 const BodyDiv = styled.div`
-  /* margin-left: 24px; // user icon 20px + gap 4px;
-  margin-right: 20px; // report icon 16px + gap 4px; */
-  margin: 4px 20px 0px 24px;
+  margin-top: 4px;
+  margin-left: 24px; // user icon 20px + gap 4px;
+  margin-right: 20px; // report icon 16px + gap 4px;
 `;
 
 // 글씨 종류

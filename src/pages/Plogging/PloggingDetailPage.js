@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 
@@ -9,11 +9,28 @@ import PloggingComment from "../../components/PloggingDetail/PloggingComment";
 
 import FloatingButton from "../../components/common/FloatingButton";
 import JoinFooter from "../../components/PloggingDetail/JoinFooter";
-import { useState } from "react";
+
 import CommentInput from "../../components/common/CommentInput";
 
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
+import UserBottomSheet from "../../components/PloggingDetail/UserBottomSheet";
+import ParticipateAlert from "../../components/PloggingDetail/ParticipateAlert";
+
 const PloggingDetailPage = () => {
+  // 댓글창 open 여부
   const [writeMode, setWriteMode] = useState(false);
+
+  // BottomSheet open 여부
+  const [bsOpen, setBsOpen] = useState(false);
+
+  // footer 참여하기 클릭 시 모달창 open 여부
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const onDisMiss = () => {
+    setBsOpen(false);
+  };
+
   return (
     <>
       <Fixed>
@@ -30,10 +47,26 @@ const PloggingDetailPage = () => {
         <PloggingInfo />
         <CommentLine />
         {/* 플로깅 댓글 */}
-        <PloggingComment setWriteMode={setWriteMode} />
+        <PloggingComment writeMode={writeMode} setWriteMode={setWriteMode} />
         <FloatingButton isWriteBtnHidden={true} />
 
-        {writeMode === true ? <CommentInput /> : <JoinFooter />}
+        <BottomSheet open={bsOpen} onDismiss={onDisMiss}>
+          <UserBottomSheet />
+        </BottomSheet>
+
+        {writeMode === true ? (
+          <CommentInput setWriteMode={setWriteMode} />
+        ) : (
+          <JoinFooter
+            bsOpen={bsOpen}
+            setBsOpen={setBsOpen}
+            setModalOpen={setModalOpen}
+          />
+        )}
+
+        {modalOpen === true ? (
+          <ParticipateAlert setModalOpen={setModalOpen} />
+        ) : null}
       </Wrapper>
     </>
   );
@@ -62,6 +95,7 @@ const PostImageBox = styled.div`
   background-position: center;
 
   margin-bottom: 40px;
+  margin-top: 80px; // header 높이
 `;
 
 const ShareDiv = styled.div`

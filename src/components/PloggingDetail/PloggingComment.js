@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import CommentBox from "../common/CommentBox";
 import CoCommentBox from "./CoCommentBox";
 
-const PloggingComment = ({ setWriteMode }) => {
+const PloggingComment = ({ writeMode, setWriteMode }) => {
   return (
     <Wrapper>
       <MainDiv>
@@ -11,10 +11,10 @@ const PloggingComment = ({ setWriteMode }) => {
         <SmallBoldText
           className="linkText"
           onClick={() => {
-            setWriteMode(true);
+            setWriteMode(!writeMode);
           }}
         >
-          댓글 작성하기 &gt;
+          {writeMode === true ? "돌아가기 >" : "댓글 작성하기 >"}
         </SmallBoldText>
       </MainDiv>
       <CommentDiv>
