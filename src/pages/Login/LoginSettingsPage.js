@@ -5,7 +5,7 @@ import tag from "../../assets/login/tag.png";
 
 import Header from "../../components/common/Header";
 import ValidNameCheck from "../../components/common/ValidNameCheck";
-import { memberGetMyProfile, memberUpdateProfile } from "../../api/member";
+import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 import { useNavigate } from "react-router-dom";
@@ -26,14 +26,18 @@ const LoginSettingsPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isHaveGender, setIsHaveGender] = useState(false);
 
+  const [tempToken, setTempToken] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    getData();
+    const token = localStorage.getItem("temptoken");
+    setTempToken(token);
+
+    getData(token);
   }, []);
 
-  const getData = async () => {
-    const data = await memberGetMyProfile();
+  const getData = async (token) => {
+    const data = await memberGetMyProfile_(token);
     setMyProfile(data);
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
@@ -45,9 +49,16 @@ const LoginSettingsPage = () => {
   const handleSubmit = async () => {
     //성별 정보있고, 유효 닉네임일 경우 post
     if (isHaveGender && isValid) {
-      const status = await memberUpdateProfile(nickname, gender, profileImage);
+      const status = await memberUpdateProfile_(
+        nickname,
+        gender,
+        profileImage,
+        tempToken
+      );
       if (status === 200) {
         alert("회원가입 완료");
+        localStorage.setItem("juptoken", tempToken);
+        localStorage.removeItem("temptoken");
         navigate("/");
       }
     } else {
@@ -72,6 +83,7 @@ const LoginSettingsPage = () => {
             nickname={nickname}
             isValid={isValid}
             setIsValid={setIsValid}
+            isTemp={true}
           />
           <div className="tags">
             <div className="tag">

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import edit from "../../assets/common/edit.png";
-import { memberCheckValidName } from "../../api/member";
-const ValidNameCheck = ({ setNickname, nickname, isValid, setIsValid }) => {
+import { memberCheckValidName, memberCheckValidName_ } from "../../api/member";
+const ValidNameCheck = ({
+  setNickname,
+  nickname,
+  isValid,
+  setIsValid,
+  isTemp = false, //isTemp는 회원가입 중도이탈 예외처리를 위한 props로 따로 설정X
+}) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const startEditing = () => {
@@ -23,9 +29,17 @@ const ValidNameCheck = ({ setNickname, nickname, isValid, setIsValid }) => {
     return myRe.test(nickname);
   };
   const checkIsValid = async () => {
-    const data = await memberCheckValidName(nickname);
+    let data;
+
+    if (isTemp === true) {
+      const temp_token = localStorage.getItem("temptoken");
+      data = await memberCheckValidName_(nickname, temp_token);
+    } else {
+      data = await memberCheckValidName(nickname);
+    }
+
     console.log(data);
-    if (data.isExistingNickname === false && checkValidExpression()) {
+    if (data && data.isExistingNickname === false && checkValidExpression()) {
       setIsValid(true);
     } else {
       setIsValid(false);
