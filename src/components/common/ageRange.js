@@ -1,0 +1,62 @@
+export const ageRange = [
+  {
+    key: "AGE_10_19",
+    range: 10,
+  },
+  {
+    key: "AGE_20_29",
+    range: 20,
+  },
+  {
+    key: "AGE_30_39",
+    range: 30,
+  },
+  {
+    key: "AGE_40_49",
+    range: 40,
+  },
+  {
+    key: "AGE_50_59",
+    range: 50,
+  },
+  {
+    key: "AGE_60_69",
+    range: 60,
+  },
+  {
+    key: "AGE_70_79",
+    range: 70,
+  },
+];
+
+export const getAgeRange = (key) => {
+  let range;
+  ageRange.map((el) => {
+    if (el.key === key) {
+      range = el.range;
+    }
+  });
+
+  return range;
+};
+
+export const getAgeRangeKey = (range) => {
+  let range_key;
+  ageRange.map((el) => {
+    if (el.range === range) {
+      range_key = el.key;
+    }
+  });
+
+  return range_key;
+};
+
+export const getFormattedAgeRange = (ageRange) => {
+  let collection_age_range = [];
+  let gap = (ageRange[1] - ageRange[0]) / 10; // 10-40세 선택시, 10-19, 20-29, 30-39세개의 키로 나누어야함. (40-10)/10=3
+
+  while (gap--) {
+    collection_age_range.push(getAgeRangeKey(ageRange[0] + 10 * gap));
+  }
+  return collection_age_range;
+};

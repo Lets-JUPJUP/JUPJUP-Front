@@ -8,7 +8,7 @@ import Recommendations from "../../components/main/Recommendations";
 const MainPage = () => {
   return (
     <>
-      <Header isLogin={true} />
+      <Header />
       <Wrapper>
         <div className="carousel">
           <Carousel />

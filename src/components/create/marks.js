@@ -5,31 +5,31 @@ export const age_marks = [
   },
   {
     value: 10,
-    label: "10대",
+    label: "10세",
   },
   {
     value: 20,
-    label: "20대",
+    label: "20세",
   },
   {
     value: 30,
-    label: "30대",
+    label: "30세",
   },
   {
     value: 40,
-    label: "40대",
+    label: "40세",
   },
   {
     value: 50,
-    label: "50대",
+    label: "50세",
   },
   {
     value: 60,
-    label: "60대",
+    label: "60세",
   },
   {
     value: 70,
-    label: "70대",
+    label: "70세",
   },
 ];
 
