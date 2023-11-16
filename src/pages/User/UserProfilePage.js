@@ -120,7 +120,7 @@ const Top = styled.div`
 
   .report {
     position: relative;
-    left: 64px;
+    left: 55px;
   }
 
   .report-button {
