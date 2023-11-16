@@ -9,7 +9,7 @@ import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 import { useNavigate } from "react-router-dom";
-//import { alarmSubscribeSSE } from "../../api/alarm";
+import { notificationSubscribeSSE } from "../../api/notification";
 
 //추가 처리 해야 할 것
 //프로필 이미지 수정
@@ -64,7 +64,7 @@ const LoginSettingsPage = () => {
         localStorage.removeItem("temptoken");
 
         //SSE 구독 요청
-        //alarmSubscribeSSE(tempToken);
+        notificationSubscribeSSE(tempToken);
         navigate("/");
       }
     } else {

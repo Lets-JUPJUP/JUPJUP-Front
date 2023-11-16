@@ -1,19 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
-import Alarm from "../../components/user/Alarm";
+import Notification from "../../components/user/Notification";
 import AdBanner from "../../components/common/AdBanner";
 
-const AlarmPage = () => {
+const NotificationPage = () => {
   return (
     <>
       <Header title={"알림"} isLogin={true} />
       <Wrapper>
         <div className="gradient" />
         <div className="alarms">
-          <Alarm type={0} title={""} content={""} />
-          <Alarm type={1} title={""} content={""} />
-          <Alarm type={2} title={""} content={""} />
+          <Notification type={0} title={""} content={""} />
+          <Notification type={1} title={""} content={""} />
+          <Notification type={2} title={""} content={""} />
         </div>
       </Wrapper>
 
@@ -22,7 +22,7 @@ const AlarmPage = () => {
   );
 };
 
-export default AlarmPage;
+export default NotificationPage;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
