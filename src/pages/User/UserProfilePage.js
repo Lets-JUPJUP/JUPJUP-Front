@@ -1,39 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 import report from "../../assets/common/report.png";
 import Tag from "../../components/common/Tag";
 import History from "../../components/common/History";
 import Top3Badges from "../../components/common/Top3Badges";
+import { memberGeUserProfile } from "../../api/member";
+import { useParams } from "react-router-dom";
+import { getAgeRange } from "../../components/common/ageRange";
+import { getKorGender } from "../../components/common/gender";
+import { reviewsGetTop3Reviews } from "../../api/review";
 const UserProfilePage = () => {
+  const { id } = useParams();
+  const [profile, setProfile] = useState({});
+  const [badges, setBadges] = useState([]);
+
+  const getData = async () => {
+    const data_profile = await memberGeUserProfile(id);
+    const data_badges = await reviewsGetTop3Reviews(id);
+    setProfile(data_profile);
+    setBadges(data_badges.bages);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
-      <Header title={"주최자 이름님의 프로필"} isLogin={true} />
+      <Header title={`${profile.nickname}님의 프로필`} isLogin={true} />
       <Wrapper>
         <div className="gradient" />
 
         <Top>
           <div className="profile">
-            <img className="profile-image" src={""} alt="프로필 이미지" />
+            <img
+              className="profile-image"
+              src={profile.profileImageUrl}
+              alt="프로필 이미지"
+            />
           </div>
           <div className="report">
             <img className="report-button" src={report} alt="신고하기" />
           </div>
         </Top>
 
-        <div className="name">주최자 이름</div>
+        <div className="name">{profile.nickname}</div>
         <div className="tags">
-          <Tag name={"20대"} /> <Tag name={"여성"} />
+          <Tag name={getAgeRange(profile.ageRange) + "대"} />
+          <Tag name={getKorGender(profile.gender)} />
         </div>
 
         <div className="badges"></div>
-        <Top3Badges
-          list={[
-            "함께 또 걷고 싶은 플로깅 파트너",
-            "함께 또 걷고 싶은 플로깅 파트너",
-            "함께 또 걷고 싶은 플로깅 파트너",
-          ]}
-        />
+        <Top3Badges list={badges} />
 
         <div className="history">
           <History

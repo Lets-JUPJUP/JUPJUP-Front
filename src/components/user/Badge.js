@@ -15,7 +15,7 @@ import badge_10 from "../../assets/user/badges/badge_10.png";
 import badge_11 from "../../assets/user/badges/badge_11.png";
 import badge_12 from "../../assets/user/badges/badge_12.png";
 
-const badgeList = [
+export const badgeList = [
   {
     id: 0,
     icon: badge_0,
@@ -82,11 +82,12 @@ const badgeList = [
     text: "귀엽고 깜찍한 네 발 친구",
   },
 ];
-const Badge = ({ id }) => {
+const Badge = ({ id, size = "12px", isShowCount = false, count = 0 }) => {
   return (
-    <Wrapper>
+    <Wrapper $size={size} $isBlack={isShowCount}>
       <img className="icon" src={badgeList[id].icon} alt="" />
       {badgeList[id].text}
+      {isShowCount ? <div> ( {count} )</div> : <></>}
     </Wrapper>
   );
 };
@@ -102,13 +103,13 @@ const Wrapper = styled.div`
   border-radius: 4px;
   background: var(--grey, #e8e8e8);
 
-  color: var(--main, #410fd4);
-  font-size: 12px;
+  color: ${(props) => (props.$isBlack ? "#000" : "#410fd4")};
+  font-size: ${(props) => props.$size};
   font-weight: 600;
   line-height: 18px; /* 150% */
 
   .icon {
-    width: 12px;
-    height: 12px;
+    width: ${(props) => props.$size};
+    height: ${(props) => props.$size};
   }
 `;

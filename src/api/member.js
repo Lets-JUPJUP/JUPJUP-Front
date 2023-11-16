@@ -14,6 +14,7 @@ export const memberGetMyProfile = async () => {
 };
 
 export const memberCheckValidName = async (nickname) => {
+  //닉네임 중복체크
   try {
     const res = await client.post("api/v1/members/checkNickname", {
       nickname: nickname,
@@ -26,6 +27,7 @@ export const memberCheckValidName = async (nickname) => {
 };
 
 export const memberUpdateProfile = async (nickname, gender, profileImage) => {
+  //프로필 생성 및 수정
   try {
     const res = await client.put("/api/v1/members", {
       nickname: nickname,
@@ -37,6 +39,18 @@ export const memberUpdateProfile = async (nickname, gender, profileImage) => {
     return res.status;
   } catch (err) {
     alert("회원가입 오류");
+  }
+};
+
+export const memberGeUserProfile = async (memberId) => {
+  //상대 유저 프로필 조회
+  try {
+    const res = await client.get(`/api/v1/members/${memberId}`);
+
+    console.log(res.data.data);
+    return res.data.data;
+  } catch (err) {
+    console.log(err);
   }
 };
 
