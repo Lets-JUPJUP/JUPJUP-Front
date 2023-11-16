@@ -82,8 +82,20 @@ export const badgeList = [
     text: "귀엽고 깜찍한 네 발 친구",
   },
 ];
-const Badge = ({ id, size = "12px", isShowCount = false, count = 0 }) => {
-  return (
+const Badge = ({
+  id,
+  size = "12px",
+  isShowCount = false,
+  count = 0,
+  isSelected = false,
+}) => {
+  return isSelected ? (
+    <WrapperSelected>
+      <img className="icon" src={badgeList[id].icon} alt="" />
+      {badgeList[id].text}
+      {isShowCount ? <div> ( {count} )</div> : <></>}
+    </WrapperSelected>
+  ) : (
     <Wrapper $size={size} $isBlack={isShowCount}>
       <img className="icon" src={badgeList[id].icon} alt="" />
       {badgeList[id].text}
@@ -111,5 +123,25 @@ const Wrapper = styled.div`
   .icon {
     width: ${(props) => props.$size};
     height: ${(props) => props.$size};
+  }
+`;
+
+const WrapperSelected = styled.div`
+  display: flex;
+  padding: 2px 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  background: #410fd4;
+
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+
+  .icon {
+    width: 12px;
+    height: 12px;
   }
 `;

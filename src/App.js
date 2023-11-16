@@ -35,7 +35,7 @@ function App() {
       <Route path="user-report/:id" element={<UserReportPage />} />
       <Route path="user-profile/:id" element={<UserProfilePage />} />
 
-      <Route path="/review/:id" element={<ReviewPage />} />
+      <Route path="/review/:memberId/:postId" element={<ReviewPage />} />
       <Route path="/notifications" element={<NotificationPage />} />
       <Route path="/event/:id" element={<EventPage />} />
       <Route path="/trash-map" element={<TrashMapPage />} />
