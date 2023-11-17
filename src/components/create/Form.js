@@ -160,7 +160,6 @@ const Form = () => {
             minDate={new Date()}
           />
         </div>
-
         <div className="subjects">출발 장소</div>
         <Input
           name="startPlace"
@@ -223,8 +222,11 @@ const Form = () => {
           </div>
         </ButtonContainer>
         <div className="subjects">참여 연령</div>
+
         <div className="slider-container">
           <RangeSlider
+            isForAge={true}
+            currentMaxAge={ageRange[1]}
             marks={age_marks}
             min={10}
             max={70}
@@ -235,6 +237,7 @@ const Form = () => {
             disableSwap={true}
           />
         </div>
+
         <Divider />
         <div className="subjects">본문</div>
         <Content
