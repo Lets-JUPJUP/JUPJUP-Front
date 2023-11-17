@@ -11,8 +11,10 @@ import { forwardRef } from "react";
 import { getFormattedAgeRange } from "../common/ageRange";
 import { postsCreatePlogging } from "../../api/posts";
 import { useNavigate } from "react-router-dom";
+import { s3GetImageUrl } from "../../api/s3presignedurl";
 
 const Form = () => {
+  //입력 값 상태관리
   const [inputs, setInputs] = useState({
     title: "",
     startPlace: "",
@@ -20,16 +22,16 @@ const Form = () => {
   });
   const [count, setCount] = useState([2, 10]);
   const [ageRange, setAgeRange] = useState([10, 70]);
-
   const [startDate, setStartDate] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [postGender, setPostGender] = useState("ANY");
   const [withPet, setWithPet] = useState(false);
 
   const [imgFile, setImgFile] = useState([]); //이미지 원본 파일 배열
-  const [imgUrls, setImgUrls] = useState([]); //이미지 s3 url
+
   const navigate = useNavigate();
 
+  //제목, 장소, 내용 입력 받는 함수
   const handleChange = (e) => {
     const { value, name } = e.target;
     setInputs({
@@ -38,7 +40,26 @@ const Form = () => {
     });
   };
 
-  const handleSubmit = async () => {
+  //이미지명으로 presigned url get & 각 url에 이미지 업로드
+  const getImageUrl = async () => {
+    try {
+      return await s3GetImageUrl(imgFile);
+    } catch (err) {
+      console.log(err);
+      alert("이미지 업로드 오류");
+    }
+  };
+
+  //날짜를 포맷하는 함수
+  const handleDateFormat = (date) => {
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = new Date(date - tzoffset).toISOString().substr(0, 16);
+    return localISOTime;
+  };
+
+  //전체 데이터 포맷 & 이미지 url에 업로드
+  const formatInputs = async () => {
+    let imgUrls = [];
     if (
       inputs.title &&
       inputs.startPlace &&
@@ -49,6 +70,13 @@ const Form = () => {
       if (startDate < dueDate) {
         alert("모집 마감 일시는 시작 일시보다 빨라야 합니다.");
         return;
+      }
+      if (imgFile.length) {
+        try {
+          imgUrls = await getImageUrl();
+        } catch (err) {
+          return;
+        }
       }
 
       //날짜 포맷
@@ -67,27 +95,31 @@ const Form = () => {
         withPet: withPet,
         images: imgUrls,
       };
-      setInputs(inputs_to_send);
 
-      try {
-        //모집글 등록 요청
-        const res = await postsCreatePlogging(inputs_to_send);
-        if (res.status === 200) {
-          alert("모집글이 등록 되었습니다.");
-          navigate("/"); //리스트 목록으로 추후 수정
-        }
-      } catch (err) {
-        alert("글 작성 오류");
-      }
+      return inputs_to_send;
     } else {
       alert("내용을 모두 입력하세요.");
     }
   };
 
-  const handleDateFormat = (date) => {
-    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-    var localISOTime = new Date(date - tzoffset).toISOString().substr(0, 16);
-    return localISOTime;
+  //모집글 등록 요청
+  const postsCreatePlogging_ = async (inputs_to_send) => {
+    try {
+      const res = await postsCreatePlogging(inputs_to_send);
+      if (res.status === 200) {
+        alert("모집글이 등록 되었습니다.");
+        navigate("/"); //리스트 목록으로 추후 수정
+      }
+    } catch (err) {
+      console.log(err);
+      alert("글 작성 오류");
+    }
+  };
+
+  //작성완료 눌렀을때 실행되는 함수
+  const handleSubmit = async () => {
+    const inputs_to_send = await formatInputs(); //입력값 포맷
+    inputs_to_send && postsCreatePlogging_(inputs_to_send); // 모집글 등록
   };
 
   const ExampleCustomInput = forwardRef(
