@@ -12,8 +12,12 @@ const Carousel = () => {
   const navigate = useNavigate();
 
   const getData = async () => {
-    const data = await eventGetEventList();
-    setList(data);
+    try {
+      const data = (await eventGetEventList()).data.data;
+      setList(data);
+    } catch (err) {
+      alert("공식행사 데이터 get오류");
+    }
   };
   useEffect(() => {
     getData();
