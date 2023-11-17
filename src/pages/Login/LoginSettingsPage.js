@@ -9,12 +9,12 @@ import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 import { useNavigate } from "react-router-dom";
+import { notificationSubscribeSSE } from "../../api/notification";
 
 //추가 처리 해야 할 것
-//기존 닉네임 수정없이 중복체크했을때 예외처리
-//성별 정보 없는 유저 성별 설정 모달 띄우기
 //프로필 이미지 수정
 
+//저장된 temptoken 있어야만 접근가능하게
 const LoginSettingsPage = () => {
   const [myProfile, setMyProfile] = useState({});
 
@@ -27,6 +27,7 @@ const LoginSettingsPage = () => {
   const [isHaveGender, setIsHaveGender] = useState(false);
 
   const [tempToken, setTempToken] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +43,8 @@ const LoginSettingsPage = () => {
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
       setGender(data.gender);
+    } else {
+      setShowModal(true);
     }
     setNickname(data.nickname);
   };
@@ -59,6 +62,9 @@ const LoginSettingsPage = () => {
         alert("회원가입 완료");
         localStorage.setItem("juptoken", tempToken);
         localStorage.removeItem("temptoken");
+
+        //SSE 구독 요청
+        notificationSubscribeSSE(tempToken);
         navigate("/");
       }
     } else {
@@ -67,6 +73,31 @@ const LoginSettingsPage = () => {
   };
   return (
     <Wrapper>
+      {showModal && (
+        <GenderSettingModal>
+          <div className="modal">
+            <div className="title">성별을 알려주세요!</div>
+            <div className="subtitle">이후 수정이 불가능한 정보입니다</div>
+            <div className="btns">
+              <GenderBtn
+                onClick={() => setGender("MALE")}
+                $isClicked={gender === "MALE"}
+              >
+                남성
+              </GenderBtn>
+              <GenderBtn
+                onClick={() => setGender("FEMALE")}
+                $isClicked={gender === "FEMALE"}
+              >
+                여성
+              </GenderBtn>
+            </div>
+            <div className="submit-btn" onClick={handleSubmit}>
+              입력 완료했어요!
+            </div>
+          </div>
+        </GenderSettingModal>
+      )}
       <Header title={`${myProfile.nickname}님, 반가워요!`} />
 
       {myProfile.nickname && (
@@ -211,4 +242,83 @@ const Bottom = styled.div`
     border-radius: 8px;
     background: var(--sub, #beef62);
   }
+`;
+
+const GenderSettingModal = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vhv;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--white, #fff);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+
+  .modal {
+    flex-shrink: 0;
+    width: 342px;
+    height: 166px;
+    border-radius: 8px;
+    background: var(--light, #f3efff);
+    padding-top: 12px;
+    box-sizing: border-box;
+  }
+
+  .title {
+    color: var(--black, #09090a);
+    text-align: center;
+  }
+
+  .subtitle {
+    color: var(--midgrey, #7e7e7e);
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
+  }
+  .btns {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 3px;
+  }
+
+  .submit-btn {
+    display: flex;
+    width: 224px;
+    height: 40px;
+    padding: 8px 12px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 8px auto 0;
+
+    border-radius: 4px;
+    background: var(--sub, #beef62);
+    box-sizing: border-box;
+    color: var(--main, #410fd4);
+  }
+`;
+
+const GenderBtn = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  width: 108px;
+  height: 40px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: ${(props) => (props.$isClicked ? " #410fd4" : "#7E7E7E")};
 `;

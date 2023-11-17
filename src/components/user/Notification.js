@@ -3,7 +3,7 @@ import styled from "styled-components";
 import alarm_0 from "../../assets/user/alarm/alarm_0.png";
 import alarm_1 from "../../assets/user/alarm/alarm_1.png";
 import alarm_2 from "../../assets/user/alarm/alarm_2.png";
-const Alarm = ({ type, title, content }) => {
+const Notification = ({ type, title, content }) => {
   let icon = "";
 
   if (type === 0) {
@@ -25,7 +25,7 @@ const Alarm = ({ type, title, content }) => {
   );
 };
 
-export default Alarm;
+export default Notification;
 const Wrapper = styled.div`
   display: flex;
   width: 342px;

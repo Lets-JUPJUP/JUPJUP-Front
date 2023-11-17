@@ -11,7 +11,7 @@ import PloggingDetailPage from "./pages/Plogging/PloggingDetailPage";
 import UserReportPage from "./pages/User/UserReportPage";
 import UserProfilePage from "./pages/User/UserProfilePage";
 import ReviewPage from "./pages/User/ReviewPage";
-import AlarmPage from "./pages/User/AlarmPage";
+import NotificationPage from "./pages/User/NotificationPage";
 import EventPage from "./pages/Event/EventPage";
 import TrashMapPage from "./pages/TrashMap/TrashMapPage";
 
@@ -32,11 +32,11 @@ function App() {
       <Route path="/plogging-list" element={<PloggingListPage />} />
       <Route path="/plogging-detail/:id" element={<PloggingDetailPage />} />
 
-      <Route path="user-report" element={<UserReportPage />} />
+      <Route path="user-report/:id" element={<UserReportPage />} />
       <Route path="user-profile/:id" element={<UserProfilePage />} />
 
-      <Route path="/review/:id" element={<ReviewPage />} />
-      <Route path="/alarm" element={<AlarmPage />} />
+      <Route path="/review/:memberId/:postId" element={<ReviewPage />} />
+      <Route path="/notifications" element={<NotificationPage />} />
       <Route path="/event/:id" element={<EventPage />} />
       <Route path="/trash-map" element={<TrashMapPage />} />
 
