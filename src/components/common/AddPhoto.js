@@ -1,7 +1,12 @@
 import React, { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import add from "../../assets/common/add.png";
-const AddPhoto = ({ setImgFile, imgFile }) => {
+const AddPhoto = ({
+  setImgFile,
+  imgFile,
+  isMultiple = false,
+  maxFiles = 5,
+}) => {
   //issue: overflow: scroll 안됨 해야함
   //사진 첨부취소 작업
   const imgRef = useRef();
@@ -24,7 +29,7 @@ const AddPhoto = ({ setImgFile, imgFile }) => {
 
   //사진 첨부
   const uploadImg = () => {
-    const maxFileLength = 5; //이미지 최대 장수
+    const maxFileLength = maxFiles; //이미지 최대 장수
 
     let newFiles = [...imgRef.current.files]; //다중 이미지 입력 받기
 
@@ -33,7 +38,7 @@ const AddPhoto = ({ setImgFile, imgFile }) => {
 
     if (files.length > maxFileLength) {
       alert(`이미지는 최대 ${maxFileLength}장 첨부 가능합니다.`);
-      files = files.slice(0, 5); //5장만 남기기
+      files = files.slice(0, maxFileLength); //5장만 남기기
     }
 
     setImgFile(files); //이미지 파일 원본 저장 (최대 5장)
@@ -56,7 +61,7 @@ const AddPhoto = ({ setImgFile, imgFile }) => {
         accept=".jpg, .jpeg, .png"
         type="file"
         id="file-input"
-        multiple
+        multiple={isMultiple}
         onChange={uploadImg}
         ref={imgRef}
       />

@@ -245,7 +245,12 @@ const Form = () => {
           placeholder="본문 내용을 작성해주세요."
           onChange={handleChange}
         />
-        <AddPhoto setImgFile={setImgFile} imgFile={imgFile} />
+        <AddPhoto
+          setImgFile={setImgFile}
+          imgFile={imgFile}
+          maxFiles={5}
+          isMultiple={true}
+        />
       </Container>
 
       <Footer>
