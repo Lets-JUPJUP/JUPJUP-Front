@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 import Carousel from "../../components/main/Carousel";
 import mountain from "../../assets/main/mountain.png";
 import History from "../../components/common/History";
 import Recommendations from "../../components/main/Recommendations";
+import { useNavigate } from "react-router-dom";
+import { postsGetMyCount } from "../../api/posts";
 const MainPage = () => {
+  const navigate = useNavigate();
+
+  const [history, setHistory] = useState({});
+
+  const isLogin = localStorage.getItem("juptoken"); //로그인 되어있으면 history 조회
+
+  const getData = async () => {
+    const data = await postsGetMyCount();
+    setHistory(data);
+  };
+  useEffect(() => {
+    isLogin && getData();
+  }, []);
   return (
     <>
       <Header />
@@ -15,24 +30,31 @@ const MainPage = () => {
         </div>
 
         <div className="container">
-          <div className="map-btn">
+          <div className="map-btn" onClick={() => navigate("/trash-map")}>
             성동구 쓰레기통 지도
             <div className="navigate">보러가기 {">"}</div>
           </div>
 
-          <div className="monthly">00월, 성동구의 플로깅 현황</div>
+          <div className="monthly">성동구의 플로깅 현황 with 레츠줍줍</div>
 
           <div className="join-plogging">
             <img className="mountain" src={mountain} alt="" />
-            <div className="join-btn">플로깅 참여하기</div>
+            <div
+              className="join-btn"
+              onClick={() => navigate("/plogging-list")}
+            >
+              플로깅 참여하기
+            </div>
           </div>
 
-          <History
-            contents={[
-              { count: 0, text: "플로깅 모임" },
-              { count: 0, text: "나의 참여 횟수" },
-            ]}
-          />
+          {history.totalPostsCount && (
+            <History
+              contents={[
+                { count: history.totalPostsCount, text: "플로깅 모임" },
+                { count: history.joinedPostsCount, text: "나의 참여 횟수" },
+              ]}
+            />
+          )}
 
           <div className="recommendations">
             <Recommendations />
