@@ -1,14 +1,7 @@
 import client from "./client";
 
 export const postsCreatePlogging = async (inputs) => {
-  try {
-    console.log(inputs);
-    const res = await client.post("api/v1/posts", inputs);
-
-    return res.status;
-  } catch (err) {
-    alert("글 작성 오류");
-  }
+  return client.post("api/v1/posts", inputs);
 };
 
 //나의 참여횟수 & 전체 참여횟수 get

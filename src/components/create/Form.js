@@ -26,6 +26,8 @@ const Form = () => {
   const [postGender, setPostGender] = useState("ANY");
   const [withPet, setWithPet] = useState(false);
 
+  const [imgFile, setImgFile] = useState([]); //이미지 원본 파일 배열
+  const [imgUrls, setImgUrls] = useState([]); //이미지 s3 url
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -48,9 +50,12 @@ const Form = () => {
         alert("모집 마감 일시는 시작 일시보다 빨라야 합니다.");
         return;
       }
+
+      //날짜 포맷
       let formatted_due = handleDateFormat(dueDate);
       let formatted_start = handleDateFormat(startDate);
 
+      //요청 바디
       let inputs_to_send = {
         ...inputs,
         startDate: formatted_start,
@@ -60,14 +65,19 @@ const Form = () => {
         postAgeRanges: getFormattedAgeRange(ageRange),
         dueDate: formatted_due,
         withPet: withPet,
-        images: [],
+        images: imgUrls,
       };
       setInputs(inputs_to_send);
 
-      const res_status = await postsCreatePlogging(inputs_to_send);
-      if (res_status === 200) {
-        alert("모집글이 등록 되었습니다.");
-        navigate("/"); //리스트 목록으로 추후 수정
+      try {
+        //모집글 등록 요청
+        const res = await postsCreatePlogging(inputs_to_send);
+        if (res.status === 200) {
+          alert("모집글이 등록 되었습니다.");
+          navigate("/"); //리스트 목록으로 추후 수정
+        }
+      } catch (err) {
+        alert("글 작성 오류");
       }
     } else {
       alert("내용을 모두 입력하세요.");
@@ -200,7 +210,7 @@ const Form = () => {
           placeholder="본문 내용을 작성해주세요."
           onChange={handleChange}
         />
-        <AddPhoto />
+        <AddPhoto setImgFile={setImgFile} imgFile={imgFile} />
       </Container>
 
       <Footer>
