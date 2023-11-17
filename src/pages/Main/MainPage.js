@@ -15,8 +15,13 @@ const MainPage = () => {
   const isLogin = localStorage.getItem("juptoken"); //로그인 되어있으면 history 조회
 
   const getData = async () => {
-    const data = await postsGetMyCount();
-    setHistory(data);
+    try {
+      const data = (await postsGetMyCount()).data.data;
+
+      setHistory(data);
+    } catch (err) {
+      alert("데이터를 가져오는데 실패했습니다.");
+    }
   };
   useEffect(() => {
     isLogin && getData();
