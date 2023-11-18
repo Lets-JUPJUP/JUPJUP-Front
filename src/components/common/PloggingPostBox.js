@@ -89,13 +89,7 @@ const PloggingPostBox = ({
 
   // age 설정 (ex. ['AGE_20_29', 'AGE_30_39'])
   const settingAge = () => {
-    const ageResult = getKorPostAgeRanges(postAgeRanges);
-    if (ageResult === "연령무관") {
-      return ageResult;
-    } else {
-      const [min, max] = ageResult;
-      return min + "~" + max + "세";
-    }
+    return getKorPostAgeRanges(postAgeRanges);
   };
 
   // gender 설정 (ex. FEMALE)

@@ -73,9 +73,11 @@ export const getKorPostAgeRanges = (postAgeRanges) => {
     // 오름차순 정렬
     const sortedAgeRanges = [...postAgeRanges].sort();
     // 최소값, 최대값 return
-    return [
-      sortedAgeRanges[0].split("_")[1],
-      sortedAgeRanges[sortedAgeRanges.length - 1].split("_")[2],
-    ];
+    return (
+      sortedAgeRanges[0].split("_")[1] +
+      "~" +
+      sortedAgeRanges[sortedAgeRanges.length - 1].split("_")[2] +
+      "세"
+    );
   }
 };
