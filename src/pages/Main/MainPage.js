@@ -84,7 +84,7 @@ const Wrapper = styled.div`
 
   .carousel {
     margin-top: 8px;
-    margin-bottom: 30px;
+    margin-bottom: 12px;
   }
 
   .map-btn {

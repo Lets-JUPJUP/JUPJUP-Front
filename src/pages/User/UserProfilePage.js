@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Header from "../../components/common/Header";
-import report from "../../assets/common/report.png";
 import Tag from "../../components/common/Tag";
 import History from "../../components/common/History";
 import Top3Badges from "../../components/common/Top3Badges";
-import { memberGeUserProfile } from "../../api/member";
-import { useNavigate, useParams } from "react-router-dom";
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
+
 import { reviewsGetTop3Reviews } from "../../api/review";
 import { postsGetUserCount } from "../../api/posts";
+import { memberGeUserProfile } from "../../api/member";
+
+import report from "../../assets/common/report.png";
+import default_profile from "../../assets/common/default_profile.png";
+
 const UserProfilePage = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
@@ -45,7 +50,11 @@ const UserProfilePage = () => {
             <div className="profile">
               <img
                 className="profile-image"
-                src={profile.profileImageUrl}
+                src={
+                  profile.profileImageUrl
+                    ? profile.profileImageUrl
+                    : default_profile
+                }
                 alt="프로필 이미지"
               />
             </div>

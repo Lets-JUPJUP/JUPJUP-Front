@@ -1,13 +1,34 @@
 import React from "react";
+import Slider from "react-slick";
 import { styled } from "styled-components";
 
+import { recommendationsData } from "./recommendationsData";
+
 const Recommendations = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
   return (
     <Wrapper>
       <div className="title">성동구 플로깅, 이 장소를 추천해요!</div>
-      <Card />
-      <Card />
-      <Card />
+
+      {recommendationsData.map((list) => {
+        return (
+          <StyledSlider {...settings}>
+            {list.map((img) => {
+              return (
+                <Card>
+                  <img src={img} alt="" />
+                </Card>
+              );
+            })}
+          </StyledSlider>
+        );
+      })}
     </Wrapper>
   );
 };
@@ -22,21 +43,35 @@ const Wrapper = styled.div`
   padding: 12px 8px;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 32px;
+
+  margin-bottom: 100px;
 
   .title {
-    color: var(--midgrey, #7e7e7e);
     font-size: 16px;
     font-weight: 600;
     line-height: 24px; /* 150% */
-    margin-bottom: 33px;
   }
 `;
 
 const Card = styled.div`
+  display: flex;
   width: 342px;
   height: 342px;
   flex-shrink: 0;
   border-radius: 8px;
   background: url(<path-to-image>), lightgray 50% / cover no-repeat;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const StyledSlider = styled(Slider)`
+  width: 100%;
+
+  .slick-dots {
+    top: 342px;
+  }
 `;
