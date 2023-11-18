@@ -82,4 +82,8 @@ const Card = styled.div`
 const StyledSlider = styled(Slider)`
   width: 100%;
   max-width: 420px;
+
+  .slick-dots {
+    top: 343px;
+  }
 `;
