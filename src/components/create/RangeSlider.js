@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 import Slider from "@mui/material/Slider";
 
 const RangeSlider = ({
+  isForAge = false,
+  currentMaxAge,
   marks,
   min,
   max,
@@ -12,7 +14,7 @@ const RangeSlider = ({
   minDistance = 0,
   disableSwap = false,
 }) => {
-  const handleChange1 = (event, newValue, activeThumb) => {
+  const handleChange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -28,17 +30,29 @@ const RangeSlider = ({
       setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
     }
   };
+
+  //연령 설정에서 50세-60세 영역 선택시 50-59로 라벨 보여주기
+  function valueLabelFormat(value) {
+    let scaledValue = value;
+    if (isForAge && scaledValue === currentMaxAge) {
+      scaledValue--;
+    }
+
+    return `${scaledValue}`;
+  }
+
   return (
     <div>
       <CustomedSlider
         disableSwap={disableSwap}
         value={value}
-        onChange={handleChange1}
+        onChange={handleChange}
         valueLabelDisplay="on"
         min={min}
         max={max}
         marks={marks}
         step={step}
+        valueLabelFormat={valueLabelFormat}
       />
     </div>
   );

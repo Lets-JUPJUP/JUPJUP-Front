@@ -6,65 +6,80 @@ import Tag from "../../components/common/Tag";
 import History from "../../components/common/History";
 import Top3Badges from "../../components/common/Top3Badges";
 import { memberGeUserProfile } from "../../api/member";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 import { reviewsGetTop3Reviews } from "../../api/review";
+import { postsGetUserCount } from "../../api/posts";
 const UserProfilePage = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
   const [badges, setBadges] = useState([]);
+  const [history, setHistory] = useState({});
+  const navigate = useNavigate();
 
   const getData = async () => {
-    const data_profile = await memberGeUserProfile(id);
-    const data_badges = await reviewsGetTop3Reviews(id);
-    setProfile(data_profile);
-    setBadges(data_badges.bages);
+    try {
+      const data_profile = await memberGeUserProfile(id);
+      const data_badges = (await reviewsGetTop3Reviews(id)).data.data;
+      const data_history = (await postsGetUserCount(id)).data.data;
+
+      data_profile && setProfile(data_profile);
+      data_badges && setBadges(data_badges.bages);
+      data_history && setHistory(data_history);
+    } catch (err) {
+      alert("데이터를 가져오는데 실패했습니다.");
+    }
   };
   useEffect(() => {
     getData();
   }, []);
   return (
-    <>
-      <Header title={`${profile.nickname}님의 프로필`} isLogin={true} />
-      <Wrapper>
-        <div className="gradient" />
+    profile && (
+      <>
+        <Header title={`${profile.nickname}님의 프로필`} isLogin={true} />
+        <Wrapper>
+          <div className="gradient" />
 
-        <Top>
-          <div className="profile">
-            <img
-              className="profile-image"
-              src={profile.profileImageUrl}
-              alt="프로필 이미지"
+          <Top>
+            <div className="profile">
+              <img
+                className="profile-image"
+                src={profile.profileImageUrl}
+                alt="프로필 이미지"
+              />
+            </div>
+            <div
+              className="report"
+              onClick={() => navigate(`/user-report/${id}`)}
+            >
+              <img className="report-button" src={report} alt="신고하기" />
+            </div>
+          </Top>
+
+          <div className="name">{profile.nickname}</div>
+          <div className="tags">
+            <Tag name={getAgeRange(profile.ageRange) + "대"} />
+            <Tag name={getKorGender(profile.gender)} />
+          </div>
+
+          <div className="badges"></div>
+          <Top3Badges list={badges} />
+
+          <div className="history">
+            <History
+              contents={[
+                {
+                  count: history.hostedPostCount,
+                  text: "주최한 플로깅 모임",
+                },
+                { count: history.joinedPostCount, text: "플로깅 참여 횟수" },
+              ]}
             />
           </div>
-          <div className="report">
-            <img className="report-button" src={report} alt="신고하기" />
-          </div>
-        </Top>
-
-        <div className="name">{profile.nickname}</div>
-        <div className="tags">
-          <Tag name={getAgeRange(profile.ageRange) + "대"} />
-          <Tag name={getKorGender(profile.gender)} />
-        </div>
-
-        <div className="badges"></div>
-        <Top3Badges list={badges} />
-
-        <div className="history">
-          <History
-            contents={[
-              {
-                count: 0,
-                text: "주최한 플로깅 모임",
-              },
-              { count: 0, text: "플로깅 참여 횟수" },
-            ]}
-          />
-        </div>
-      </Wrapper>
-    </>
+        </Wrapper>
+      </>
+    )
   );
 };
 
@@ -138,6 +153,7 @@ const Top = styled.div`
   .report {
     position: relative;
     left: 55px;
+    cursor: pointer;
   }
 
   .report-button {
