@@ -15,7 +15,7 @@ export const postsGetUserCount = async (id) => {
 };
 
 // 플로깅 모집글 리스트 모아보기 - 로그인 안된 상태
-export const getPostListUnAuth = async (keyword, value) => {
+export const getPostsListUnAuth = async (keyword, value) => {
   try {
     // 필터링이 있으면
     let res;
@@ -40,7 +40,7 @@ export const getPostListUnAuth = async (keyword, value) => {
 };
 
 // 플로깅 모집글 리스트 모아보기 - 로그인된 상태
-export const getPostList = async (keyword, value) => {
+export const getPostsList = async (keyword, value) => {
   try {
     // 필터링이 있으면
     let res;

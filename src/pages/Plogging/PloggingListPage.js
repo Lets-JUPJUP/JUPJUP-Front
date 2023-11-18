@@ -7,7 +7,7 @@ import FilteringBox from "../../components/PloggingList/FilteringBox";
 import PloggingListSection from "../../components/PloggingList/PloggingListSection";
 import AdBanner from "../../components/common/AdBanner";
 import FloatingButton from "../../components/common/FloatingButton";
-import { getPostList, getPostListUnAuth } from "../../api/posts";
+import { getPostsList, getPostsListUnAuth } from "../../api/posts";
 
 const PloggingListPage = () => {
   const location = useLocation();
@@ -56,7 +56,7 @@ const PloggingListPage = () => {
     // 필터링 요소가 없을 경우
     if (searchParam === "") {
       // 로그인하지 않았을 경우 - isHearted, isJoined null 처리됨
-      const data = isLogin ? await getPostList() : await getPostListUnAuth();
+      const data = isLogin ? await getPostsList() : await getPostsListUnAuth();
       console.log("total", data);
       setPageData(data.data); // pageData 설정
     } else if (selectedBtn) {
@@ -64,8 +64,8 @@ const PloggingListPage = () => {
       // searchParam에서 keyword와 value를 분리
       const [keyword, value] = searchParam.slice(1).split("=");
       const data = isLogin
-        ? await getPostList(keyword, value)
-        : await getPostListUnAuth(keyword, value);
+        ? await getPostsList(keyword, value)
+        : await getPostsListUnAuth(keyword, value);
       console.log(keyword, data);
       setPageData(data.data); // pageData 설정
     } else {
