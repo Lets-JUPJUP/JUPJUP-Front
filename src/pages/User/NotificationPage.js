@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
 import Notification from "../../components/user/Notification";
 import AdBanner from "../../components/common/AdBanner";
+import {
+  notificationGetNotiList,
+  notificationPostReadEntire,
+} from "../../api/notification";
+
+//할거
+//데이터 받아와서 화면에 연결 (타입 키값 읽기)
+//알림목록 get 오류
+//네비게이션
 
 const NotificationPage = () => {
+  const [notifications, setNotifications] = useState([]);
+  const getData = async () => {
+    const data = await notificationGetNotiList(0, 10);
+    data && setNotifications(data.notificationResDtos);
+
+    notificationPostReadEntire();
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <Header title={"알림"} isLogin={true} />
