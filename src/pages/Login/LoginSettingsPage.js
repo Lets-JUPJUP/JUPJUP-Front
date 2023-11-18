@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-import background2 from "../../assets/login/background2.png";
-import tag from "../../assets/login/tag.png";
+import { useNavigate } from "react-router-dom";
 
 import Header from "../../components/common/Header";
 import ValidNameCheck from "../../components/common/ValidNameCheck";
-import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
-import { useNavigate } from "react-router-dom";
+
+import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
 import { notificationSubscribeSSE } from "../../api/notification";
 
+import background2 from "../../assets/login/background2.png";
+import tag from "../../assets/login/tag.png";
+import default_profile from "../../assets/login/default-profile.png";
+import ic_settings from "../../assets/common/ic_settings.png";
+import SetProfileImg from "../../components/common/SetProfileImg";
+import { s3GetImageUrl } from "../../api/s3presignedurl";
 //추가 처리 해야 할 것
 //프로필 이미지 수정
 
@@ -20,7 +25,11 @@ const LoginSettingsPage = () => {
 
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+
+  //프로필 이미지
+  const [profileImage, setProfileImage] = useState(""); //이미지 url
+  const [previewImg, setPreviewImg] = useState(""); //미리보기 이미지
+  const [imgFile, setImgFile] = useState(null); //이미지 원본 파일
 
   //닉네임 유효성 체크 (중복, 유효문자)
   const [isValid, setIsValid] = useState(false);
@@ -28,6 +37,9 @@ const LoginSettingsPage = () => {
 
   const [tempToken, setTempToken] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const imgRef = useRef();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +55,9 @@ const LoginSettingsPage = () => {
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
       setGender(data.gender);
+
+      setPreviewImg(data.profileImageUrl); //미리보기 이미지 기본 설정
+      setProfileImage(data.profileImageUrl); //이미지 url 기본 설정
     } else {
       setShowModal(true);
     }
@@ -51,26 +66,45 @@ const LoginSettingsPage = () => {
 
   const handleSubmit = async () => {
     //성별 정보있고, 유효 닉네임일 경우 post
+    var img_url = myProfile.profileImageUrl; //기존 이미지 url
     if (isHaveGender && isValid) {
-      const status = await memberUpdateProfile_(
-        nickname,
-        gender,
-        profileImage,
-        tempToken
-      );
-      if (status === 200) {
-        alert("회원가입 완료");
-        localStorage.setItem("juptoken", tempToken);
-        localStorage.removeItem("temptoken");
+      if (imgFile) {
+        //새로 등록한 이미지가 있을 경우 s3 업로드, url 얻기
+        try {
+          img_url = await s3GetImageUrl([imgFile]); //백 로직에 의해 배열로 보내야함
+        } catch (err) {
+          alert("이미지 업로드 에러");
+        }
+      }
+      try {
+        const status = (
+          await memberUpdateProfile_(
+            nickname,
+            gender,
+            ...img_url, //배열 속 이미지 url 한개
+            tempToken
+          )
+        ).status;
 
-        //SSE 구독 요청
-        notificationSubscribeSSE(tempToken);
-        navigate("/");
+        if (status === 200) {
+          //프로필 수정 완료
+          localStorage.setItem("juptoken", tempToken);
+          localStorage.removeItem("temptoken");
+
+          //SSE 구독 요청
+          notificationSubscribeSSE(tempToken);
+          alert("회원가입 완료");
+
+          navigate("/");
+        }
+      } catch (err) {
+        alert("회원가입 & SSE 구독 오류");
       }
     } else {
       alert("유효하지 않은 닉네임입니다.");
     }
   };
+
   return (
     <Wrapper>
       {showModal && (
@@ -102,13 +136,11 @@ const LoginSettingsPage = () => {
 
       {myProfile.nickname && (
         <Mid>
-          <div className="profile">
-            <img
-              className="profile-image"
-              src={myProfile.profileImageUrl}
-              alt="profile"
-            />
-          </div>
+          <SetProfileImg
+            profileImage={myProfile.profileImageUrl}
+            setImgFile={setImgFile}
+          />
+
           <ValidNameCheck
             setNickname={setNickname}
             nickname={nickname}
@@ -171,19 +203,8 @@ const Mid = styled.div`
   align-items: center;
   justify-content: center;
 
-  .profile {
-    width: 128px;
-    height: 128px;
-    flex-shrink: 0;
-    border-radius: 128px;
-    background-color: gray;
-    display: flex;
-    img {
-      width: 100%;
-      height: 100%;
-      flex-shrink: 0;
-      border-radius: 128px;
-    }
+  .input {
+    display: none;
   }
 
   .tags {
