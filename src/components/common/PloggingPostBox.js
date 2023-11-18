@@ -1,20 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ic_star_default from "../../assets/common/ic_star_default.png";
 import ic_star_clicked from "../../assets/common/ic_star_clicked.png";
 import ic_star_default_main from "../../assets/common/ic_star_default_main.png";
 import ic_star_clicked_main from "../../assets/common/ic_star_clicked_main.png";
 import Tag from "./Tag";
+import { getKorGender } from "./gender";
+import { getKorPostAgeRanges } from "./ageRange";
+import { deleteHeart, postHeart } from "../../api/heart";
 
 // 보라색 배경: 참여 전 or 모집 중
 // 연초록색 배경: 참여 완료
 // 회색 배경: 모집 완료
 
-const PloggingPostBox = ({ status }) => {
-  // 클릭 여부
+const PloggingPostBox = ({
+  status,
+  id,
+  fileUrls,
+  title,
+  isHearted,
+  startPlace,
+  startDate,
+  postAgeRanges,
+  postGender,
+  withPet,
+}) => {
+  // 전체 박스 클릭 시 상세 페이지로 이동
+  const navigate = useNavigate();
+  const linkToDetailPage = () => {
+    navigate(`/plogging-detail/${id}`);
+  };
+
+  // 찜하기(★) 여부
   const [isClicked, setIsClicked] = useState(false);
-  const onStarClick = () => {
-    setIsClicked(!isClicked);
+
+  useEffect(() => {
+    // 찜하기 초기 상태 설정
+    setIsClicked(isHearted);
+  }, [isHearted]);
+
+  const onStarClick = async (event) => {
+    event.stopPropagation(); // 상세 페이지 이동 이벤트 버블링 막기
+    if (isHearted === null) {
+      alert("해당 기능을 사용하기 위해서는 로그인이 필요합니다!");
+      navigate(`/login`);
+    } else {
+      isClicked === true ? await deleteHeart(id) : await postHeart(id);
+      setIsClicked(!isClicked);
+    }
   };
 
   // 참여 완료(join) 상태일 경우 보라색 별 아이콘 설정
@@ -26,6 +60,7 @@ const PloggingPostBox = ({ status }) => {
     }
   };
 
+  // 박스 배경색 설정
   const settingBackgroundColor = () => {
     if (status === "join") {
       return `var(--subbright, #EEFFCE)`;
@@ -36,24 +71,61 @@ const PloggingPostBox = ({ status }) => {
     }
   };
 
+  // 이미지 url 설정 (ex. "https://~~")
+  const settingImageUrl = () => {
+    // 기본 이미지
+    const defaultImgUrl =
+      "https://img.freepik.com/premium-vector/environmental-protection-banner-people-are-jogging-and-picking-up-trash-plogging_540284-690.jpg";
+    return fileUrls.length > 0 ? fileUrls[0] : defaultImgUrl;
+  };
+
+  // startDate 설정 (ex. "2023-03-06T09:30:00")
+  const settingDate = () => {
+    const [date, time] = startDate.split("T");
+    const [, month, day] = date.split("-");
+    // time에서 seconds는 제외하고 출력
+    return month + "/" + day + " " + time.slice(0, time.length - 3) + "~";
+  };
+
+  // age 설정 (ex. ['AGE_20_29', 'AGE_30_39'])
+  const settingAge = () => {
+    const ageResult = getKorPostAgeRanges(postAgeRanges);
+    if (ageResult === "연령무관") {
+      return ageResult;
+    } else {
+      const [min, max] = ageResult;
+      return min + "~" + max + "세";
+    }
+  };
+
+  // gender 설정 (ex. FEMALE)
+  const settingGender = () => {
+    return getKorGender(postGender) + (postGender !== "ANY" ? "만" : "");
+  };
+
   return (
-    <Wrapper color={settingBackgroundColor()}>
-      <ImageBox />
+    <Wrapper color={settingBackgroundColor()} onClick={linkToDetailPage}>
+      <ImageBox url={settingImageUrl()} />
       <ContentBox>
         <Content>
-          <div className="title">제목</div>
+          <div className="title">{title}</div>
           <StarIcon src={settingStarIcon()} alt="별" onClick={onStarClick} />
         </Content>
-        <Content>
-          <div style={{ marginBottom: "4px" }}>장소 | 가나다라마바사</div>
+        <Content className="content">
+          <div>장소 | {startPlace}</div>
         </Content>
-        <Content>
-          <div>일시 | 00/00 00:00~</div>
+        <Content className="content">
+          <div>일시 | {settingDate()}</div>
           <div className="tagList">
-            <Tag name="20~29세" status={status} />
-            <Tag name="성별무관" status={status} />
+            <Tag name={settingAge()} status={status} />
+            <Tag name={settingGender()} status={status} />
           </div>
         </Content>
+        {withPet === true ? (
+          <WithPetDiv>
+            <Tag name="반려동물과 함께" status={status} />
+          </WithPetDiv>
+        ) : null}
       </ContentBox>
     </Wrapper>
   );
@@ -85,7 +157,7 @@ const ImageBox = styled.div`
 
   border-radius: 4px;
 
-  background-image: url(https://img.freepik.com/premium-vector/environmental-protection-banner-people-are-jogging-and-picking-up-trash-plogging_540284-690.jpg);
+  background-image: ${(props) => `url(${props.url})`};
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -110,6 +182,15 @@ const Content = styled.div`
     display: flex;
     gap: 2px;
   }
+
+  &.content {
+    margin-bottom: 4px;
+  }
+`;
+
+const WithPetDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StarIcon = styled.img`

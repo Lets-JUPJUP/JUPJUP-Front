@@ -11,6 +11,10 @@ export const gender = [
     key: "NOT_DEFINED",
     kor: "미정",
   },
+  {
+    key: "ANY",
+    kor: "성별무관",
+  },
 ];
 
 export const getKorGender = (key) => {

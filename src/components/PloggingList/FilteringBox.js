@@ -1,32 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ic_reset from "../../assets/PloggingList/ic_reset.png";
 import GradientLine from "../common/GradientLine";
 
-const FilteringBox = () => {
-  // 필터링 버튼
-  const [buttonList, setButtonList] = useState([
-    { title: "모집마감 제외", isClicked: true },
-    { title: "연령무관", isClicked: false },
-    { title: "성별무관", isClicked: false },
-    { title: "여성만", isClicked: false },
-    { title: "남성만", isClicked: false },
-    { title: "반려동물과 함께", isClicked: false },
-  ]);
+const FilteringBox = ({
+  exceptEnded,
+  setExceptEnded,
+  selectedBtn,
+  btnList,
+}) => {
+  const currentUrl = "/plogging-list";
+  const navigate = useNavigate();
 
   // 필터링 기능
-  const toggleButtonClick = (index) => {
-    // 색깔 바꾸기
-    setButtonList((prevButtonList) => {
-      // 배열의 복사본 생성
-      const newButtonList = [...prevButtonList];
-
-      // 원하는 인덱스의 isClicked 값을 반대로 설정
-      newButtonList[index].isClicked = !newButtonList[index].isClicked;
-
-      // 새로운 상태로 설정
-      return newButtonList;
-    });
+  const toggleButtonClick = (id) => {
+    const element = btnList[id];
+    // url에 필터링 요소를 붙이기
+    navigate(currentUrl + element.keyword);
   };
 
   return (
@@ -36,16 +27,24 @@ const FilteringBox = () => {
           src={ic_reset}
           alt="새로고침"
           onClick={() => {
-            window.location.reload();
+            navigate(currentUrl);
           }}
         />
-        {buttonList.map((item, index) => {
+        <FilterButton
+          className={exceptEnded ? "isClicked" : ""}
+          onClick={() => {
+            setExceptEnded(!exceptEnded);
+          }}
+        >
+          모집마감 제외
+        </FilterButton>
+        {btnList.map((item, index) => {
           return (
             <FilterButton
               key={index}
-              className={item.isClicked ? "isClicked" : ""}
+              className={selectedBtn?.title === item.title ? "isClicked" : ""}
               onClick={() => {
-                toggleButtonClick(index);
+                toggleButtonClick(item.id);
               }}
             >
               {item.title}

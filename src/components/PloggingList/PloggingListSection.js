@@ -1,21 +1,47 @@
 import styled from "styled-components";
 import PloggingPostBox from "../common/PloggingPostBox";
 
-const PloggingListSection = () => {
+const PloggingListSection = ({ pageData }) => {
+  // post의 status 체크
+  const checkStatus = (post) => {
+    if (post.isEnded === true) {
+      return "finish";
+    } else if (post.isJoined === true) {
+      return "join";
+    } else {
+      return "default";
+    }
+  };
+
+  /*
+  postbox에 필요한 요소 : 
+  id, fileUrls(포스트 이미지 파일 배열), title, isHearted (찜하기 여부), 
+  startPlace, starDate, postAgeRanges 배열, postGender(string), withPet(Boolean) 
+  */
+
   return (
     <Wrapper>
-      <PloggingPostBox status="join" />
-      <PloggingPostBox status="finish" />
-      <PloggingPostBox />
-      <PloggingPostBox />
-      <PloggingPostBox />
-      <PloggingPostBox />
-      <PloggingPostBox status="join" />
-      <PloggingPostBox status="finish" />
-      <PloggingPostBox />
-      <PloggingPostBox />
-      <PloggingPostBox />
-      <PloggingPostBox />
+      {pageData.length > 0 ? (
+        pageData.map((post) => {
+          return (
+            <PloggingPostBox
+              key={post.id}
+              status={checkStatus(post)}
+              id={post.id}
+              fileUrls={post.fileUrls}
+              title={post.title}
+              isHearted={post.isHearted}
+              startPlace={post.startPlace}
+              startDate={post.startDate}
+              postAgeRanges={post.postAgeRanges}
+              postGender={post.postGender}
+              withPet={post.withPet}
+            />
+          );
+        })
+      ) : (
+        <div>주어진 조건에 해당하는 플로깅 모집글이 없습니다.</div>
+      )}
     </Wrapper>
   );
 };
@@ -32,6 +58,6 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 12px;
 
-  padding-top: 117px; // 헤더 57px + 필터링박스 48px + 구분선 12px
+  padding-top: 140px; // 헤더 80px + 필터링박스 48px + 구분선 12px
   padding-bottom: 80px; // 광고배너 68px + 여백 12px
 `;

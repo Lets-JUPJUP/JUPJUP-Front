@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import fab_write from "../../assets/common/fab_write.png";
 import fab_trash from "../../assets/common/fab_trash.png";
@@ -9,17 +10,29 @@ const FloatingButton = ({ isWriteBtnHidden }) => {
   // 스크롤 맨 아래 있는지 여부
   const isScrollBottom = useBottomDetection();
 
+  const navigate = useNavigate();
+
+  const linkToTrashMapPage = () => {
+    navigate(`/trash-map`);
+  };
+
+  const linkToWritePage = () => {
+    navigate(`/create-plogging`);
+  };
+
   return (
     <Wrapper className={isScrollBottom ? "isScrollBottom" : ""}>
       <img
         src={fab_trash}
         alt="trash"
         className={isWriteBtnHidden ? "addMargin" : ""}
+        onClick={linkToTrashMapPage}
       />
       <img
         src={fab_write}
         alt="write"
         className={isWriteBtnHidden ? "displayNone" : ""}
+        onClick={linkToWritePage}
       />
     </Wrapper>
   );
