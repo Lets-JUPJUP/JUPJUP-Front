@@ -12,8 +12,6 @@ import { notificationSubscribeSSE } from "../../api/notification";
 
 import background2 from "../../assets/login/background2.png";
 import tag from "../../assets/login/tag.png";
-import default_profile from "../../assets/login/default-profile.png";
-import ic_settings from "../../assets/common/ic_settings.png";
 import SetProfileImg from "../../components/common/SetProfileImg";
 import { s3GetImageUrl } from "../../api/s3presignedurl";
 //추가 처리 해야 할 것
@@ -27,8 +25,6 @@ const LoginSettingsPage = () => {
   const [gender, setGender] = useState("");
 
   //프로필 이미지
-  const [profileImage, setProfileImage] = useState(""); //이미지 url
-  const [previewImg, setPreviewImg] = useState(""); //미리보기 이미지
   const [imgFile, setImgFile] = useState(null); //이미지 원본 파일
 
   //닉네임 유효성 체크 (중복, 유효문자)
@@ -37,8 +33,6 @@ const LoginSettingsPage = () => {
 
   const [tempToken, setTempToken] = useState("");
   const [showModal, setShowModal] = useState(false);
-
-  const imgRef = useRef();
 
   const navigate = useNavigate();
 
@@ -55,9 +49,6 @@ const LoginSettingsPage = () => {
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
       setGender(data.gender);
-
-      setPreviewImg(data.profileImageUrl); //미리보기 이미지 기본 설정
-      setProfileImage(data.profileImageUrl); //이미지 url 기본 설정
     } else {
       setShowModal(true);
     }
