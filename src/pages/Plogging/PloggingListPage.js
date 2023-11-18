@@ -7,6 +7,7 @@ import FilteringBox from "../../components/PloggingList/FilteringBox";
 import PloggingListSection from "../../components/PloggingList/PloggingListSection";
 import AdBanner from "../../components/common/AdBanner";
 import FloatingButton from "../../components/common/FloatingButton";
+import { getPostList, getPostListUnAuth } from "../../api/posts";
 
 const PloggingListPage = () => {
   const location = useLocation();
@@ -33,6 +34,9 @@ const PloggingListPage = () => {
   // 선택된 버튼
   const [selectedBtn, setSelectedBtn] = useState(null);
 
+  // api로 받아온 data
+  const [pageData, setPageData] = useState([]);
+
   useEffect(() => {
     // url 검색을 통해 필터링 요소가 있는지 확인
     const findItem = btnList.find((item) => item.keyword === searchParam);
@@ -47,6 +51,33 @@ const PloggingListPage = () => {
     }
   }, [location.search]);
 
+  // api 가져오는 함수
+  const getData = async () => {
+    // 필터링 요소가 없을 경우
+    if (searchParam === "") {
+      // 로그인하지 않았을 경우 - isHearted, isJoined null 처리됨
+      const data = isLogin ? await getPostList() : await getPostListUnAuth();
+      console.log("total", data);
+      setPageData(data.data); // pageData 설정
+    } else if (selectedBtn) {
+      // 올바른 데이터가 들어올 경우
+      // searchParam에서 keyword와 value를 분리
+      const [keyword, value] = searchParam.slice(1).split("=");
+      const data = isLogin
+        ? await getPostList(keyword, value)
+        : await getPostListUnAuth(keyword, value);
+      console.log(keyword, data);
+      setPageData(data.data); // pageData 설정
+    } else {
+      // 잘못된 데이터가 들어올 경우
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [selectedBtn, exceptEnded]);
+
   return (
     <>
       <Fixed>
@@ -59,7 +90,14 @@ const PloggingListPage = () => {
         />
       </Fixed>
 
-      <PloggingListSection />
+      <PloggingListSection
+        pageData={
+          // 모집마감 제외일 경우 isEnded=false만 분리
+          exceptEnded === true
+            ? pageData.filter((element) => !element.isEnded)
+            : pageData
+        }
+      />
       <FloatingButton />
       <AdBanner />
     </>
