@@ -1,6 +1,8 @@
 import axios from "axios";
 import client from "./client";
 
+const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+
 export const memberGetMyProfile = async () => {
   //자신 프로필 조회
   try {
@@ -78,27 +80,19 @@ export const memberUpdateProfile_ = async (
   profileImage,
   accessToken
 ) => {
-  try {
-    console.log(accessToken);
-    const res = await axios.put(
-      "https://api.lets-jupjup.com/api/v1/members",
-      {
-        nickname: nickname,
-        gender: gender,
-        profileImage: profileImage,
+  return axios.put(
+    `${SERVER_DOMAIN}/api/v1/members`,
+    {
+      nickname: nickname,
+      gender: gender,
+      profileImage: profileImage,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    console.log(res);
-    return res.status;
-  } catch (err) {
-    alert("회원가입 오류");
-  }
+    }
+  );
 };
 
 export const memberCheckValidName_ = async (nickname, accessToken) => {

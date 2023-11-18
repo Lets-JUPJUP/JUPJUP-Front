@@ -108,17 +108,17 @@ const Wrapper = styled.div`
     }
 
     .check-button {
+      color: #fff;
       margin-left: 9px;
       margin-top: 2px;
-      height: 20px;
       flex-shrink: 0;
       margin-left: -1px;
-      font-size: 10px;
       flex-shrink: 0;
-      border-radius: 8px;
-      background: var(--sub, #beef62);
+      border-radius: 4px;
+      background: #7e7e7e;
       text-align: center;
-      padding: 0px 5px;
+      padding: 0px 4px;
+      font-size: 12px;
     }
     .name-value {
       color: black;

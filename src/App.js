@@ -20,30 +20,42 @@ import MyInterestPage from "./pages/MyPage/MyInterestPage";
 import MyCommentPage from "./pages/MyPage/MyCommentPage";
 import MySchedulePage from "./pages/MyPage/MySchedulePage";
 
+import { PrivateRoute, PrivateRouteTemp } from "./router/PrivateRoute";
+
 function App() {
   return (
     <Routes>
+      <Route element={<PrivateRoute />}>
+        {/*로그인 시 접근 가능한 페이지 */}
+        <Route path="create-plogging" element={<CreatePlogPage />} />
+        <Route path="/plogging-detail/:id" element={<PloggingDetailPage />} />
+
+        <Route path="user-report/:id" element={<UserReportPage />} />
+        <Route path="user-profile/:id" element={<UserProfilePage />} />
+
+        <Route path="/review/:memberId/:postId" element={<ReviewPage />} />
+        <Route path="/notifications" element={<NotificationPage />} />
+
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/interest" element={<MyInterestPage />} />
+        <Route path="/mypage/comment" element={<MyCommentPage />} />
+        <Route path="/mypage/schedule" element={<MySchedulePage />} />
+      </Route>
+
+      <Route element={<PrivateRouteTemp />}>
+        {/*회원가입 중도 이탈자 & 회원가입 진행중인 유저만 접근 가능한 페이지 */}
+        <Route path="login-settings" element={<LoginSettingsPage />} />
+      </Route>
+
       <Route path="/" element={<MainPage />} />
       <Route path="login" element={<LoginPage />} />
-      <Route path="login-settings" element={<LoginSettingsPage />} />
+
       <Route path="/kakao-login" element={<KakaoLoginPage />} />
 
-      <Route path="create-plogging" element={<CreatePlogPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
-      <Route path="/plogging-detail/:id" element={<PloggingDetailPage />} />
 
-      <Route path="user-report/:id" element={<UserReportPage />} />
-      <Route path="user-profile/:id" element={<UserProfilePage />} />
-
-      <Route path="/review/:memberId/:postId" element={<ReviewPage />} />
-      <Route path="/notifications" element={<NotificationPage />} />
       <Route path="/event/:id" element={<EventPage />} />
       <Route path="/trash-map" element={<TrashMapPage />} />
-
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/mypage/interest" element={<MyInterestPage />} />
-      <Route path="/mypage/comment" element={<MyCommentPage />} />
-      <Route path="/mypage/schedule" element={<MySchedulePage />} />
     </Routes>
   );
 }
