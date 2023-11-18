@@ -35,8 +35,20 @@ const PloggingPostBox = ({
   // 찜하기(★) 여부
   const [isClicked, setIsClicked] = useState(false);
 
-  const onStarClick = () => {
-    setIsClicked(!isClicked);
+  useEffect(() => {
+    // 찜하기 초기 상태 설정
+    setIsClicked(isHearted);
+  }, [isHearted]);
+
+  const onStarClick = async (event) => {
+    event.stopPropagation(); // 상세 페이지 이동 이벤트 버블링 막기
+    if (isHearted === null) {
+      alert("해당 기능을 사용하기 위해서는 로그인이 필요합니다!");
+      navigate(`/login`);
+    } else {
+      isClicked === true ? await deleteHeart(id) : await postHeart(id);
+      setIsClicked(!isClicked);
+    }
   };
 
   // 참여 완료(join) 상태일 경우 보라색 별 아이콘 설정
