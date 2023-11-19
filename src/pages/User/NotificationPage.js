@@ -49,12 +49,6 @@ const NotificationPage = () => {
               />
             );
           })}
-
-          <Notification
-            type={"PLOGGING"}
-            content={"신청한 어쩌고 저쩌고"}
-            postId={1}
-          />
         </div>
       </Wrapper>
 
