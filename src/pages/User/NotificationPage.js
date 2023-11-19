@@ -16,10 +16,20 @@ import {
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const getData = async () => {
-    const data = await notificationGetNotiList(0, 10);
-    data && setNotifications(data.notificationResDtos);
+    try {
+      const data = (await notificationGetNotiList(0, 10)).data.data
+        .notificationResDtos;
 
-    notificationPostReadEntire();
+      data && setNotifications(data);
+    } catch (err) {
+      alert("알림 조회 오류");
+    }
+
+    try {
+      notificationPostReadEntire();
+    } catch (err) {
+      alert("알림 읽음 처리 오류");
+    }
   };
   useEffect(() => {
     getData();
@@ -30,9 +40,21 @@ const NotificationPage = () => {
       <Wrapper>
         <div className="gradient" />
         <div className="alarms">
-          <Notification type={0} title={""} content={""} />
-          <Notification type={1} title={""} content={""} />
-          <Notification type={2} title={""} content={""} />
+          {notifications.map((el) => {
+            return (
+              <Notification
+                type={el.notificationType}
+                content={el.content}
+                postId={el.postId}
+              />
+            );
+          })}
+
+          <Notification
+            type={"PLOGGING"}
+            content={"신청한 어쩌고 저쩌고"}
+            postId={1}
+          />
         </div>
       </Wrapper>
 
