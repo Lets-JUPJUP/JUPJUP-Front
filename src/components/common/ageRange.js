@@ -23,10 +23,10 @@ export const ageRange = [
     key: "AGE_60_69",
     range: 60,
   },
-  {
-    key: "AGE_70_79",
-    range: 70,
-  },
+  // {
+  //   key: "AGE_70_79",
+  //   range: 70,
+  // },
   {
     key: "AGE_ANY",
     range: "연령무관",
@@ -57,12 +57,17 @@ export const getAgeRangeKey = (range) => {
 
 export const getFormattedAgeRange = (ageRange) => {
   let collection_age_range = [];
-  let gap = (ageRange[1] - ageRange[0]) / 10; // 10-40세 선택시, 10-19, 20-29, 30-39세개의 키로 나누어야함. (40-10)/10=3
+  let gap = (ageRange[1] - ageRange[0]) / 10; // 10-40(10-39)세 선택시, 10-19, 20-29, 30-39세개의 키로 나누어야함. (40-10)/10=3
 
   while (gap--) {
     collection_age_range.push(getAgeRangeKey(ageRange[0] + 10 * gap));
   }
-  return collection_age_range;
+  if (collection_age_range.length === 6) {
+    //10-69전 연령 선택시 배열 길이는 6
+    return [getAgeRangeKey("연령무관")];
+  } else {
+    return collection_age_range;
+  }
 };
 
 // postAgeRanges 배열 '~세'로 변환
