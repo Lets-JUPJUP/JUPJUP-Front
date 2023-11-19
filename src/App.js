@@ -27,11 +27,11 @@ function App() {
     <Routes>
       <Route element={<PrivateRoute />}>
         {/*로그인 시 접근 가능한 페이지 */}
-        <Route path="create-plogging" element={<CreatePlogPage />} />
+        <Route path="/create-plogging" element={<CreatePlogPage />} />
         <Route path="/plogging-detail/:id" element={<PloggingDetailPage />} />
 
-        <Route path="user-report/:id" element={<UserReportPage />} />
-        <Route path="user-profile/:id" element={<UserProfilePage />} />
+        <Route path="/user-report/:id" element={<UserReportPage />} />
+        <Route path="/user-profile/:id" element={<UserProfilePage />} />
 
         <Route path="/review/:memberId/:postId" element={<ReviewPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
@@ -44,14 +44,13 @@ function App() {
 
       <Route element={<PrivateRouteTemp />}>
         {/*회원가입 중도 이탈자 & 회원가입 진행중인 유저만 접근 가능한 페이지 */}
-        <Route path="login-settings" element={<LoginSettingsPage />} />
+        <Route path="/login-settings" element={<LoginSettingsPage />} />
       </Route>
 
       <Route path="/" element={<MainPage />} />
-      <Route path="login" element={<LoginPage />} />
 
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/kakao-login" element={<KakaoLoginPage />} />
-
       <Route path="/plogging-list" element={<PloggingListPage />} />
 
       <Route path="/event/:id" element={<EventPage />} />
