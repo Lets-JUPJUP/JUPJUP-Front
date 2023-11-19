@@ -80,6 +80,7 @@ const LoginSettingsPage = () => {
         if (status === 200) {
           //프로필 수정 완료
           localStorage.setItem("juptoken", tempToken);
+          localStorage.setItem("id", myProfile.id);
           localStorage.removeItem("temptoken");
 
           //SSE 구독 요청
