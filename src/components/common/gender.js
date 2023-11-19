@@ -26,3 +26,8 @@ export const getKorGender = (key) => {
   });
   return kor;
 };
+
+// gender 설정 (ex. FEMALE)
+export const settingGender = (postGender) => {
+  return getKorGender(postGender) + (postGender !== "ANY" ? "만" : "");
+};
