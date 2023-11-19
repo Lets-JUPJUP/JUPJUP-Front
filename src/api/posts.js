@@ -61,3 +61,13 @@ export const getPostsList = async (keyword, value) => {
     throw err;
   }
 };
+
+// 플로깅 모집글 상세보기
+export const getPostsDetail = async (id) => {
+  try {
+    const res = await client.get(`/api/v1/posts/${id}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
