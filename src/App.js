@@ -16,11 +16,13 @@ import EventPage from "./pages/Event/EventPage";
 import TrashMapPage from "./pages/TrashMap/TrashMapPage";
 
 import MyPage from "./pages/MyPage/MyPage";
+import MyPageUpdate from "./pages/MyPage/MyPageUpdate";
 import MyInterestPage from "./pages/MyPage/MyInterestPage";
 import MyCommentPage from "./pages/MyPage/MyCommentPage";
 import MySchedulePage from "./pages/MyPage/MySchedulePage";
 
 import { PrivateRoute, PrivateRouteTemp } from "./router/PrivateRoute";
+
 
 function App() {
   return (
@@ -37,6 +39,7 @@ function App() {
         <Route path="/notifications" element={<NotificationPage />} />
 
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/update" element={<MyPageUpdate />} />
         <Route path="/mypage/interest" element={<MyInterestPage />} />
         <Route path="/mypage/comment" element={<MyCommentPage />} />
         <Route path="/mypage/schedule" element={<MySchedulePage />} />
