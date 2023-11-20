@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { styled } from "styled-components";
+
 import Header from "../../components/common/Header";
 
 import ic_share from "../../assets/PloggingDetail/ic_share.png";
 
+import PostImageBox from "../../components/PloggingDetail/PostImageBox";
 import PloggingInfo from "../../components/PloggingDetail/PloggingInfo";
 import PloggingComment from "../../components/PloggingDetail/PloggingComment";
 
@@ -17,6 +20,9 @@ import "react-spring-bottom-sheet/dist/style.css";
 import UserBottomSheet from "../../components/PloggingDetail/UserBottomSheet";
 import ParticipateAlert from "../../components/PloggingDetail/ParticipateAlert";
 
+import { getPostsDetail } from "../../api/posts";
+import { memberGetMyProfile } from "../../api/member";
+
 const PloggingDetailPage = () => {
   // 댓글창 open 여부
   const [writeMode, setWriteMode] = useState(false);
@@ -27,47 +33,101 @@ const PloggingDetailPage = () => {
   // footer 참여하기 클릭 시 모달창 open 여부
   const [modalOpen, setModalOpen] = useState(false);
 
+  // api로 받아온 data
+  const [pageData, setPageData] = useState({});
+
+  const [userId, setUserId] = useState(0);
+
+  // bottomsheet close하기
   const onDisMiss = () => {
     setBsOpen(false);
   };
 
+  const location = useLocation();
+  // 게시글 id pathname에서 알아내기
+  const postId = location.pathname.split("/")[2];
+
+  // 상세 페이지 api 가져오기
+  const getData = async () => {
+    const data = await getPostsDetail(postId);
+    console.log(data);
+    setPageData(data.data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, [postId]);
+
+  const getUserId = async () => {
+    const memberData = await memberGetMyProfile();
+    setUserId(memberData.id);
+  };
+
+  useEffect(() => {
+    getUserId();
+  }, []);
+
   return (
     <>
-      <Fixed>
-        <Header title={"제목"} isLogin={true} isDetailPage={true} />
-      </Fixed>
-      <Wrapper>
-        <PostImageBox />
+      {Object.entries(pageData).length > 0 ? (
+        <>
+          <Fixed>
+            <Header title={pageData.title} isLogin={true} isDetailPage={true} />
+          </Fixed>
+          <Wrapper>
+            <PostImageBox fileUrls={pageData.fileUrls} />
 
-        <ShareDiv>
-          <img src={ic_share} alt="share" />
-        </ShareDiv>
-        <DivisionLine />
-        {/* 플로깅 정보 */}
-        <PloggingInfo />
-        <CommentLine />
-        {/* 플로깅 댓글 */}
-        <PloggingComment writeMode={writeMode} setWriteMode={setWriteMode} />
-        <FloatingButton isWriteBtnHidden={true} />
+            <ShareDiv>
+              <img src={ic_share} alt="share" />
+            </ShareDiv>
+            <DivisionLine />
+            {/* 플로깅 정보 */}
+            <PloggingInfo
+              authorId={pageData.authorId}
+              authorNickname={pageData.authorNickname}
+              authorProfileImageUrl={pageData.authorProfileImageUrl}
+              createdAt={pageData.createdAt}
+              startPlace={pageData.startPlace}
+              startDate={pageData.startDate}
+              dueDate={pageData.dueDate}
+              minMember={pageData.minMember}
+              maxMember={pageData.maxMember}
+              postAgeRanges={pageData.postAgeRanges}
+              postGender={pageData.postGender}
+              content={pageData.content}
+            />
+            <CommentLine />
+            {/* 플로깅 댓글 */}
+            <PloggingComment
+              writeMode={writeMode}
+              setWriteMode={setWriteMode}
+              postId={postId}
+              userId={userId}
+            />
+            <FloatingButton isWriteBtnHidden={true} />
 
-        <BottomSheet open={bsOpen} onDismiss={onDisMiss}>
-          <UserBottomSheet />
-        </BottomSheet>
+            <BottomSheet open={bsOpen} onDismiss={onDisMiss}>
+              <UserBottomSheet />
+            </BottomSheet>
 
-        {writeMode === true ? (
-          <CommentInput setWriteMode={setWriteMode} />
-        ) : (
-          <JoinFooter
-            bsOpen={bsOpen}
-            setBsOpen={setBsOpen}
-            setModalOpen={setModalOpen}
-          />
-        )}
+            {writeMode === true ? (
+              <CommentInput setWriteMode={setWriteMode} />
+            ) : (
+              <JoinFooter
+                bsOpen={bsOpen}
+                setBsOpen={setBsOpen}
+                setModalOpen={setModalOpen}
+              />
+            )}
 
-        {modalOpen === true ? (
-          <ParticipateAlert setModalOpen={setModalOpen} />
-        ) : null}
-      </Wrapper>
+            {modalOpen === true ? (
+              <ParticipateAlert setModalOpen={setModalOpen} />
+            ) : null}
+          </Wrapper>
+        </>
+      ) : (
+        <div>로딩 중..</div>
+      )}
     </>
   );
 };
@@ -84,18 +144,8 @@ const Fixed = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-`;
 
-const PostImageBox = styled.div`
-  width: 90%;
-  height: 171px;
-  background-image: url(https://img.freepik.com/premium-vector/environmental-protection-banner-people-are-jogging-and-picking-up-trash-plogging_540284-690.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-
-  margin-bottom: 40px;
-  margin-top: 80px; // header 높이
+  z-index: 50;
 `;
 
 const ShareDiv = styled.div`

@@ -2,10 +2,14 @@ import styled from "styled-components";
 
 // Footer
 const Footer = () => {
+  const onLogout = () => {
+    localStorage.removeItem("juptoken");
+    window.location.reload("/");
+  };
   return (
     <Wrapper>
       <div className="contents">
-        <div>로그아웃</div>
+        <div onClick={onLogout}>로그아웃</div>
         <div>회원탈퇴</div>
         <div>레츠 줍줍 (Let’s JUPJUP)</div>
       </div>
