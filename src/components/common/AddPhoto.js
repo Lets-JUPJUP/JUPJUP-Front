@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import add from "../../assets/common/add.png";
+import cancel from "../../assets/common/cancel.png";
+
 const AddPhoto = ({
   setImgFile,
   imgFile,
@@ -45,13 +47,18 @@ const AddPhoto = ({
 
     handlePreviewImgs(files);
   };
-  //사진 첨부 취소
-  const deleteImg = () => {
-    // 이미지 한장씩 첨부 취소
-    //아래는 전체취소
-    // imgRef.current.value = "";
-    // setPreviewImgs([]);
-    // setImgFile();
+
+  // 이미지 한장씩 첨부 취소
+  const cancelUpload = (index) => {
+    //프리뷰 취소
+    const previews = [...previewImgs];
+    previews.splice(index, 1);
+    setPreviewImgs(previews);
+
+    //파일 원본 첨부 취소
+    const files = [...imgFile];
+    files.splice(index, 1);
+    setImgFile(files);
   };
 
   return (
@@ -75,8 +82,16 @@ const AddPhoto = ({
         {previewImgs.length ? (
           previewImgs.map((el, index) => {
             return (
-              <div className="preview" key={index}>
-                <img className="preview-image" src={el} alt="" />
+              <div key={index}>
+                <div className="preview">
+                  <img className="preview-image" src={el} alt="" />
+                  <div
+                    className="cancel-btn"
+                    onClick={() => cancelUpload(index)}
+                  >
+                    <img className="cancel-icon" src={cancel} alt="" />
+                  </div>
+                </div>
               </div>
             );
           })
@@ -119,8 +134,11 @@ const PreviewContainer = styled.div`
   gap: 10px;
   overflow-x: scroll;
   width: 100%;
+  height: 85px;
+  position: relative;
 
   .preview {
+    position: relative;
     display: flex;
     width: 80px;
     height: 80px;
@@ -130,6 +148,18 @@ const PreviewContainer = styled.div`
       width: 100%;
       height: 100%;
       border-radius: 8px;
+    }
+  }
+
+  .cancel-btn {
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    .cancel-icon {
+      width: 100%;
+      height: 100%;
     }
   }
 `;

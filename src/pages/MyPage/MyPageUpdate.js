@@ -52,7 +52,7 @@ const MyPageUpdate = () => {
 
   const handleSubmit = async () => {
     const gender = profile.gender; // 사용자의 성별 정보 받아오기
-    let img_url = profile.profileImageUrl; // 사용자의 기존 이미지 url
+    let img_url = [profile.profileImageUrl]; // 사용자의 기존 이미지 url
 
     if (isValid) {
       // 유효 닉네임일 경우 post
@@ -68,7 +68,7 @@ const MyPageUpdate = () => {
       const res = await memberUpdateProfile(
         nickname,
         gender,
-        ...(img_url ? img_url : [""]) //배열 속 이미지 url 한개,
+        ...img_url //배열 속 이미지 url 한개,
       );
       if (res === 200) {
         navigate(`/mypage`);

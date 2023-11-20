@@ -1,5 +1,5 @@
 import axios from "axios";
-import client from "./client";
+import { client } from "./client";
 
 const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -16,26 +16,15 @@ export const notificationSubscribeSSE = async (accessToken) => {
 
 //알림 조회
 export const notificationGetNotiList = async (page, size) => {
-  try {
-    const res = await client.get(
-      `api/v1/notifications?page=${page}&size=${size}`
-    );
-
-    console.log(res.data);
-    return res.data;
-  } catch (err) {
-    alert("알림 조회 오류");
-  }
+  return client.get(`api/v1/notifications/list?page=${page}&size=${size}`);
 };
 
 //전체 알림 읽음 처리
 export const notificationPostReadEntire = async () => {
-  try {
-    const res = await client.post(`api/v1/notifications/read/list`);
+  return client.post(`api/v1/notifications/read/list`);
+};
 
-    console.log(res);
-    return res;
-  } catch (err) {
-    alert("알림 읽음 처리 오류");
-  }
+//단일 알림 읽음 차리
+export const notificationPostReadEach = async (id) => {
+  return client.post(`api/v1/notifications/read/${id}`);
 };

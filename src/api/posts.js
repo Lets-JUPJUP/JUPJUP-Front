@@ -1,4 +1,4 @@
-import client from "./client";
+import { client } from "./client";
 
 export const postsCreatePlogging = async (inputs) => {
   return client.post("api/v1/posts", inputs);

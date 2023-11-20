@@ -1,4 +1,4 @@
-import client from "./client";
+import { client } from "./client";
 
 // 작성한 댓글의 게시글 조회
 export const getCommentedPosts = async () => {

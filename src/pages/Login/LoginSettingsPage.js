@@ -31,20 +31,18 @@ const LoginSettingsPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isHaveGender, setIsHaveGender] = useState(false);
 
-  const [tempToken, setTempToken] = useState("");
+  // const [tempToken, setTempToken] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
+  const tempToken = localStorage.getItem("temptoken");
 
   useEffect(() => {
-    const token = localStorage.getItem("temptoken");
-    setTempToken(token);
-
-    getData(token);
+    getData();
   }, []);
 
-  const getData = async (token) => {
-    const data = await memberGetMyProfile_(token);
+  const getData = async () => {
+    const data = await memberGetMyProfile_(tempToken);
     setMyProfile(data);
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
@@ -57,7 +55,7 @@ const LoginSettingsPage = () => {
 
   const handleSubmit = async () => {
     //성별 정보있고, 유효 닉네임일 경우 post
-    var img_url = myProfile.profileImageUrl; //기존 이미지 url
+    var img_url = [myProfile.profileImageUrl]; //기존 이미지 url
     if (isHaveGender && isValid) {
       if (imgFile) {
         //새로 등록한 이미지가 있을 경우 s3 업로드, url 얻기
@@ -80,6 +78,7 @@ const LoginSettingsPage = () => {
         if (status === 200) {
           //프로필 수정 완료
           localStorage.setItem("juptoken", tempToken);
+          localStorage.setItem("id", myProfile.id);
           localStorage.removeItem("temptoken");
 
           //SSE 구독 요청
@@ -89,6 +88,7 @@ const LoginSettingsPage = () => {
           navigate("/");
         }
       } catch (err) {
+        console.log(err);
         alert("회원가입 & SSE 구독 오류");
       }
     } else {

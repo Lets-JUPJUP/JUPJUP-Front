@@ -14,6 +14,7 @@ const KakaoLoginPage = () => {
 
     if (data.isProfileCreated) {
       localStorage.setItem("juptoken", accessToken); // 로컬 스토리지에 저장
+      localStorage.setItem("id", data.id);
       navigate("/");
       window.location.reload();
     } else {
