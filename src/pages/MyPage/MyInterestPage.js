@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
+
 import Header from "../../components/common/Header";
 import PloggingPostBox from "../../components/common/PloggingPostBox";
 import FloatingButton from "../../components/common/FloatingButton";
 import AdBanner from "../../components/common/AdBanner";
 
+import { getInterestPosts } from "../../api/heart";
+import { checkStatus } from "../../components/common/checkPostsStatus";
+
 const MyInterestPage = () => {
+  // 관심 있는 글 데이터
+  const [myData, setMyData] = useState([]);
+  const getData = async () => {
+    const data = await getInterestPosts();
+    setMyData(data.posts);
+    console.log(data.posts);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Wrapper>
       <Header
@@ -16,10 +31,27 @@ const MyInterestPage = () => {
       />
       <DivisionLine />
       <PostDiv>
-        <PloggingPostBox />
-        <PloggingPostBox />
-        <PloggingPostBox />
-        <PloggingPostBox />
+        {myData.length > 0 ? (
+          myData.map((post) => {
+            return (
+              <PloggingPostBox
+                key={post.id}
+                status={checkStatus(post)}
+                id={post.id}
+                fileUrls={post.fileUrls}
+                title={post.title}
+                isHearted={post.isHearted}
+                startPlace={post.startPlace}
+                startDate={post.startDate}
+                postAgeRanges={post.postAgeRanges}
+                postGender={post.postGender}
+                withPet={post.withPet}
+              />
+            );
+          })
+        ) : (
+          <div>관심 있는 글이 없습니다.</div>
+        )}
       </PostDiv>
 
       <FloatingButton />

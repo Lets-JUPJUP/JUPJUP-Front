@@ -18,3 +18,13 @@ export const deleteHeart = async (id) => {
     throw err;
   }
 };
+
+// 관심 있는 게시글 모아보기
+export const getInterestPosts = async () => {
+  try {
+    const res = await client.get(`/api/v1/hearts/lists`);
+    return res.data.data;
+  } catch (err) {
+    throw err;
+  }
+};
