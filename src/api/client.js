@@ -27,24 +27,25 @@ client.interceptors.response.use(
     return response;
   },
   async (error) => {
-    // 기존에 수행하려고 했던 API 설정정보
+    //기존에 수행하려고 했던 API 설정 정보
     const originalConfig = error.config;
-    // 기존의 refreshToken
+
     //토큰 만료일때
     if (error.response.data.status === "UNAUTHORIZED") {
       try {
         // 토큰 재발급
+        console.log("ddd");
         const res = await memberGetNewToken();
 
         if (res.status === 200) {
           //로컬스토리지 저장 후 새로고침
           localStorage.setItem("juptoken", res.data.data.accessToken);
-          window.location.replace();
+          window.location.reload();
 
           //client의 api 콜 헤더에 재발급 받은 token 넣기
           originalConfig.headers["Authorization"] = res.data.data.accessToken;
           //실행하던 api 이어서 실행
-          tempClient(originalConfig);
+          return tempClient(originalConfig);
         }
       } catch (err) {
         // 토큰 재발급 실패할 경우 (refreshToken 만료)

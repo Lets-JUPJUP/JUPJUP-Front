@@ -7,20 +7,27 @@ import History from "../../components/common/History";
 import Recommendations from "../../components/main/Recommendations";
 import { useNavigate } from "react-router-dom";
 import { postsGetMyCount } from "../../api/posts";
+import { eventGetEventList } from "../../api/event";
 const MainPage = () => {
   const navigate = useNavigate();
 
   const [history, setHistory] = useState({});
-
+  const [list, setList] = useState([]);
   const isLogin = localStorage.getItem("juptoken"); //로그인 되어있으면 history 조회
 
   const getData = async () => {
     try {
       const data = (await postsGetMyCount()).data.data;
-
       setHistory(data);
     } catch (err) {
       alert("데이터를 가져오는데 실패했습니다.");
+    }
+
+    try {
+      const data = (await eventGetEventList()).data.data;
+      setList(data);
+    } catch (err) {
+      alert("공식행사 데이터 get오류");
     }
   };
   useEffect(() => {
@@ -31,7 +38,7 @@ const MainPage = () => {
       <Header />
       <Wrapper>
         <div className="carousel">
-          <Carousel />
+          <Carousel list={list} />
         </div>
 
         <div className="container">

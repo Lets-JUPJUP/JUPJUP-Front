@@ -6,22 +6,9 @@ import "slick-carousel/slick/slick-theme.css";
 import { eventGetEventList } from "../../api/event";
 import { useNavigate } from "react-router-dom";
 
-const Carousel = () => {
-  const [list, setList] = useState([]);
-
+const Carousel = ({ list }) => {
   const navigate = useNavigate();
 
-  const getData = async () => {
-    try {
-      const data = (await eventGetEventList()).data.data;
-      setList(data);
-    } catch (err) {
-      alert("공식행사 데이터 get오류");
-    }
-  };
-  useEffect(() => {
-    getData();
-  }, []);
   const settings = {
     dots: true,
     className: "center",
