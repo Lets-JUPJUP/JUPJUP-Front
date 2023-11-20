@@ -1,18 +1,8 @@
 import styled from "styled-components";
 import PloggingPostBox from "../common/PloggingPostBox";
+import { checkStatus } from "../common/checkPostsStatus";
 
 const PloggingListSection = ({ pageData }) => {
-  // post의 status 체크
-  const checkStatus = (post) => {
-    if (post.isEnded === true) {
-      return "finish";
-    } else if (post.isJoined === true) {
-      return "join";
-    } else {
-      return "default";
-    }
-  };
-
   /*
   postbox에 필요한 요소 : 
   id, fileUrls(포스트 이미지 파일 배열), title, isHearted (찜하기 여부), 
