@@ -31,20 +31,18 @@ const LoginSettingsPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isHaveGender, setIsHaveGender] = useState(false);
 
-  const [tempToken, setTempToken] = useState("");
+  // const [tempToken, setTempToken] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
+  const tempToken = localStorage.getItem("temptoken");
 
   useEffect(() => {
-    const token = localStorage.getItem("temptoken");
-    setTempToken(token);
-
-    getData(token);
+    getData();
   }, []);
 
-  const getData = async (token) => {
-    const data = await memberGetMyProfile_(token);
+  const getData = async () => {
+    const data = await memberGetMyProfile_(tempToken);
     setMyProfile(data);
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);

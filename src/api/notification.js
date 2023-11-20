@@ -1,5 +1,5 @@
 import axios from "axios";
-import client from "./client";
+import { client } from "./client";
 
 const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 

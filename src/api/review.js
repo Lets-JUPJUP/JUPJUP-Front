@@ -1,4 +1,4 @@
-import client from "./client";
+import { client } from "./client";
 
 //특정 사용자의 탑 3 리뷰 조회
 export const reviewsGetTop3Reviews = async (memberId) => {

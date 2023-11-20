@@ -1,5 +1,5 @@
 import axios from "axios";
-import client from "./client";
+import { client, refreshClient } from "./client";
 
 const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -80,7 +80,9 @@ export const memberUpdateProfile_ = async (
   profileImage,
   accessToken
 ) => {
-  return axios.put(
+  console.log("여기");
+  console.log(accessToken);
+  return await axios.put(
     `${SERVER_DOMAIN}/api/v1/members`,
     {
       nickname: nickname,
@@ -97,7 +99,7 @@ export const memberUpdateProfile_ = async (
 
 export const memberCheckValidName_ = async (nickname, accessToken) => {
   try {
-    console.log("skdjfns", accessToken);
+    console.log("임시 닉네임 체크", accessToken);
     const res = await axios.post(
       "https://api.lets-jupjup.com/api/v1/members/checkNickname",
       {
@@ -114,4 +116,9 @@ export const memberCheckValidName_ = async (nickname, accessToken) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+//액세스 토큰 재발급
+export const memberGetNewToken = async () => {
+  return refreshClient.post("api/v1/auth/refresh");
 };

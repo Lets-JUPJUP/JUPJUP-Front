@@ -1,4 +1,4 @@
-import client from "./client";
+import { client } from "./client";
 import axios from "axios";
 
 //이미지 업로드 할 presigned url 받기
