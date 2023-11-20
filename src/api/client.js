@@ -16,15 +16,10 @@ client.defaults.headers.common["Authorization"] = token
   : null;
 
 //엑세스 토큰 재발급을 위한 refreshClient 생성
-export const refreshClient = axios.create();
+export const tempClient = axios.create();
 
-refreshClient.defaults.baseURL = `${SERVER_DOMAIN}/`;
-refreshClient.defaults.withCredentials = true;
-
-setCookie();
-const refreshToken = getCookie("refreshToken");
-
-refreshClient.defaults.headers.common["Cookie"] = refreshToken; //쿠키열기
+tempClient.defaults.baseURL = `${SERVER_DOMAIN}/`;
+tempClient.defaults.withCredentials = true;
 
 // client의 api 콜을 인터셉트
 client.interceptors.response.use(
@@ -38,7 +33,6 @@ client.interceptors.response.use(
     //토큰 만료일때
     if (error.response.data.status === "UNAUTHORIZED") {
       try {
-        console.log("tleh");
         // 토큰 재발급
         const res = await memberGetNewToken();
 
@@ -50,10 +44,11 @@ client.interceptors.response.use(
           //client의 api 콜 헤더에 재발급 받은 token 넣기
           originalConfig.headers["Authorization"] = res.data.data.accessToken;
           //실행하던 api 이어서 실행
-          refreshClient(originalConfig);
+          tempClient(originalConfig);
         }
       } catch (err) {
         // 토큰 재발급 실패할 경우 (refreshToken 만료)
+        console.log(err);
         alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
         //만료된 토큰 제거
         localStorage.removeItem("juptoken");

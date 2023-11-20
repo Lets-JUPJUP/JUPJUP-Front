@@ -1,5 +1,5 @@
 import axios from "axios";
-import { client, refreshClient } from "./client";
+import { client, tempClient } from "./client";
 
 const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -120,5 +120,5 @@ export const memberCheckValidName_ = async (nickname, accessToken) => {
 
 //액세스 토큰 재발급
 export const memberGetNewToken = async () => {
-  return refreshClient.post("api/v1/auth/refresh");
+  return tempClient.post("api/v1/auth/refresh");
 };
