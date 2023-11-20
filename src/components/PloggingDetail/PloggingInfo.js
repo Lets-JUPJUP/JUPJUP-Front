@@ -1,34 +1,76 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 import ic_userbig from "../../assets/common/ic_userbig.png";
 
-const PloggingInfo = () => {
+import { settingAge } from "../common/ageRange";
+import { settingGender } from "../common/gender";
+import { settingDate } from "../common/time";
+
+const PloggingInfo = ({
+  authorId,
+  authorNickname,
+  authorProfileImageUrl,
+  createdAt,
+  startPlace,
+  startDate,
+  dueDate,
+  minMember,
+  maxMember,
+  postAgeRanges,
+  postGender,
+  content,
+}) => {
+  // 플로깅 데이터
   const ploggingData = [
-    { title: "출발 일시", content: "| 텍스트" },
-    { title: "출발 장소", content: "| 텍스트" },
-    { title: "참여 인원", content: "| 최소 n인 ~ 최소 N인" },
-    { title: "참여 성별", content: "| 성별무관" },
-    { title: "참여 연령", content: "| 연령무관" },
+    {
+      title: "출발 일시",
+      content: `| ${settingDate(startDate, true) + "~"}`,
+    },
+    { title: "출발 장소", content: `| ${startPlace}` },
+    {
+      title: "참여 인원",
+      content: `| 최소 ${minMember}인 ~ 최소 ${maxMember}인`,
+    },
+    {
+      title: "참여 성별",
+      content: `| ${settingGender(postGender)}`,
+    },
+    {
+      title: "참여 연령",
+      content: `| ${settingAge(postAgeRanges)}`,
+    },
   ];
+
+  const navigate = useNavigate();
+
+  // 사용자 상세 페이지로 이동
+  const linkToUserPage = () => {
+    navigate(`/user-profile/${authorId}`);
+  };
+
   return (
     <Wrapper>
       <UserInfo>
         <div className="userImage">
-          <img src={ic_userbig} alt="userbig" />
+          <img
+            src={authorProfileImageUrl ? authorProfileImageUrl : ic_userbig}
+            alt="userbig"
+          />
         </div>
         <div className="userText">
           <div>
-            <BigBoldText>사용자 이름</BigBoldText>
-            <SmallGreyText>00/00 00:00</SmallGreyText>
+            <BigBoldText>{authorNickname}</BigBoldText>
+            <SmallGreyText>{settingDate(createdAt)}</SmallGreyText>
           </div>
-          <SmallBoldText className="linkText">
+          <SmallBoldText className="linkText" onClick={linkToUserPage}>
             프로필 보러가기 &gt;
           </SmallBoldText>
         </div>
       </UserInfo>
       <SmallBoldText className="endTime">
-        00월 00일 00:00까지 참여자 모집 중
+        {settingDate(dueDate, true)}까지 참여자 모집 중
       </SmallBoldText>
       <InfoBox className="margin">
         {ploggingData.map((item) => {
@@ -40,9 +82,7 @@ const PloggingInfo = () => {
           );
         })}
       </InfoBox>
-      <ContentBox className="margin">
-        주최자가 자유롭게 작성하는 글 내용 상자
-      </ContentBox>
+      <ContentBox className="margin">{content}</ContentBox>
     </Wrapper>
   );
 };
@@ -62,6 +102,8 @@ const UserInfo = styled.div`
 
   img {
     width: 40px;
+    height: 40px;
+    border-radius: 40px;
   }
 
   .userText {

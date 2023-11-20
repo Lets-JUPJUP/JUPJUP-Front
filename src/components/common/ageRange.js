@@ -66,16 +66,19 @@ export const getFormattedAgeRange = (ageRange) => {
 };
 
 // postAgeRanges 배열 '~세'로 변환
-export const getKorPostAgeRanges = (postAgeRanges) => {
+// age 설정 (ex. ['AGE_20_29', 'AGE_30_39'])
+export const settingAge = (postAgeRanges) => {
   if (postAgeRanges[0] === "AGE_ANY") {
     return "연령무관";
   } else {
     // 오름차순 정렬
     const sortedAgeRanges = [...postAgeRanges].sort();
     // 최소값, 최대값 return
-    return [
-      sortedAgeRanges[0].split("_")[1],
-      sortedAgeRanges[sortedAgeRanges.length - 1].split("_")[2],
-    ];
+    return (
+      sortedAgeRanges[0].split("_")[1] +
+      "~" +
+      sortedAgeRanges[sortedAgeRanges.length - 1].split("_")[2] +
+      "세"
+    );
   }
 };

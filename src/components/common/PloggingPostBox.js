@@ -6,8 +6,9 @@ import ic_star_clicked from "../../assets/common/ic_star_clicked.png";
 import ic_star_default_main from "../../assets/common/ic_star_default_main.png";
 import ic_star_clicked_main from "../../assets/common/ic_star_clicked_main.png";
 import Tag from "./Tag";
-import { getKorGender } from "./gender";
-import { getKorPostAgeRanges } from "./ageRange";
+import { settingGender } from "./gender";
+import { settingAge } from "./ageRange";
+import { settingDate } from "./time";
 import { deleteHeart, postHeart } from "../../api/heart";
 
 // 보라색 배경: 참여 전 or 모집 중
@@ -79,30 +80,6 @@ const PloggingPostBox = ({
     return fileUrls.length > 0 ? fileUrls[0] : defaultImgUrl;
   };
 
-  // startDate 설정 (ex. "2023-03-06T09:30:00")
-  const settingDate = () => {
-    const [date, time] = startDate.split("T");
-    const [, month, day] = date.split("-");
-    // time에서 seconds는 제외하고 출력
-    return month + "/" + day + " " + time.slice(0, time.length - 3) + "~";
-  };
-
-  // age 설정 (ex. ['AGE_20_29', 'AGE_30_39'])
-  const settingAge = () => {
-    const ageResult = getKorPostAgeRanges(postAgeRanges);
-    if (ageResult === "연령무관") {
-      return ageResult;
-    } else {
-      const [min, max] = ageResult;
-      return min + "~" + max + "세";
-    }
-  };
-
-  // gender 설정 (ex. FEMALE)
-  const settingGender = () => {
-    return getKorGender(postGender) + (postGender !== "ANY" ? "만" : "");
-  };
-
   return (
     <Wrapper color={settingBackgroundColor()} onClick={linkToDetailPage}>
       <ImageBox url={settingImageUrl()} />
@@ -115,10 +92,10 @@ const PloggingPostBox = ({
           <div>장소 | {startPlace}</div>
         </Content>
         <Content className="content">
-          <div>일시 | {settingDate()}</div>
+          <div>일시 | {settingDate(startDate)+"~"}</div>
           <div className="tagList">
-            <Tag name={settingAge()} status={status} />
-            <Tag name={settingGender()} status={status} />
+            <Tag name={settingAge(postAgeRanges)} status={status} />
+            <Tag name={settingGender(postGender)} status={status} />
           </div>
         </Content>
         {withPet === true ? (
