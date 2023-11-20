@@ -5,9 +5,6 @@ import Notification from "../../components/user/Notification";
 import AdBanner from "../../components/common/AdBanner";
 import { notificationGetNotiList } from "../../api/notification";
 
-//할거
-//데이터 받아와서 화면에 연결 (타입 키값 읽기)
-
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const getData = async () => {
