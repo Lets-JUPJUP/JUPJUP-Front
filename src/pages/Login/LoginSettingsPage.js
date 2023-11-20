@@ -55,7 +55,7 @@ const LoginSettingsPage = () => {
 
   const handleSubmit = async () => {
     //성별 정보있고, 유효 닉네임일 경우 post
-    var img_url = myProfile.profileImageUrl; //기존 이미지 url
+    var img_url = [myProfile.profileImageUrl]; //기존 이미지 url
     if (isHaveGender && isValid) {
       if (imgFile) {
         //새로 등록한 이미지가 있을 경우 s3 업로드, url 얻기
@@ -88,6 +88,7 @@ const LoginSettingsPage = () => {
           navigate("/");
         }
       } catch (err) {
+        console.log(err);
         alert("회원가입 & SSE 구독 오류");
       }
     } else {
