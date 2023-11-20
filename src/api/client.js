@@ -42,7 +42,9 @@ client.interceptors.response.use(
           window.location.reload();
 
           //client의 api 콜 헤더에 재발급 받은 token 넣기
-          originalConfig.headers["Authorization"] = res.data.data.accessToken;
+          originalConfig.headers[
+            "Authorization"
+          ] = `Bearer ${res.data.data.accessToken}`;
           //실행하던 api 이어서 실행
           return tempClient(originalConfig);
         }
