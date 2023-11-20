@@ -1,6 +1,5 @@
 import axios from "axios";
 import { memberGetNewToken } from "./member";
-import { getCookie, setCookie } from "../config/cookie";
 
 const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 
