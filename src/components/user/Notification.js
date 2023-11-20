@@ -63,6 +63,7 @@ const Wrapper = styled.div`
   }
 
   .container {
+    width: 90%;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -73,6 +74,10 @@ const Wrapper = styled.div`
     font-weight: 600;
   }
   .content {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-weight: 400;
   }
 `;
