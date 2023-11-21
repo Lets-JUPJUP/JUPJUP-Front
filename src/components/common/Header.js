@@ -4,6 +4,7 @@ import logo from "../../assets/common/logo.png";
 import alarm from "../../assets/common/alarm.png";
 import user from "../../assets/common/user.png";
 import GradientLine from "./GradientLine";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({
   title,
@@ -23,6 +24,7 @@ const Header = ({
   if (localStorage.getItem("juptoken")) {
     isLogin = true;
   }
+  const navigate = useNavigate();
 
   return (
     <>
@@ -48,10 +50,20 @@ const Header = ({
 
         {isLogin && (
           <div className="btns">
-            <div className="btn">
+            <div
+              className="btn"
+              onClick={() => {
+                navigate("/notifications");
+              }}
+            >
               <img src={alarm} alt="알림모음으로" />
             </div>
-            <div className="btn">
+            <div
+              className="btn"
+              onClick={() => {
+                navigate("/mypage");
+              }}
+            >
               <img src={user} alt="마이페이지로" />
             </div>
           </div>
