@@ -1,7 +1,7 @@
 import { client } from "./client";
 
 // 모집글에 댓글 작성하기
-export const postComment = async (postId, comment) => {
+export const postPloggingComment = async (postId, comment) => {
   try {
     const res = await client.post(`/api/v1/comments/${postId}`, {
       content: comment,

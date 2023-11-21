@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ic_close from "../../assets/common/ic_close.png";
 import ic_arrowup from "../../assets/common/ic_arrowup.png";
 import ic_arrowup_white from "../../assets/common/ic_arrowup_white.png";
-import { getCommentsByPost, postComment } from "../../api/comment";
+import { getCommentsByPost, postPloggingComment } from "../../api/comment";
 
 // 댓글 입력창
 const CommentInput = ({
@@ -35,7 +35,7 @@ const CommentInput = ({
         // 공식 행사 페이지일 때
       } else {
         // 플로깅 상세 페이지일 때
-        await postComment(postId, content); // 댓글 post
+        await postPloggingComment(postId, content); // 댓글 post
       }
     } catch (err) {
       alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
