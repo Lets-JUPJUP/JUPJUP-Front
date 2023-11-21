@@ -3,17 +3,49 @@ import styled from "styled-components";
 import ic_close from "../../assets/common/ic_close.png";
 import ic_arrowup from "../../assets/common/ic_arrowup.png";
 import ic_arrowup_white from "../../assets/common/ic_arrowup_white.png";
+import { getCommentsByPost, postComment } from "../../api/comment";
 
 // 댓글 입력창
-const CommentInput = ({ setWriteMode }) => {
+const CommentInput = ({
+  setWriteMode,
+  location,
+  postId,
+  isReplyMode,
+  setIsReplyMode,
+  setCommentData,
+}) => {
   // textarea focus 여부 (true일 경우 댓글창 크기가 커짐)
   const [inputFocused, setInputFocused] = useState(false);
   // 댓글 입력값 저장
-  const [comment, setComment] = useState("");
+  const [content, setContent] = useState("");
 
   // 댓글 창 close 버튼 클릭 시 댓글 창이 사라지고 footer 등장
   const closeInput = () => {
     setWriteMode(false);
+  };
+
+  // 댓글 서버에 제출
+  const handleSubmit = async () => {
+    if (content.length === 0) {
+      alert("댓글을 1자 이상 작성해주세요.");
+      return;
+    }
+    try {
+      if (location === "event") {
+        // 공식 행사 페이지일 때
+      } else {
+        // 플로깅 상세 페이지일 때
+        await postComment(postId, content); // 댓글 post
+      }
+    } catch (err) {
+      alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+    } finally {
+      // JoinFooter가 나오도록 변경
+      setWriteMode(false);
+      // 댓글 업데이트
+      const newCommentData = await getCommentsByPost(postId);
+      setCommentData(newCommentData.data.commentDtoList);
+    }
   };
 
   return (
@@ -30,13 +62,13 @@ const CommentInput = ({ setWriteMode }) => {
             <textarea
               placeholder="댓글을 입력해봐요."
               onChange={(e) => {
-                setComment(e.target.value);
+                setContent(e.target.value);
               }}
-              value={comment}
+              value={content}
             />
             <div className="buttonDiv">
               <img src={ic_close} alt="close" onClick={closeInput} />
-              <img src={ic_arrowup} alt="submit" />
+              <img src={ic_arrowup} alt="submit" onClick={handleSubmit} />
             </div>
           </MainDiv>
         </Wrapper>
@@ -47,7 +79,7 @@ const CommentInput = ({ setWriteMode }) => {
             setInputFocused(true);
           }}
         >
-          <Text>{comment.length > 0 ? comment : "댓글을 입력해봐요."}</Text>
+          <Text>{content.length > 0 ? content : "댓글을 입력해봐요."}</Text>
           <img src={ic_arrowup_white} alt="submit" />
         </MainDiv>
       )}

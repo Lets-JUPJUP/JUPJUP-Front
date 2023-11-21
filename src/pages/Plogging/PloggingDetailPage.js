@@ -50,6 +50,9 @@ const PloggingDetailPage = () => {
   // 댓글 데이터
   const [commentData, setCommentData] = useState([]);
 
+  // 대댓글 모드 state [대댓글인지, parentId]
+  const [isReplyMode, setIsReplyMode] = useState([false, null]);
+
   // bottomsheet close하기
   const onDisMiss = () => {
     setBsOpen(false);
@@ -138,7 +141,14 @@ const PloggingDetailPage = () => {
             </BottomSheet>
 
             {writeMode === true ? (
-              <CommentInput setWriteMode={setWriteMode} />
+              <CommentInput
+                setWriteMode={setWriteMode}
+                location="ploggingDetail"
+                postId={postId}
+                isReplyMode={isReplyMode}
+                setIsReplyMode={setIsReplyMode}
+                setCommentData={setCommentData}
+              />
             ) : (
               <JoinFooter
                 bsOpen={bsOpen}
