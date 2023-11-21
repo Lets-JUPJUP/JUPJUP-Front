@@ -2,23 +2,32 @@ import styled from "styled-components";
 import ic_user from "../../assets/common/user.png";
 import ic_comment from "../../assets/common/ic_comment.png";
 import ic_report from "../../assets/common/ic_report.png";
+import { settingDate } from "./time";
 
 // 댓글 컴포넌트
-const CommentBox = () => {
+const CommentBox = ({ commentInfo, userId }) => {
   return (
     <Wrapper>
       <HeadDiv>
         <div className="left">
-          <img src={ic_user} alt="user" className="user" />
-          <BoldText>사용자 이름</BoldText>
+          <img
+            src={
+              commentInfo.writerInfoDto.profileImageUrl
+                ? commentInfo.writerInfoDto.profileImageUrl
+                : ic_user
+            }
+            alt="user"
+            className="user"
+          />
+          <BoldText>{commentInfo.writerInfoDto.nickname}</BoldText>
         </div>
         <div className="right">
-          <div>00/00 00:00</div>
+          <div>{settingDate(commentInfo.createdDate)}</div>
           <img src={ic_comment} alt="comment" className="comment" />
         </div>
       </HeadDiv>
       <BodyDiv>
-        <div>오 좋은 행사네요 전 신청했습니다~</div>
+        <div>{commentInfo.content}</div>
         <img src={ic_report} alt="report" className="report" />
       </BodyDiv>
     </Wrapper>
@@ -52,6 +61,8 @@ const HeadDiv = styled.div`
 
   .user {
     width: 20px;
+    height: 20px;
+    border-radius: 20px;
   }
 
   .comment {

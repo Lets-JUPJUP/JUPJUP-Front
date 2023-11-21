@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import CommentBox from "../common/CommentBox";
 import CoCommentBox from "./CoCommentBox";
 
-const PloggingComment = ({ writeMode, setWriteMode }) => {
+import { getCommentsByPost } from "../../api/comment";
+
+const PloggingComment = ({ writeMode, setWriteMode, postId, userId }) => {
+  // 댓글 개수 (대댓글 포함)
+  const [commentNo, setCommentNo] = useState(0);
+  // 댓글 데이터
+  const [commentData, setCommentData] = useState([]);
+
+  const getData = async () => {
+    const data = await getCommentsByPost(postId);
+    setCommentData(data.data.commentDtoList);
+    setCommentNo(data.data.commentNo);
+    console.log("댓글", data.data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Wrapper>
       <MainDiv>
-        <BigBoldText>댓글 00</BigBoldText>
+        <BigBoldText>댓글 {commentNo}</BigBoldText>
         <SmallBoldText
           className="linkText"
           onClick={() => {
@@ -18,12 +35,24 @@ const PloggingComment = ({ writeMode, setWriteMode }) => {
         </SmallBoldText>
       </MainDiv>
       <CommentDiv>
-        <CommentBox />
-        <CoCommentBox />
-        <CoCommentBox />
-        <CommentBox />
-        <CommentBox />
-        <CommentBox />
+        {commentData.length > 0 ? (
+          commentData.map((comment, index) => {
+            return (
+              <>
+                <CommentBox key={index} commentInfo={comment} userId={userId} />
+                {comment.replyList.length > 0
+                  ? comment.replyList.map((cocomment, index) => {
+                      return (
+                        <CoCommentBox key={index} cocommentInfo={cocomment} />
+                      );
+                    })
+                  : null}
+              </>
+            );
+          })
+        ) : (
+          <div>해당 게시글에 대한 댓글이 없습니다.</div>
+        )}
       </CommentDiv>
     </Wrapper>
   );
