@@ -71,6 +71,11 @@ const Form = () => {
         alert("모집 마감 일시는 시작 일시보다 빨라야 합니다.");
         return;
       }
+      if (startDate < new Date() || dueDate < new Date()) {
+        alert("이미 지난 일시는 선택할 수 없습니다.");
+        return;
+      }
+
       if (imgFile.length) {
         try {
           imgUrls = await getImageUrl();
