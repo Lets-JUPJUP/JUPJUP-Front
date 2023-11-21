@@ -22,6 +22,7 @@ import ParticipateAlert from "../../components/PloggingDetail/ParticipateAlert";
 
 import { getPostsDetail } from "../../api/posts";
 import { memberGetMyProfile } from "../../api/member";
+import { getPostsJoinMembers } from "../../api/postjoin";
 
 const PloggingDetailPage = () => {
   // 댓글창 open 여부
@@ -33,10 +34,18 @@ const PloggingDetailPage = () => {
   // footer 참여하기 클릭 시 모달창 open 여부
   const [modalOpen, setModalOpen] = useState(false);
 
-  // api로 받아온 data
+  // api로 받아온 detail data
   const [pageData, setPageData] = useState({});
 
-  const [userId, setUserId] = useState(0);
+  // api로 받아온 member data
+  const [userData, setUserData] = useState({});
+
+  // 참여하기 여부 저장하는 state
+  // - 초기 설정은 JoinFooter에서, - 변경은 Alert창에서
+  const [isPlogJoined, setIsPlogJoined] = useState(false);
+
+  // api로 받아온 plogging member data
+  const [plogMembersData, setPlogMembersData] = useState([]);
 
   // bottomsheet close하기
   const onDisMiss = () => {
@@ -58,22 +67,28 @@ const PloggingDetailPage = () => {
     getData();
   }, [postId]);
 
-  const getUserId = async () => {
-    const memberData = await memberGetMyProfile();
-    setUserId(memberData.id);
+  // 사용자 정보, 플로깅 참여 멤버 조회
+  const getUserData = async () => {
+    const data1 = await memberGetMyProfile(); // 사용자 정보
+    console.log(data1);
+    setUserData(data1);
+
+    const data2 = await getPostsJoinMembers(postId); // 플로깅 참여 멤버
+    console.log("플로깅 참여 멤버", data2.data);
+    setPlogMembersData(data2.data);
   };
 
   useEffect(() => {
-    getUserId();
+    getUserData();
   }, []);
 
   return (
     <>
-      {Object.entries(pageData).length > 0 ? (
+      <Fixed>
+        <Header title={pageData.title} isLogin={true} isDetailPage={true} />
+      </Fixed>
+      {Object.entries(pageData).length > 0 && userData ? (
         <>
-          <Fixed>
-            <Header title={pageData.title} isLogin={true} isDetailPage={true} />
-          </Fixed>
           <Wrapper>
             <PostImageBox fileUrls={pageData.fileUrls} />
 
@@ -102,12 +117,19 @@ const PloggingDetailPage = () => {
               writeMode={writeMode}
               setWriteMode={setWriteMode}
               postId={postId}
-              userId={userId}
+              userData={userData.id}
             />
             <FloatingButton isWriteBtnHidden={true} />
 
             <BottomSheet open={bsOpen} onDismiss={onDisMiss}>
-              <UserBottomSheet />
+              <UserBottomSheet
+                curMemberNum={plogMembersData.length}
+                maxMember={pageData.maxMember}
+                authorId={pageData.authorId}
+                authorNickname={pageData.authorNickname}
+                authorProfileImageUrl={pageData.authorProfileImageUrl}
+                plogMembersInfo={plogMembersData}
+              />
             </BottomSheet>
 
             {writeMode === true ? (
@@ -117,16 +139,29 @@ const PloggingDetailPage = () => {
                 bsOpen={bsOpen}
                 setBsOpen={setBsOpen}
                 setModalOpen={setModalOpen}
+                curMemberNum={plogMembersData.length}
+                maxMember={pageData.maxMember}
+                dueDate={pageData.dueDate}
+                isHearted={pageData.isHearted}
+                isJoined={pageData.isJoined}
+                isPlogJoined={isPlogJoined}
+                setIsPlogJoined={setIsPlogJoined}
+                postId={postId}
               />
             )}
 
             {modalOpen === true ? (
-              <ParticipateAlert setModalOpen={setModalOpen} />
+              <ParticipateAlert
+                setModalOpen={setModalOpen}
+                postId={postId}
+                setIsPlogJoined={setIsPlogJoined}
+                setPlogMembersData={setPlogMembersData}
+              />
             ) : null}
           </Wrapper>
         </>
       ) : (
-        <div>로딩 중..</div>
+        <div style={{ marginTop: "100px" }}>로딩 중..</div>
       )}
     </>
   );
