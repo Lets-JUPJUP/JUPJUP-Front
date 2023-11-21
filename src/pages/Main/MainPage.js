@@ -16,22 +16,25 @@ const MainPage = () => {
   const isLogin = localStorage.getItem("juptoken"); //로그인 되어있으면 history 조회
 
   const getData = async () => {
-    try {
-      const data = (await postsGetMyCount()).data.data;
-      setHistory(data);
-    } catch (err) {
-      alert("데이터를 가져오는데 실패했습니다.");
+    if (isLogin) {
+      try {
+        const data = (await postsGetMyCount()).data.data;
+        setHistory(data);
+      } catch (err) {
+        alert("데이터를 가져오는데 실패했습니다.");
+      }
     }
 
     try {
       const data = (await eventGetEventList()).data.data;
       setList(data);
+      console.log("sdasd", data);
     } catch (err) {
       alert("공식행사 데이터 get오류");
     }
   };
   useEffect(() => {
-    isLogin && getData();
+    getData();
   }, []);
   return (
     <>

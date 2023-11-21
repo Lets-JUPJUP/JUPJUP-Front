@@ -2,14 +2,13 @@ import React, { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import add from "../../assets/common/add.png";
 import cancel from "../../assets/common/cancel.png";
-
+//사진 5장 첨부시 overflow-x: scroll으로 추후 수정
 const AddPhoto = ({
   setImgFile,
   imgFile,
   isMultiple = false,
   maxFiles = 5,
 }) => {
-  //issue: overflow: scroll 안됨 해야함
   //사진 첨부취소 작업
   const imgRef = useRef();
   const [previewImgs, setPreviewImgs] = useState([]); //미리보기 파일
@@ -82,17 +81,12 @@ const AddPhoto = ({
         {previewImgs.length ? (
           previewImgs.map((el, index) => {
             return (
-              <div key={index}>
-                <div className="preview">
-                  <img className="preview-image" src={el} alt="" />
-                  <div
-                    className="cancel-btn"
-                    onClick={() => cancelUpload(index)}
-                  >
-                    <img className="cancel-icon" src={cancel} alt="" />
-                  </div>
+              <Preview key={index}>
+                <img className="preview-image" src={el} alt="" />
+                <div className="cancel-btn" onClick={() => cancelUpload(index)}>
+                  <img className="cancel-icon" src={cancel} alt="" />
                 </div>
-              </div>
+              </Preview>
             );
           })
         ) : (
@@ -132,34 +126,40 @@ const PreviewContainer = styled.div`
   flex-direction: row;
   justify-content: end;
   gap: 10px;
-  overflow-x: scroll;
+  overflow-x: scroll; // 안먹힘
   width: 100%;
   height: 85px;
-  position: relative;
+`;
 
-  .preview {
-    position: relative;
-    display: flex;
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
+const Preview = styled.div`
+  display: flex;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  position: relative;
+  .preview-image {
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
-    .preview-image {
-      width: 100%;
-      height: 100%;
-      border-radius: 8px;
-    }
   }
 
   .cancel-btn {
     position: absolute;
     top: 4px;
     right: 2px;
-    width: 20px;
-    height: 20px;
     .cancel-icon {
-      width: 100%;
-      height: 100%;
+      width: 20px;
+      height: 20px;
     }
   }
+
+  //아래 코드로 해도 안됨
+  /* .cancel-btn {
+    .cancel-icon {
+      margin-left: -23px;
+      margin-top: 2px;
+      width: 20px;
+      height: 20px;
+    }
+  } */
 `;
