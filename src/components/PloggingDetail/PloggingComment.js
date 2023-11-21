@@ -5,11 +5,16 @@ import CoCommentBox from "./CoCommentBox";
 
 import { getCommentsByPost } from "../../api/comment";
 
-const PloggingComment = ({ writeMode, setWriteMode, postId, userId }) => {
+const PloggingComment = ({
+  writeMode,
+  setWriteMode,
+  postId,
+  userId,
+  commentData,
+  setCommentData,
+}) => {
   // 댓글 개수 (대댓글 포함)
   const [commentNo, setCommentNo] = useState(0);
-  // 댓글 데이터
-  const [commentData, setCommentData] = useState([]);
 
   const getData = async () => {
     const data = await getCommentsByPost(postId);

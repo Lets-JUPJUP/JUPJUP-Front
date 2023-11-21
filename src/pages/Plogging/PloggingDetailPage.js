@@ -47,6 +47,9 @@ const PloggingDetailPage = () => {
   // api로 받아온 plogging member data
   const [plogMembersData, setPlogMembersData] = useState([]);
 
+  // 댓글 데이터
+  const [commentData, setCommentData] = useState([]);
+
   // bottomsheet close하기
   const onDisMiss = () => {
     setBsOpen(false);
@@ -118,6 +121,8 @@ const PloggingDetailPage = () => {
               setWriteMode={setWriteMode}
               postId={postId}
               userData={userData.id}
+              commentData={commentData}
+              setCommentData={setCommentData}
             />
             <FloatingButton isWriteBtnHidden={true} />
 
