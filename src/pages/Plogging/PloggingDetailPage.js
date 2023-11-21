@@ -37,7 +37,7 @@ const PloggingDetailPage = () => {
   // api로 받아온 detail data
   const [pageData, setPageData] = useState({});
 
-  // api로 받아온 member data
+  // api로 받아온 user data
   const [userData, setUserData] = useState({});
 
   // 참여하기 여부 저장하는 state
@@ -123,7 +123,7 @@ const PloggingDetailPage = () => {
               writeMode={writeMode}
               setWriteMode={setWriteMode}
               postId={postId}
-              userData={userData.id}
+              userId={userData.id}
               commentData={commentData}
               setCommentData={setCommentData}
             />

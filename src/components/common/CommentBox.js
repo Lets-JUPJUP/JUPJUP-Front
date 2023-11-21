@@ -2,10 +2,28 @@ import styled from "styled-components";
 import ic_user from "../../assets/common/user.png";
 import ic_comment from "../../assets/common/ic_comment.png";
 import ic_report from "../../assets/common/ic_report.png";
+import ic_delete from "../../assets/common/ic_delete.png";
 import { settingDate } from "./time";
+import { getCommentsByPost, deletePloggingComment } from "../../api/comment";
 
 // 댓글 컴포넌트
-const CommentBox = ({ commentInfo, userId }) => {
+const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
+  // 댓글 삭제 서버에 제출
+
+  const handleDelete = async () => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      try {
+        await deletePloggingComment(commentInfo.id);
+      } catch (err) {
+        alert("댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      } finally {
+        const newCommentData = await getCommentsByPost(postId);
+        setCommentData(newCommentData.data.commentDtoList);
+      }
+    } else {
+      return;
+    }
+  };
   return (
     <Wrapper>
       <HeadDiv>
@@ -28,7 +46,16 @@ const CommentBox = ({ commentInfo, userId }) => {
       </HeadDiv>
       <BodyDiv>
         <div>{commentInfo.content}</div>
-        <img src={ic_report} alt="report" className="report" />
+        {commentInfo.writerInfoDto.writerId === userId ? (
+          <img
+            src={ic_delete}
+            alt="delete"
+            className="delete"
+            onClick={handleDelete}
+          />
+        ) : (
+          <img src={ic_report} alt="report" className="report" />
+        )}
       </BodyDiv>
     </Wrapper>
   );
@@ -82,6 +109,12 @@ const BodyDiv = styled.div`
   align-items: flex-start;
 
   .report {
+    width: 16px;
+    cursor: pointer;
+    margin-left: 4px; // gap
+  }
+
+  .delete {
     width: 16px;
     cursor: pointer;
     margin-left: 4px; // gap

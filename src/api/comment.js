@@ -31,3 +31,13 @@ export const getCommentedPosts = async () => {
     throw err;
   }
 };
+
+// 모집글에 댓글 삭제하기
+export const deletePloggingComment = async (commentId) => {
+  try {
+    const res = await client.delete(`/api/v1/comments/${commentId}`);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
