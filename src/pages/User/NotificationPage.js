@@ -31,7 +31,7 @@ const NotificationPage = () => {
               <Notification
                 type={el.notificationType}
                 content={el.content}
-                postId={el.postId}
+                postId={el.contentId}
                 isRead={el.isRead}
                 id={el.id}
               />
