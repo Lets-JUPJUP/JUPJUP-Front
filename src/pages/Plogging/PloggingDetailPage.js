@@ -94,6 +94,13 @@ const PloggingDetailPage = () => {
   // 게시글 삭제 서버에 제출
   const handleDelete = async () => {
     if (window.confirm("해당 게시글을 삭제하시겠습니까?")) {
+      // 만약 참여자가 1명이라도 존재하면 게시글 삭제 불가 안내
+      if (plogMembersData.length > 0) {
+        alert(
+          "플로깅 모집글에 1명 이상의 참여자가 있다면 게시글 삭제가 불가합니다."
+        );
+        return;
+      }
       try {
         await deletePloggingPosts(postId);
       } catch (err) {
