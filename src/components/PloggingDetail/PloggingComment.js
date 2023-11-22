@@ -58,7 +58,11 @@ const PloggingComment = ({
                 {comment.replyList.length > 0
                   ? comment.replyList.map((cocomment, index) => {
                       return (
-                        <CoCommentBox key={index} cocommentInfo={cocomment} />
+                        <CoCommentBox
+                          key={index}
+                          cocommentInfo={cocomment}
+                          userId={userId}
+                        />
                       );
                     })
                   : null}

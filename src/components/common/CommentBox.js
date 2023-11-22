@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ic_user from "../../assets/common/user.png";
 import ic_comment from "../../assets/common/ic_comment.png";
@@ -15,6 +16,8 @@ const CommentBox = ({
   setWriteMode,
   setIsReplyMode,
 }) => {
+  const navigate = useNavigate();
+
   // 대댓글 작성하기
   const handleCoComment = () => {
     if (window.confirm("대댓글을 작성하시겠습니까?")) {
@@ -23,6 +26,11 @@ const CommentBox = ({
     } else {
       return;
     }
+  };
+
+  // 신고하기 페이지로 이동
+  const handleReport = () => {
+    navigate(`/user-report/${commentInfo.writerInfoDto.writerId}`);
   };
 
   // 댓글 삭제 서버에 제출
@@ -40,6 +48,7 @@ const CommentBox = ({
       return;
     }
   };
+
   return (
     <Wrapper>
       <HeadDiv>
@@ -75,7 +84,12 @@ const CommentBox = ({
             onClick={handleDelete}
           />
         ) : (
-          <img src={ic_report} alt="report" className="report" />
+          <img
+            src={ic_report}
+            alt="report"
+            className="report"
+            onClick={handleReport}
+          />
         )}
       </BodyDiv>
     </Wrapper>
