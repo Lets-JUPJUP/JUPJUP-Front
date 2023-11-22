@@ -1,12 +1,36 @@
 import styled from "styled-components";
-import ic_info from "../../assets/common/ic_info.png";
-
+import ad_1 from "../../assets/ad/ad_1.png";
+import ad_2 from "../../assets/ad/ad_2.png";
+import ad_3 from "../../assets/ad/ad_3.png";
+import Slider from "react-slick";
 // 광고 배너
 const AdBanner = ({ isNotFixed }) => {
+  const settings = {
+    dots: false,
+    infinite: true,
+    autoplay: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const list = [
+    {
+      img: ad_1,
+    },
+    {
+      img: ad_2,
+    },
+    {
+      img: ad_3,
+    },
+  ];
   return (
     <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
-      <img src={ic_info} alt="info" className="info" />
-      <div>(광고배너)</div>
+      <StyledSlider {...settings}>
+        {list.map((el) => {
+          return <img src={el.img} alt="" />;
+        })}
+      </StyledSlider>
     </Wrapper>
   );
 };
@@ -28,11 +52,17 @@ const Wrapper = styled.div`
     position: fixed;
     bottom: 0;
   }
+`;
 
-  .info {
-    width: 16px;
-    position: absolute;
-    top: 2px;
-    right: 2px;
+const StyledSlider = styled(Slider)`
+  width: 100%;
+
+  .slick-prev {
+    left: 10px;
+    z-index: 1;
+  }
+  .slick-next {
+    right: 10px;
+    z-index: 1;
   }
 `;
