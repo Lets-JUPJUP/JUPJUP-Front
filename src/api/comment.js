@@ -12,6 +12,19 @@ export const postPloggingComment = async (postId, comment) => {
   }
 };
 
+// 모집글에 대댓글 작성하기
+export const postPloggingReplyComment = async (postId, comment, parentId) => {
+  try {
+    const res = await client.post(`/api/v1/comments/reply/${postId}`, {
+      parentId: parentId,
+      content: comment,
+    });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 // 모집글에 댓글 조회하기
 export const getCommentsByPost = async (id) => {
   try {

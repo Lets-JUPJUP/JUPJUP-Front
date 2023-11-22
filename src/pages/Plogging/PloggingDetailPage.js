@@ -126,6 +126,7 @@ const PloggingDetailPage = () => {
               userId={userData.id}
               commentData={commentData}
               setCommentData={setCommentData}
+              setIsReplyMode={setIsReplyMode}
             />
             <FloatingButton isWriteBtnHidden={true} />
 

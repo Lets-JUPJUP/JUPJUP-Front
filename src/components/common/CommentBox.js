@@ -7,9 +7,25 @@ import { settingDate } from "./time";
 import { getCommentsByPost, deletePloggingComment } from "../../api/comment";
 
 // 댓글 컴포넌트
-const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
-  // 댓글 삭제 서버에 제출
+const CommentBox = ({
+  commentInfo,
+  postId,
+  userId,
+  setCommentData,
+  setWriteMode,
+  setIsReplyMode,
+}) => {
+  // 대댓글 작성하기
+  const handleCoComment = () => {
+    if (window.confirm("대댓글을 작성하시겠습니까?")) {
+      setWriteMode(true); // 댓글창 열기
+      setIsReplyMode([true, commentInfo.id]); // 대댓글 모드로 변경, parentId 전달
+    } else {
+      return;
+    }
+  };
 
+  // 댓글 삭제 서버에 제출
   const handleDelete = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       try {
@@ -41,7 +57,12 @@ const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
         </div>
         <div className="right">
           <div>{settingDate(commentInfo.createdDate)}</div>
-          <img src={ic_comment} alt="comment" className="comment" />
+          <img
+            src={ic_comment}
+            alt="comment"
+            className="comment"
+            onClick={handleCoComment}
+          />
         </div>
       </HeadDiv>
       <BodyDiv>
