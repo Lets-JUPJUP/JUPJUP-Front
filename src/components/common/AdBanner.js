@@ -28,7 +28,7 @@ const AdBanner = ({ isNotFixed }) => {
     <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
       <StyledSlider {...settings}>
         {list.map((el) => {
-          return <img src={el.img} alt="" />;
+          return <img className="banner_img" src={el.img} alt="" />;
         })}
       </StyledSlider>
     </Wrapper>
@@ -56,7 +56,11 @@ const Wrapper = styled.div`
 
 const StyledSlider = styled(Slider)`
   width: 100%;
+  height: 100%;
 
+  .banner_img {
+    height: 68px;
+  }
   .slick-prev {
     left: 10px;
     z-index: 1;
