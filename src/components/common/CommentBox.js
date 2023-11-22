@@ -75,7 +75,11 @@ const CommentBox = ({
         </div>
       </HeadDiv>
       <BodyDiv>
-        <div>{commentInfo.content}</div>
+        <div>
+          {commentInfo.isRemoved === true
+            ? "(작성자에 의해 삭제된 댓글입니다.)"
+            : commentInfo.content}
+        </div>
         {commentInfo.writerInfoDto.writerId === userId ? (
           <img
             src={ic_delete}
