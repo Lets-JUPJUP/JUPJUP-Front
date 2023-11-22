@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 
 import ic_star_default from "../../assets/common/ic_star_default.png";
@@ -6,34 +6,73 @@ import ic_star_clicked from "../../assets/common/ic_star_clicked.png";
 
 import useBottomDetection from "../common/useBottomDetection";
 
-const JoinFooter = ({ bsOpen, setBsOpen, setModalOpen }) => {
+import { countDDay } from "../common/time";
+import { deleteHeart, postHeart } from "../../api/heart";
+
+// isJoined === pageData로 받아온 참여하기 값,
+// isPlogjoined, setIsPlogJoined는 참여하기 토글
+const JoinFooter = ({
+  bsOpen,
+  setBsOpen,
+  setModalOpen,
+  curMemberNum,
+  maxMember,
+  dueDate,
+  isHearted,
+  isJoined,
+  isPlogJoined,
+  setIsPlogJoined,
+  postId,
+}) => {
   const isScrollBottom = useBottomDetection();
-  // 별 클릭 여부
+
+  // 찜하기(★) 여부
   const [isStarClicked, setIsStarClicked] = useState(false);
-  const onStarClick = () => {
+
+  useEffect(() => {
+    // 찜하기 초기 상태 설정
+    setIsStarClicked(isHearted);
+  }, [isHearted]);
+
+  // 찜하기(★) 클릭 시 실행되는 함수
+  const onStarClick = async () => {
+    isStarClicked === true
+      ? await deleteHeart(postId)
+      : await postHeart(postId);
     setIsStarClicked(!isStarClicked);
   };
+
+  useEffect(() => {
+    // 참여하기 초기 상태 설정
+    setIsPlogJoined(isJoined);
+  }, [isJoined]);
 
   // 00 / 00 참여 중 클릭 시 실행되는 함수
   const openParticipantList = () => {
     setBsOpen(true);
   };
 
-  const openModal = () => {
+  const openJoinModal = () => {
     setModalOpen(true);
   };
 
   return (
     <Wrapper className={isScrollBottom === true ? "displayNone" : ""}>
       <div className="main">
-        <BigBoldText>모집 마감까지 00시간 00분</BigBoldText>
+        <BigBoldText>{countDDay(dueDate)}</BigBoldText>
         <div className="right">
           <img
             src={isStarClicked === true ? ic_star_clicked : ic_star_default}
             alt="star"
             onClick={onStarClick}
           />
-          <JoinButton onClick={openModal}>참여하기</JoinButton>
+          {countDDay(dueDate) === "모집 마감" ? (
+            <JoinFinishButton>참여마감</JoinFinishButton>
+          ) : isPlogJoined === true ? (
+            <JoinAlreadyButton>참여중</JoinAlreadyButton>
+          ) : (
+            <JoinButton onClick={openJoinModal}>참여하기</JoinButton>
+          )}
         </div>
       </div>
       <div>
@@ -42,7 +81,8 @@ const JoinFooter = ({ bsOpen, setBsOpen, setModalOpen }) => {
           onClick={openParticipantList}
           style={{ visibility: bsOpen === true ? "hidden" : "visible" }}
         >
-          00 / 00 참여중 &gt;
+          {/* 플로깅 멤버는 본인 포함이므로 현재 멤버에 +1 */}
+          {curMemberNum + 1} / {maxMember} 참여중 &gt;
         </span>
       </div>
     </Wrapper>
@@ -109,12 +149,16 @@ const JoinButton = styled.button`
   border: 0px;
 `;
 
+const JoinAlreadyButton = styled(JoinButton)`
+  background: var(--white, #fff);
+`;
+
+const JoinFinishButton = styled(JoinButton)`
+  background: var(--midgrey, #7e7e7e);
+`;
+
 // 글씨 종류
 const BigBoldText = styled.div`
   font-size: 16px;
-  font-weight: 600;
-`;
-
-const SmallBoldText = styled.div`
   font-weight: 600;
 `;

@@ -2,24 +2,33 @@ import styled from "styled-components";
 import ic_arrow from "../../assets/PloggingDetail/ic_arrow.png";
 import ic_user from "../../assets/common/user.png";
 import ic_report from "../../assets/common/ic_report.png";
+import { settingDate } from "../common/time";
 
 // 대댓글 컴포넌트
-const CoCommentBox = () => {
+const CoCommentBox = ({ cocommentInfo }) => {
   return (
     <Wrapper>
       <img src={ic_arrow} alt="arrow" className="arrow" />
       <MainBox>
         <HeadDiv>
           <div className="left">
-            <img src={ic_user} alt="user" className="user" />
-            <BoldText>사용자 이름</BoldText>
+            <img
+              src={
+                cocommentInfo.writerInfoDto.profileImageUrl
+                  ? cocommentInfo.writerInfoDto.profileImageUrl
+                  : ic_user
+              }
+              alt="user"
+              className="user"
+            />
+            <BoldText>{cocommentInfo.writerInfoDto.nickname}</BoldText>
           </div>
           <div className="right">
-            <div>00/00 00:00</div>
+            <div>{settingDate(cocommentInfo.createdDate)}</div>
             <img src={ic_report} alt="report" className="report" />
           </div>
         </HeadDiv>
-        <BodyDiv>오 좋은 행사네요 전 신청했습니다~</BodyDiv>
+        <BodyDiv>{cocommentInfo.content}</BodyDiv>
       </MainBox>
     </Wrapper>
   );
@@ -66,6 +75,8 @@ const HeadDiv = styled.div`
 
   .user {
     width: 20px;
+    height: 20px;
+    border-radius: 20px;
   }
 
   .report {

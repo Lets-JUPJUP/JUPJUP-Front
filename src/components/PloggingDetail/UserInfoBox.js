@@ -11,12 +11,16 @@ tag1 : 태그1 (나이대)
 tag2 : 태그2 (성별)
 */
 
-const UserInfoBox = ({ isMine, name, tag1, tag2 }) => {
+const UserInfoBox = ({ isMine = false, profileImageUrl, name, tag1, tag2 }) => {
   return (
     <Wrapper className={isMine === true ? "" : "greyColor"}>
       <div className="section">
-        <img src={ic_userbig} alt="user" className="user" />
-        <div>{name}</div>
+        <img
+          src={profileImageUrl ? profileImageUrl : ic_userbig}
+          alt="user"
+          className="user"
+        />
+        <div className="userName">{name}</div>
       </div>
 
       <div className="section">
@@ -49,11 +53,20 @@ const Wrapper = styled.div`
 
   .user {
     width: 40px;
+    height: 40px;
+    border-radius: 40px;
   }
 
   .section {
     display: flex;
     align-items: center;
     gap: 8px;
+
+    .userName {
+      // 최대 넓이 초과 시 말줄임표
+      max-width: 150px;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `;

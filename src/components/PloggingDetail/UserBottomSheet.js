@@ -1,22 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import UserInfoBox from "./UserInfoBox";
 
+import { getAgeRange } from "../../components/common/ageRange";
+import { getKorGender } from "../../components/common/gender";
+import { memberGeUserProfile } from "../../api/member";
+
 // 플로깅 상세 페이지 사용자 목록
-const UserBottomSheet = () => {
+const UserBottomSheet = ({
+  curMemberNum,
+  maxMember,
+  authorId,
+  authorNickname,
+  authorProfileImageUrl,
+  plogMembersInfo,
+}) => {
+  const [authorData, setAuthorData] = useState({});
+  // authorId 기반으로 나이대, 성별 찾기
+  const getData = async () => {
+    const data = await memberGeUserProfile(authorId);
+    console.log("authorData", data);
+    setAuthorData(data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <Wrapper>
       <div className="title">이 플로깅의 참여자</div>
-      <div className="peopleNum">(00 / 00)</div>
-
-      <UserInfoBox isMine={true} name="사용자 이름" tag1="20대" tag2="여성" />
-      <DivisionLine />
-      <div className="participant">
-        <UserInfoBox name="사용자 이름" tag1="20대" tag2="여성" />
-        <UserInfoBox name="사용자 이름" tag1="30대" tag2="여성" />
-        <UserInfoBox name="사용자 이름" tag1="40대" tag2="남성" />
-        <UserInfoBox name="사용자 이름" tag1="20대" tag2="남성" />
+      <div className="peopleNum">
+        ({curMemberNum + 1} / {maxMember})
       </div>
+      {authorData ? (
+        <>
+          <UserInfoBox
+            isMine={true}
+            name={authorNickname}
+            profileImageUrl={authorProfileImageUrl}
+            tag1={getAgeRange(authorData.ageRange) + "대"}
+            tag2={getKorGender(authorData.gender)}
+          />
+          <DivisionLine />
+          <div className="participant">
+            {plogMembersInfo.length > 0 ? (
+              plogMembersInfo.map((member) => {
+                return (
+                  <UserInfoBox
+                    name={member.nickname}
+                    profileImageUrl={member.profileImageUrl}
+                    tag1={getAgeRange(member.ageRange) + "대"}
+                    tag2={getKorGender(member.gender)}
+                  />
+                );
+              })
+            ) : (
+              <div>이 플로깅에 참여한 다른 멤버가 없습니다.</div>
+            )}
+          </div>
+        </>
+      ) : (
+        <div>로딩 중...</div>
+      )}
     </Wrapper>
   );
 };
@@ -51,6 +95,8 @@ const Wrapper = styled.div`
     margin: 8px 0;
 
     width: 100%;
+    max-height: 250px;
+    overflow-y: scroll;
   }
 `;
 
