@@ -71,3 +71,13 @@ export const getPostsDetail = async (id) => {
     throw err;
   }
 };
+
+// 플로깅 모집글 삭제하기
+export const deletePloggingPosts = async (id) => {
+  try {
+    const res = await client.delete(`/api/v1/posts/${id}`);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
