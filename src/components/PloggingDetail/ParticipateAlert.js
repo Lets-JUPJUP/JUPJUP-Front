@@ -1,8 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
 import { styled } from "styled-components";
+import { getPostsJoinMembers, postPloggingJoin } from "../../api/postjoin";
 
-const ParticipateAlert = ({ setModalOpen }) => {
+const ParticipateAlert = ({
+  setModalOpen,
+  postId,
+  setIsPlogJoined,
+  setPlogMembersData,
+}) => {
   // 모달창 뜰 때 스크롤 방지
   useEffect(() => {
     document.body.style.position = "fixed";
@@ -15,6 +21,26 @@ const ParticipateAlert = ({ setModalOpen }) => {
     setModalOpen(false);
   };
 
+  const accept = async () => {
+    try {
+      // 참여하기 신청 post
+      await postPloggingJoin(postId);
+      setIsPlogJoined(true);
+      // 참여자 목록도 업데이트하기
+      const memberData = await getPostsJoinMembers(postId);
+      setPlogMembersData(memberData.data);
+    } catch (err) {
+      console.log(err);
+      if (err.message === "최대 인원을 초과하여 참여할 수 없습니다.") {
+        alert("최대 인원을 초과하여 플로깅에 참여할 수 없습니다.");
+      } else {
+        alert("참여하기 실행 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    } finally {
+      setModalOpen(false);
+    }
+  };
+
   return (
     <Wrapper>
       <AlertBox>
@@ -24,7 +50,9 @@ const ParticipateAlert = ({ setModalOpen }) => {
           <JoinButton className="no" onClick={refuse}>
             다시 생각해 볼게요
           </JoinButton>
-          <JoinButton className="yes">네, 알겠어요</JoinButton>
+          <JoinButton className="yes" onClick={accept}>
+            네, 알겠어요
+          </JoinButton>
         </div>
       </AlertBox>
     </Wrapper>
