@@ -62,7 +62,7 @@ const PloggingComment = ({
             );
           })
         ) : (
-          <div>해당 게시글에 대한 댓글이 없습니다.</div>
+          <div className="empty">해당 게시글에 대한 댓글이 없습니다.</div>
         )}
       </CommentDiv>
     </Wrapper>
@@ -97,6 +97,10 @@ const CommentDiv = styled.div`
 
   // 하단 댓글창 높이(34px)까지 합해서 여백 만들기
   margin-bottom: 42px;
+
+  .empty {
+    height: 100px;
+  }
 `;
 
 // 글씨 종류

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { memberGetMyProfile_ } from "../../api/member";
-
+import loading from "../../assets/common/loading.gif";
+import styled from "styled-components";
 const KakaoLoginPage = () => {
   const [searchParams, _] = useSearchParams();
 
@@ -28,7 +29,6 @@ const KakaoLoginPage = () => {
   useEffect(() => {
     const accessToken = searchParams.get("accessToken");
 
-    console.log(accessToken);
     if (accessToken) {
       navigateUser(accessToken); //로컬스토리지 비동기 저장으로 props로 전달
     } else {
@@ -37,7 +37,19 @@ const KakaoLoginPage = () => {
     }
   }, []);
 
-  return <div>카카오 로그인중..</div>;
+  return (
+    <Wrapper>
+      <img src={loading} alt="" />
+    </Wrapper>
+  );
 };
 
 export default KakaoLoginPage;
+
+const Wrapper = styled.div`
+  width: 100%;
+  margin-top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

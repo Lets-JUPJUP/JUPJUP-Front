@@ -15,8 +15,8 @@ export const notificationSubscribeSSE = async (accessToken) => {
 };
 
 //알림 조회
-export const notificationGetNotiList = async (page, size) => {
-  return client.get(`api/v1/notifications/list?page=${page}&size=${size}`);
+export const notificationGetNotiList = async () => {
+  return client.get(`api/v1/notifications/list`);
 };
 
 //전체 알림 읽음 처리
