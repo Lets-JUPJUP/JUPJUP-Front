@@ -9,8 +9,7 @@ const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const getData = async () => {
     try {
-      const data = (await notificationGetNotiList(0, 10)).data.data
-        .notificationResDtos;
+      const data = (await notificationGetNotiList()).data.data;
 
       data && setNotifications(data);
     } catch (err) {
