@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import logo from "../../assets/common/logo.png";
 import alarm from "../../assets/common/alarm.png";
+import new_notification from "../../assets/common/new_notification.png";
 import user from "../../assets/common/user.png";
 import GradientLine from "./GradientLine";
 import { useNavigate } from "react-router-dom";
@@ -64,7 +65,9 @@ const Header = ({
             if (!event.error.message.includes("No activity"))
               eventSource.close();
           };
-        } catch (error) {}
+        } catch (error) {
+          console.log(error);
+        }
       };
       fetchSse();
       return () => eventSource.close();
@@ -95,7 +98,14 @@ const Header = ({
 
         <div className="btns">
           {isNewNoti ? (
-            <>있음</>
+            <div
+              className="btn"
+              onClick={() => {
+                navigate("/notifications");
+              }}
+            >
+              <img src={new_notification} alt="알림모음으로" />
+            </div>
           ) : (
             <div
               className="btn"
