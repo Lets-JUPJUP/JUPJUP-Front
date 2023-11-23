@@ -16,12 +16,12 @@ const Recommendations = () => {
     <Wrapper>
       <div className="title">성동구 플로깅, 이 장소를 추천해요!</div>
 
-      {recommendationsData.map((list) => {
+      {recommendationsData.map((list, index) => {
         return (
-          <StyledSlider {...settings}>
-            {list.map((img) => {
+          <StyledSlider {...settings} key={index}>
+            {list.map((img, idx) => {
               return (
-                <Card>
+                <Card key={idx}>
                   <img src={img} alt="" />
                 </Card>
               );
