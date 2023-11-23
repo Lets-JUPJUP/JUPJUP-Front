@@ -84,8 +84,9 @@ const LoginSettingsPage = () => {
           //SSE 구독 요청
           notificationSubscribeSSE(tempToken);
           alert("회원가입 완료");
-          window.location.reload();
+
           navigate("/");
+          window.location.reload();
         }
       } catch (err) {
         console.log(err);

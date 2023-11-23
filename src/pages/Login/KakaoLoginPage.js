@@ -16,13 +16,14 @@ const KakaoLoginPage = () => {
     if (data.isProfileCreated) {
       localStorage.setItem("juptoken", accessToken); // 로컬 스토리지에 저장
       localStorage.setItem("id", data.id);
-      window.location.reload();
       navigate("/");
+      window.location.reload();
     } else {
       //토큰 임시 저장해 둔 뒤 프로필 생성 후 juptoken으로 토큰 다시 저장
       localStorage.setItem("temptoken", accessToken);
-      window.location.reload();
+
       navigate("/login-settings");
+      window.location.reload();
     }
   };
 
