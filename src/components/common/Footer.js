@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { memberPostWithdraw } from "../../api/member";
 
 // Footer
 const Footer = ({ isNotFixed = false }) => {
@@ -6,11 +7,27 @@ const Footer = ({ isNotFixed = false }) => {
     localStorage.removeItem("juptoken");
     window.location.reload("/");
   };
+
+  const onDelete = async () => {
+    const token = localStorage.getItem("juptoken");
+    if (token) {
+      try {
+        const res = await memberPostWithdraw(token);
+
+        if (res.status === 200) {
+          localStorage.removeItem("juptoken");
+          window.location.reload("/");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   return (
     <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
       <div className="contents">
         <div onClick={onLogout}>로그아웃</div>
-        <div>회원탈퇴</div>
+        <div onClick={onDelete}>회원탈퇴</div>
         <div>레츠 줍줍 (Let’s JUPJUP)</div>
       </div>
     </Wrapper>
