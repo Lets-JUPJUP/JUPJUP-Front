@@ -11,5 +11,5 @@ export const PrivateRoute = () => {
 const isTemp = !!localStorage.getItem("temptoken");
 
 export const PrivateRouteTemp = () => {
-  return isTemp ? <Outlet /> : <Navigate to="/" />;
+  return isLogin ? <Navigate to="/" /> : <Outlet />;
 };

@@ -57,7 +57,7 @@ export const memberGeUserProfile = async (memberId) => {
 export const memberGetMyProfile_ = async (accessToken) => {
   //자신 프로필 조회_ 토큰 직접 전달
   try {
-    const res = await axios.get("https://api.lets-jupjup.com/api/v1/members", {
+    const res = await axios.get(`${SERVER_DOMAIN}/api/v1/members`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -93,7 +93,7 @@ export const memberUpdateProfile_ = async (
 export const memberCheckValidName_ = async (nickname, accessToken) => {
   try {
     const res = await axios.post(
-      "https://api.lets-jupjup.com/api/v1/members/checkNickname",
+      `${SERVER_DOMAIN}/api/v1/members/checkNickname`,
       {
         nickname: nickname,
       },
@@ -113,4 +113,11 @@ export const memberCheckValidName_ = async (nickname, accessToken) => {
 //액세스 토큰 재발급
 export const memberGetNewToken = async () => {
   return tempClient.post("api/v1/auth/refresh");
+};
+
+//회원탈퇴
+export const memberPostWithdraw = async (token) => {
+  return axios.post(`${SERVER_DOMAIN}/api/v1/auth/withdraw`, {
+    accessToken: token,
+  });
 };
