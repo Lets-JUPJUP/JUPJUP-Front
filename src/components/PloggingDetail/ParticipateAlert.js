@@ -33,6 +33,10 @@ const ParticipateAlert = ({
       console.log(err);
       if (err.message === "최대 인원을 초과하여 참여할 수 없습니다.") {
         alert("최대 인원을 초과하여 플로깅에 참여할 수 없습니다.");
+      } else if (err.message === "성별이 해당 플로깅의 조건과 맞지 않습니다.") {
+        alert("성별이 해당 플로깅의 조건과 맞지 않습니다.");
+      } else if (err.message === "나이가 해당 플로깅의 조건과 맞지 않습니다.") {
+        alert("나이가 해당 플로깅의 조건과 맞지 않습니다.");
       } else {
         alert("참여하기 실행 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
       }

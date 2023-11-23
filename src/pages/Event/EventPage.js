@@ -12,6 +12,7 @@ import {
   eventGetEventDetail,
   eventGetJoinCount,
   eventPostJoin,
+  getEventComment,
 } from "../../api/event";
 const EventPage = () => {
   // 클릭 여부
@@ -19,8 +20,13 @@ const EventPage = () => {
   const [data, setData] = useState({});
   const [count, setCount] = useState("");
 
-  const { id } = useParams();
+  // 댓글 데이터
+  const [commentData, setCommentData] = useState([]);
 
+  const { id } = useParams(); // 이벤트 게시글 아이디
+  const userId = parseInt(localStorage.getItem("id")); // 유저 아이디
+
+  // 관심 있어요 (★) 클릭
   const onStarClick = () => {
     if (isClicked === false) {
       //관심있어요 post
@@ -60,6 +66,15 @@ const EventPage = () => {
     } catch (err) {
       alert("데이터를 가져올 수 없습니다.");
     }
+
+    try {
+      // 댓글 가져오기
+      const data = await getEventComment(id);
+      console.log("댓글", data.data.eventcommentDtoList);
+      setCommentData(data.data.eventcommentDtoList);
+    } catch (err) {
+      alert("데이터를 가져올 수 없습니다.");
+    }
   };
 
   useEffect(() => {
@@ -93,16 +108,32 @@ const EventPage = () => {
       </div>
       <AdBanner isNotFixed={true} />
 
-      {/* 여기서 undefined 오류나서 주석처리 해뒀습니다 */}
-      {/* <CommentDiv>
-        <CommentBox />
-        <CommentBox />
-        <CommentBox />
-        <CommentBox />
-        <CommentBox />
-      </CommentDiv> */}
+      <CommentDiv>
+        {commentData.length > 0 ? (
+          commentData.map((comment, index) => {
+            return (
+              <CommentBox
+                key={index}
+                commentInfo={comment}
+                postId={id}
+                userId={userId}
+                setCommentData={setCommentData}
+                location="event"
+              />
+            );
+          })
+        ) : (
+          <div className="empty">해당 게시글에 대한 댓글이 없습니다.</div>
+        )}
+      </CommentDiv>
 
-      {/* <CommentInput /> */}
+      {/* setWriteMode, setIsReplyMode 생략 */}
+      <CommentInput
+        location="event"
+        postId={id}
+        isReplyMode={[false, null]}
+        setCommentData={setCommentData}
+      />
     </Wrapper>
   );
 };
@@ -158,4 +189,8 @@ const CommentDiv = styled.div`
 
   // 하단 댓글창 최대 높이(88px) + 여백 12px까지 합해서 여백 만들기
   margin-bottom: 100px;
+
+  .empty {
+    height: 100px;
+  }
 `;
