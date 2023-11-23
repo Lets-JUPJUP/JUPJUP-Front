@@ -8,7 +8,6 @@ import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 
 import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
-import { notificationSubscribeSSE } from "../../api/notification";
 
 import background2 from "../../assets/login/background2.png";
 import tag from "../../assets/login/tag.png";
@@ -47,8 +46,6 @@ const LoginSettingsPage = () => {
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
       setGender(data.gender);
-    } else {
-      setShowModal(true);
     }
     setNickname(data.nickname);
   };
@@ -81,8 +78,6 @@ const LoginSettingsPage = () => {
           localStorage.setItem("id", myProfile.id);
           localStorage.removeItem("temptoken");
 
-          //SSE 구독 요청
-          notificationSubscribeSSE(tempToken);
           alert("회원가입 완료");
 
           navigate("/");
@@ -90,8 +85,10 @@ const LoginSettingsPage = () => {
         }
       } catch (err) {
         console.log(err);
-        alert("회원가입 & SSE 구독 오류");
+        alert("회원가입 오류");
       }
+    } else if (!isHaveGender && isValid) {
+      setShowModal(true);
     } else {
       alert("유효하지 않은 닉네임입니다.");
     }
@@ -106,13 +103,19 @@ const LoginSettingsPage = () => {
             <div className="subtitle">이후 수정이 불가능한 정보입니다</div>
             <div className="btns">
               <GenderBtn
-                onClick={() => setGender("MALE")}
+                onClick={() => {
+                  setGender("MALE");
+                  setIsHaveGender(true);
+                }}
                 $isClicked={gender === "MALE"}
               >
                 남성
               </GenderBtn>
               <GenderBtn
-                onClick={() => setGender("FEMALE")}
+                onClick={() => {
+                  setGender("FEMALE");
+                  setIsHaveGender(true);
+                }}
                 $isClicked={gender === "FEMALE"}
               >
                 여성

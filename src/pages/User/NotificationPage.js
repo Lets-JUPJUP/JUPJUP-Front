@@ -38,7 +38,7 @@ const NotificationPage = () => {
           })}
         </div>
       </Wrapper>
-
+      <div style={{ height: 100 + "px" }}></div>
       <AdBanner />
     </>
   );
