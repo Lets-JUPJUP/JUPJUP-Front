@@ -27,6 +27,7 @@ const EventPage = () => {
       try {
         eventPostJoin(id);
         setIsClicked(!isClicked);
+        setCount(count + 1);
       } catch (err) {
         alert("요청 오류");
       }
@@ -35,6 +36,7 @@ const EventPage = () => {
       try {
         eventDeleteJoin(id);
         setIsClicked(!isClicked);
+        setCount(count - 1);
       } catch (err) {
         alert("요청 오류");
       }
