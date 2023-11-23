@@ -8,6 +8,7 @@ import Recommendations from "../../components/main/Recommendations";
 import { useNavigate } from "react-router-dom";
 import { postsGetMyCount } from "../../api/posts";
 import { eventGetEventList } from "../../api/event";
+import Footer from "../../components/common/Footer";
 const MainPage = () => {
   const navigate = useNavigate();
 
@@ -76,6 +77,7 @@ const MainPage = () => {
           </div>
         </div>
       </Wrapper>
+      {isLogin && <Footer isNotFixed={true} />}
     </>
   );
 };

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 const Header = ({
   title,
-  isLogin = false,
   isDetailPage = false,
   title2 = false,
   link = false,
@@ -21,9 +20,6 @@ const Header = ({
     window.location.href = `${link}`;
   };
 
-  if (localStorage.getItem("juptoken")) {
-    isLogin = true;
-  }
   const navigate = useNavigate();
 
   return (
@@ -48,26 +44,24 @@ const Header = ({
           </div>
         )}
 
-        {isLogin && (
-          <div className="btns">
-            <div
-              className="btn"
-              onClick={() => {
-                navigate("/notifications");
-              }}
-            >
-              <img src={alarm} alt="알림모음으로" />
-            </div>
-            <div
-              className="btn"
-              onClick={() => {
-                navigate("/mypage");
-              }}
-            >
-              <img src={user} alt="마이페이지로" />
-            </div>
+        <div className="btns">
+          <div
+            className="btn"
+            onClick={() => {
+              navigate("/notifications");
+            }}
+          >
+            <img src={alarm} alt="알림모음으로" />
           </div>
-        )}
+          <div
+            className="btn"
+            onClick={() => {
+              navigate("/mypage");
+            }}
+          >
+            <img src={user} alt="마이페이지로" />
+          </div>
+        </div>
       </Wrapper>
 
       {isDetailPage === true ? <GradientLine /> : null}
