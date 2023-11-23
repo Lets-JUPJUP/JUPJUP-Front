@@ -77,7 +77,7 @@ const MainPage = () => {
           </div>
         </div>
       </Wrapper>
-      <Footer isNotFixed={true} />
+      {isLogin && <Footer isNotFixed={true} />}
     </>
   );
 };
