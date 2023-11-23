@@ -107,7 +107,7 @@ const MyPageUpdate = () => {
           <Top3Badges list={badges} />
         </div>
       </Wrapper>
-      <Footer />
+      <Footer isNotFixed={true} />
     </>
   );
 };
