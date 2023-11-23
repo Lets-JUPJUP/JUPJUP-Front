@@ -45,7 +45,7 @@ const LoginSettingsPage = () => {
     setMyProfile(data);
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(false); //true로 바꿔
-      // setGender(data.gender);
+      setGender(data.gender);
     }
     setNickname(data.nickname);
   };
