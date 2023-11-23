@@ -15,6 +15,7 @@ const CommentBox = ({
   setCommentData,
   setWriteMode,
   setIsReplyMode,
+  location = "ploggingDetail",
 }) => {
   const navigate = useNavigate();
 
@@ -66,12 +67,21 @@ const CommentBox = ({
         </div>
         <div className="right">
           <div>{settingDate(commentInfo.createdDate)}</div>
-          <img
-            src={ic_comment}
-            alt="comment"
-            className="comment"
-            onClick={handleCoComment}
-          />
+          {commentInfo.writerInfoDto.writerId === userId ? (
+            <img
+              src={ic_delete}
+              alt="delete"
+              className="delete"
+              onClick={handleDelete}
+            />
+          ) : (
+            <img
+              src={ic_report}
+              alt="report"
+              className="report"
+              onClick={handleReport}
+            />
+          )}
         </div>
       </HeadDiv>
       <BodyDiv>
@@ -80,19 +90,12 @@ const CommentBox = ({
             ? "(작성자에 의해 삭제된 댓글입니다.)"
             : commentInfo.content}
         </div>
-        {commentInfo.writerInfoDto.writerId === userId ? (
+        {location === "event" ? null : (
           <img
-            src={ic_delete}
-            alt="delete"
-            className="delete"
-            onClick={handleDelete}
-          />
-        ) : (
-          <img
-            src={ic_report}
-            alt="report"
-            className="report"
-            onClick={handleReport}
+            src={ic_comment}
+            alt="comment"
+            className="comment"
+            onClick={handleCoComment}
           />
         )}
       </BodyDiv>
@@ -131,9 +134,16 @@ const HeadDiv = styled.div`
     border-radius: 20px;
   }
 
-  .comment {
+  .report {
     width: 16px;
     cursor: pointer;
+    margin-left: 4px; // gap
+  }
+
+  .delete {
+    width: 16px;
+    cursor: pointer;
+    margin-left: 4px; // gap
   }
 `;
 
@@ -147,16 +157,9 @@ const BodyDiv = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 
-  .report {
+  .comment {
     width: 16px;
     cursor: pointer;
-    margin-left: 4px; // gap
-  }
-
-  .delete {
-    width: 16px;
-    cursor: pointer;
-    margin-left: 4px; // gap
   }
 `;
 
