@@ -7,19 +7,54 @@ import AdBanner from "../../components/common/AdBanner";
 import CommentBox from "../../components/common/CommentBox";
 import CommentInput from "../../components/common/CommentInput";
 import { useParams } from "react-router-dom";
-import { eventGetEventDetail } from "../../api/event";
+import {
+  eventDeleteJoin,
+  eventGetEventDetail,
+  eventGetJoinCount,
+  eventPostJoin,
+} from "../../api/event";
 const EventPage = () => {
   // 클릭 여부
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false); //디폴트값 현재 정보로
   const [data, setData] = useState({});
-  const onStarClick = () => {
-    setIsClicked(!isClicked);
-  };
+  const [count, setCount] = useState("");
+
   const { id } = useParams();
+
+  const onStarClick = () => {
+    if (isClicked === false) {
+      //관심있어요 post
+      try {
+        eventPostJoin(id);
+        setIsClicked(true);
+      } catch (err) {
+        alert("요청 오류");
+      }
+    } else if (isClicked === true) {
+      //관심있어요 취소
+      try {
+        eventDeleteJoin(id);
+        setIsClicked(true);
+      } catch (err) {
+        alert("요청 오류");
+      }
+    }
+  };
+
   const getData = async () => {
     try {
       const res = (await eventGetEventDetail(id)).data.data;
+
       setData(res);
+      setIsClicked(res.joined); //현재 참가 여부
+    } catch (err) {
+      alert("데이터를 가져올 수 없습니다.");
+    }
+
+    try {
+      const count = (await eventGetJoinCount(id)).data.data.joinCount;
+
+      setCount(count);
     } catch (err) {
       alert("데이터를 가져올 수 없습니다.");
     }
@@ -42,7 +77,7 @@ const EventPage = () => {
               className="star"
               onClick={onStarClick}
             />
-            <BoldText>관심 있어요</BoldText>
+            <BoldText>관심 있어요 &#40;{count}&#41;</BoldText>
           </div>
           <BoldText
             className="link"
