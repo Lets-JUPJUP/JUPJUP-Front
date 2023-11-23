@@ -47,8 +47,6 @@ const LoginSettingsPage = () => {
     if (data.gender !== "NOT_DEFINED") {
       setIsHaveGender(true);
       setGender(data.gender);
-    } else {
-      setShowModal(true);
     }
     setNickname(data.nickname);
   };
@@ -92,6 +90,8 @@ const LoginSettingsPage = () => {
         console.log(err);
         alert("회원가입 & SSE 구독 오류");
       }
+    } else if (!isHaveGender && isValid) {
+      setShowModal(true);
     } else {
       alert("유효하지 않은 닉네임입니다.");
     }
