@@ -63,7 +63,7 @@ const ValidNameCheck = ({
         ) : (
           <>
             <input
-              maxLength="15"
+              maxLength="8"
               autofocus="autofocus"
               className="name-input"
               placeholder={nickname}
