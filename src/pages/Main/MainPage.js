@@ -34,9 +34,7 @@ const MainPage = () => {
     }
   };
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1);
+    getData();
   }, []);
   return (
     <>
