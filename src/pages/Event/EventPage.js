@@ -26,7 +26,7 @@ const EventPage = () => {
       //관심있어요 post
       try {
         eventPostJoin(id);
-        setIsClicked(true);
+        setIsClicked(!isClicked);
       } catch (err) {
         alert("요청 오류");
       }
@@ -34,7 +34,7 @@ const EventPage = () => {
       //관심있어요 취소
       try {
         eventDeleteJoin(id);
-        setIsClicked(true);
+        setIsClicked(!isClicked);
       } catch (err) {
         alert("요청 오류");
       }
