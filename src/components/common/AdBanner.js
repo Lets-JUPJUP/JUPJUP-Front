@@ -57,7 +57,8 @@ const Wrapper = styled.div`
 `;
 
 const Banner = styled.div`
-  width: 390px;
+  max-width: 390px;
+  width: 100vw;
   height: 68px;
 `;
 
