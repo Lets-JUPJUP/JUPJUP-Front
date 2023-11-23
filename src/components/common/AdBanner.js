@@ -25,22 +25,24 @@ const AdBanner = ({ isNotFixed }) => {
     },
   ];
   return (
-    <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
-      <StyledSlider {...settings}>
-        {list.map((el) => {
-          return <img className="banner_img" src={el.img} alt="" />;
-        })}
-      </StyledSlider>
-    </Wrapper>
+    <Wrapper2 className={isNotFixed === true ? "" : "isFixed"}>
+      <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
+        <StyledSlider {...settings}>
+          {list.map((el) => {
+            return <img className="banner_img" src={el.img} alt="" />;
+          })}
+        </StyledSlider>
+      </Wrapper>
+    </Wrapper2>
   );
 };
 
 export default AdBanner;
 
-const Wrapper = styled.div`
+const Wrapper2 = styled.div`
   width: 100%;
-  height: 68px;
   background: var(--grey, #e8e8e8);
+  height: 68px;
 
   display: flex;
   align-items: center;
@@ -52,6 +54,11 @@ const Wrapper = styled.div`
     position: fixed;
     bottom: 0;
   }
+`;
+
+const Wrapper = styled.div`
+  width: 390px;
+  height: 68px;
 `;
 
 const StyledSlider = styled(Slider)`
