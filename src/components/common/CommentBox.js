@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ic_user from "../../assets/common/user.png";
 import ic_comment from "../../assets/common/ic_comment.png";
@@ -7,9 +8,32 @@ import { settingDate } from "./time";
 import { getCommentsByPost, deletePloggingComment } from "../../api/comment";
 
 // 댓글 컴포넌트
-const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
-  // 댓글 삭제 서버에 제출
+const CommentBox = ({
+  commentInfo,
+  postId,
+  userId,
+  setCommentData,
+  setWriteMode,
+  setIsReplyMode,
+}) => {
+  const navigate = useNavigate();
 
+  // 대댓글 작성하기
+  const handleCoComment = () => {
+    if (window.confirm("대댓글을 작성하시겠습니까?")) {
+      setWriteMode(true); // 댓글창 열기
+      setIsReplyMode([true, commentInfo.id]); // 대댓글 모드로 변경, parentId 전달
+    } else {
+      return;
+    }
+  };
+
+  // 신고하기 페이지로 이동
+  const handleReport = () => {
+    navigate(`/user-report/${commentInfo.writerInfoDto.writerId}`);
+  };
+
+  // 댓글 삭제 서버에 제출
   const handleDelete = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       try {
@@ -24,6 +48,7 @@ const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
       return;
     }
   };
+
   return (
     <Wrapper>
       <HeadDiv>
@@ -41,11 +66,20 @@ const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
         </div>
         <div className="right">
           <div>{settingDate(commentInfo.createdDate)}</div>
-          <img src={ic_comment} alt="comment" className="comment" />
+          <img
+            src={ic_comment}
+            alt="comment"
+            className="comment"
+            onClick={handleCoComment}
+          />
         </div>
       </HeadDiv>
       <BodyDiv>
-        <div>{commentInfo.content}</div>
+        <div>
+          {commentInfo.isRemoved === true
+            ? "(작성자에 의해 삭제된 댓글입니다.)"
+            : commentInfo.content}
+        </div>
         {commentInfo.writerInfoDto.writerId === userId ? (
           <img
             src={ic_delete}
@@ -54,7 +88,12 @@ const CommentBox = ({ commentInfo, postId, userId, setCommentData }) => {
             onClick={handleDelete}
           />
         ) : (
-          <img src={ic_report} alt="report" className="report" />
+          <img
+            src={ic_report}
+            alt="report"
+            className="report"
+            onClick={handleReport}
+          />
         )}
       </BodyDiv>
     </Wrapper>

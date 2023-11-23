@@ -1,11 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ic_arrow from "../../assets/PloggingDetail/ic_arrow.png";
 import ic_user from "../../assets/common/user.png";
+import ic_delete from "../../assets/common/ic_delete.png";
 import ic_report from "../../assets/common/ic_report.png";
 import { settingDate } from "../common/time";
 
 // 대댓글 컴포넌트
-const CoCommentBox = ({ cocommentInfo }) => {
+const CoCommentBox = ({ cocommentInfo, userId }) => {
+  const navigate = useNavigate();
+
+  // 신고하기 페이지로 이동
+  const handleReport = () => {
+    navigate(`/user-report/${cocommentInfo.writerInfoDto.writerId}`);
+  };
+
   return (
     <Wrapper>
       <img src={ic_arrow} alt="arrow" className="arrow" />
@@ -25,7 +34,16 @@ const CoCommentBox = ({ cocommentInfo }) => {
           </div>
           <div className="right">
             <div>{settingDate(cocommentInfo.createdDate)}</div>
-            <img src={ic_report} alt="report" className="report" />
+            {cocommentInfo.writerInfoDto.writerId === userId ? (
+              <img src={ic_delete} alt="delete" className="delete" />
+            ) : (
+              <img
+                src={ic_report}
+                alt="report"
+                className="report"
+                onClick={handleReport}
+              />
+            )}
           </div>
         </HeadDiv>
         <BodyDiv>{cocommentInfo.content}</BodyDiv>
@@ -79,7 +97,7 @@ const HeadDiv = styled.div`
     border-radius: 20px;
   }
 
-  .report {
+  .delete, .report {
     width: 16px;
     cursor: pointer;
   }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 import Header from "../../components/common/Header";
 
+import ic_close from "../../assets/common/ic_close.png";
 import ic_share from "../../assets/PloggingDetail/ic_share.png";
 
 import PostImageBox from "../../components/PloggingDetail/PostImageBox";
@@ -20,7 +21,7 @@ import "react-spring-bottom-sheet/dist/style.css";
 import UserBottomSheet from "../../components/PloggingDetail/UserBottomSheet";
 import ParticipateAlert from "../../components/PloggingDetail/ParticipateAlert";
 
-import { getPostsDetail } from "../../api/posts";
+import { deletePloggingPosts, getPostsDetail } from "../../api/posts";
 import { memberGetMyProfile } from "../../api/member";
 import { getPostsJoinMembers } from "../../api/postjoin";
 
@@ -88,6 +89,33 @@ const PloggingDetailPage = () => {
     getUserData();
   }, []);
 
+  const navigate = useNavigate();
+
+  // 게시글 삭제 서버에 제출
+  const handleDelete = async () => {
+    if (window.confirm("해당 게시글을 삭제하시겠습니까?")) {
+      // 만약 참여자가 1명이라도 존재하면 게시글 삭제 불가 안내
+      if (plogMembersData.length > 0) {
+        alert(
+          "플로깅 모집글에 1명 이상의 참여자가 있다면 게시글 삭제가 불가합니다."
+        );
+        return;
+      }
+      try {
+        await deletePloggingPosts(postId);
+      } catch (err) {
+        alert(
+          "게시글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요."
+        );
+        console.log(err);
+      } finally {
+        navigate(`/plogging-list`);
+      }
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
       <Fixed>
@@ -99,7 +127,17 @@ const PloggingDetailPage = () => {
             <PostImageBox fileUrls={pageData.fileUrls} />
 
             <ShareDiv>
-              <img src={ic_share} alt="share" />
+              {/* 게시글 작성자와 유저의 아이디가 같을 때만 삭제 */}
+              {pageData.authorId === userData.id ? (
+                <img
+                  src={ic_close}
+                  alt="delete"
+                  className="delete"
+                  onClick={handleDelete}
+                />
+              ) : null}
+
+              <img src={ic_share} alt="share" className="share" />
             </ShareDiv>
             <DivisionLine />
             {/* 플로깅 정보 */}
@@ -126,6 +164,7 @@ const PloggingDetailPage = () => {
               userId={userData.id}
               commentData={commentData}
               setCommentData={setCommentData}
+              setIsReplyMode={setIsReplyMode}
             />
             <FloatingButton isWriteBtnHidden={true} />
 
@@ -203,7 +242,14 @@ const ShareDiv = styled.div`
 
   display: flex;
   justify-content: flex-end;
-  img {
+  align-items: center;
+
+  .delete {
+    width: 20px;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+  .share {
     width: 16px;
     cursor: pointer;
   }

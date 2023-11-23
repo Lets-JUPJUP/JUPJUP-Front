@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import ic_star_default from "../../assets/common/ic_star_default.png";
 import ic_star_clicked from "../../assets/common/ic_star_clicked.png";
 import ic_star_default_main from "../../assets/common/ic_star_default_main.png";
 import ic_star_clicked_main from "../../assets/common/ic_star_clicked_main.png";
+
+import img_default1 from "../../assets/common/defaultImage/img_default1.png";
+import img_default2 from "../../assets/common/defaultImage/img_default2.png";
+import img_default3 from "../../assets/common/defaultImage/img_default3.png";
+
 import Tag from "./Tag";
 import { settingGender } from "./gender";
 import { settingAge } from "./ageRange";
@@ -74,10 +80,17 @@ const PloggingPostBox = ({
 
   // 이미지 url 설정 (ex. "https://~~")
   const settingImageUrl = () => {
-    // 기본 이미지
-    const defaultImgUrl =
-      "https://img.freepik.com/premium-vector/environmental-protection-banner-people-are-jogging-and-picking-up-trash-plogging_540284-690.jpg";
-    return fileUrls.length > 0 ? fileUrls[0] : defaultImgUrl;
+    if (fileUrls?.length > 0) {
+      // 이미지가 있으면
+      return fileUrls[0];
+    } else {
+      // 이미지가 없는 경우 기본 이미지 3개 중에 출력
+      return id % 3 === 0
+        ? img_default1
+        : id % 3 === 1
+        ? img_default2
+        : img_default3;
+    }
   };
 
   return (
@@ -92,7 +105,7 @@ const PloggingPostBox = ({
           <div>장소 | {startPlace}</div>
         </Content>
         <Content className="content">
-          <div>일시 | {settingDate(startDate)+"~"}</div>
+          <div>일시 | {settingDate(startDate) + "~"}</div>
           <div className="tagList">
             <Tag name={settingAge(postAgeRanges)} status={status} />
             <Tag name={settingGender(postGender)} status={status} />

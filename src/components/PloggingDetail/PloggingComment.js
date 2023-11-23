@@ -12,6 +12,7 @@ const PloggingComment = ({
   userId,
   commentData,
   setCommentData,
+  setIsReplyMode,
 }) => {
   // 댓글 개수 (대댓글 포함)
   const [commentNo, setCommentNo] = useState(0);
@@ -34,6 +35,7 @@ const PloggingComment = ({
           className="linkText"
           onClick={() => {
             setWriteMode(!writeMode);
+            setIsReplyMode([false, null]); // 만약 대댓글 모드일 경우 false 처리
           }}
         >
           {writeMode === true ? "돌아가기 >" : "댓글 작성하기 >"}
@@ -50,11 +52,17 @@ const PloggingComment = ({
                   postId={postId}
                   userId={userId}
                   setCommentData={setCommentData}
+                  setWriteMode={setWriteMode}
+                  setIsReplyMode={setIsReplyMode}
                 />
                 {comment.replyList.length > 0
                   ? comment.replyList.map((cocomment, index) => {
                       return (
-                        <CoCommentBox key={index} cocommentInfo={cocomment} />
+                        <CoCommentBox
+                          key={index}
+                          cocommentInfo={cocomment}
+                          userId={userId}
+                        />
                       );
                     })
                   : null}

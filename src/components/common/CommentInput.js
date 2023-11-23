@@ -3,7 +3,11 @@ import styled from "styled-components";
 import ic_close from "../../assets/common/ic_close.png";
 import ic_arrowup from "../../assets/common/ic_arrowup.png";
 import ic_arrowup_white from "../../assets/common/ic_arrowup_white.png";
-import { getCommentsByPost, postPloggingComment } from "../../api/comment";
+import {
+  getCommentsByPost,
+  postPloggingComment,
+  postPloggingReplyComment,
+} from "../../api/comment";
 
 // 댓글 입력창
 const CommentInput = ({
@@ -22,6 +26,7 @@ const CommentInput = ({
   // 댓글 창 close 버튼 클릭 시 댓글 창이 사라지고 footer 등장
   const closeInput = () => {
     setWriteMode(false);
+    setIsReplyMode([false, null]); // 대댓글 모드 false, parentId 지우기
   };
 
   // 댓글 서버에 제출
@@ -35,7 +40,9 @@ const CommentInput = ({
         // 공식 행사 페이지일 때
       } else {
         // 플로깅 상세 페이지일 때
-        await postPloggingComment(postId, content); // 댓글 post
+        isReplyMode[0] === true
+          ? await postPloggingReplyComment(postId, content, isReplyMode[1]) // 대댓글일 경우 post
+          : await postPloggingComment(postId, content); // 일반 댓글일 경우 post
       }
     } catch (err) {
       alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
@@ -45,6 +52,8 @@ const CommentInput = ({
       // 댓글 업데이트
       const newCommentData = await getCommentsByPost(postId);
       setCommentData(newCommentData.data.commentDtoList);
+      // 대댓글 모드 false
+      setIsReplyMode([false, null]);
     }
   };
 
@@ -60,7 +69,11 @@ const CommentInput = ({
           />
           <MainDiv className="focused">
             <textarea
-              placeholder="댓글을 입력해봐요."
+              placeholder={
+                isReplyMode[0] === true
+                  ? "대댓글을 입력해봐요."
+                  : "댓글을 입력해봐요."
+              }
               onChange={(e) => {
                 setContent(e.target.value);
               }}
@@ -79,7 +92,13 @@ const CommentInput = ({
             setInputFocused(true);
           }}
         >
-          <Text>{content.length > 0 ? content : "댓글을 입력해봐요."}</Text>
+          <Text>
+            {content.length > 0
+              ? content
+              : isReplyMode[0] === true
+              ? "대댓글을 입력해봐요."
+              : "댓글을 입력해봐요."}
+          </Text>
           <img src={ic_arrowup_white} alt="submit" />
         </MainDiv>
       )}
