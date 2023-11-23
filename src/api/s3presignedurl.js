@@ -16,7 +16,6 @@ export const s3PutImageToUrl = async (imgFile, url) => {
     "Content-Type": imgFile.type,
   };
   axios.put(url, imgFile, { headers });
-  console.log(url);
 };
 
 //이미지 파일 배열을 넣으면 url 발급 & 업로드 완료한 url 배열을 반환하는 함수
@@ -29,14 +28,10 @@ export const s3GetImageUrl = async (imgFile) => {
       return el.name;
     })
   );
-  console.log(imgFile);
-  console.log(imageNames);
 
   //s3 presigned url 얻기
   const res = await s3GetPresignedUrls(imageNames);
   const presigned_urls = res.data.data;
-
-  console.log(presigned_urls);
 
   //각 이미지 발급 받은 url에 업로드
   for (var i = 0; i < imgFile.length; i++) {

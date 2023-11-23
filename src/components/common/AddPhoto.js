@@ -15,7 +15,6 @@ const AddPhoto = ({
 
   //사진 미리보기
   const handlePreviewImgs = (files) => {
-    console.log(files);
     setPreviewImgs([]); //초기화
 
     for (var i = 0; i < files.length; i++) {

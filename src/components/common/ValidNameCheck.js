@@ -38,7 +38,6 @@ const ValidNameCheck = ({
       data = await memberCheckValidName(nickname);
     }
 
-    console.log(data);
     if (data && data.isExistingNickname === false && checkValidExpression()) {
       setIsValid(true);
     } else {

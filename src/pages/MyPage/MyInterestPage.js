@@ -15,7 +15,6 @@ const MyInterestPage = () => {
   const getData = async () => {
     const data = await getInterestPosts();
     setMyData(data.posts);
-    console.log(data.posts);
   };
   useEffect(() => {
     getData();

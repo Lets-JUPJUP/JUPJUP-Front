@@ -8,7 +8,6 @@ export const memberGetMyProfile = async () => {
   try {
     const res = await client.get("api/v1/members");
 
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     console.log(err);
@@ -37,7 +36,6 @@ export const memberUpdateProfile = async (nickname, gender, profileImage) => {
       profileImage: profileImage,
     });
 
-    console.log(res);
     return res.status;
   } catch (err) {
     alert("회원가입 오류");
@@ -49,7 +47,6 @@ export const memberGeUserProfile = async (memberId) => {
   try {
     const res = await client.get(`/api/v1/members/${memberId}`);
 
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     console.log(err);
@@ -60,14 +57,12 @@ export const memberGeUserProfile = async (memberId) => {
 export const memberGetMyProfile_ = async (accessToken) => {
   //자신 프로필 조회_ 토큰 직접 전달
   try {
-    console.log(accessToken);
     const res = await axios.get("https://api.lets-jupjup.com/api/v1/members", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     console.log(err);
@@ -80,8 +75,6 @@ export const memberUpdateProfile_ = async (
   profileImage,
   accessToken
 ) => {
-  console.log("여기");
-  console.log(accessToken);
   return await axios.put(
     `${SERVER_DOMAIN}/api/v1/members`,
     {
@@ -99,7 +92,6 @@ export const memberUpdateProfile_ = async (
 
 export const memberCheckValidName_ = async (nickname, accessToken) => {
   try {
-    console.log("임시 닉네임 체크", accessToken);
     const res = await axios.post(
       "https://api.lets-jupjup.com/api/v1/members/checkNickname",
       {

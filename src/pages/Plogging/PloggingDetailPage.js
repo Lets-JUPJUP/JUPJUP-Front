@@ -66,7 +66,7 @@ const PloggingDetailPage = () => {
   // 상세 페이지 api 가져오기
   const getData = async () => {
     const data = await getPostsDetail(postId);
-    console.log(data);
+
     setPageData(data.data);
   };
 
@@ -77,11 +77,11 @@ const PloggingDetailPage = () => {
   // 사용자 정보, 플로깅 참여 멤버 조회
   const getUserData = async () => {
     const data1 = await memberGetMyProfile(); // 사용자 정보
-    console.log(data1);
+
     setUserData(data1);
 
     const data2 = await getPostsJoinMembers(postId); // 플로깅 참여 멤버
-    console.log("플로깅 참여 멤버", data2.data);
+
     setPlogMembersData(data2.data);
   };
 

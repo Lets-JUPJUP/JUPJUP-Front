@@ -57,7 +57,7 @@ const PloggingListPage = () => {
     if (searchParam === "") {
       // 로그인하지 않았을 경우 - isHearted, isJoined null 처리됨
       const data = isLogin ? await getPostsList() : await getPostsListUnAuth();
-      console.log("total", data);
+
       setPageData(data.data); // pageData 설정
     } else if (selectedBtn) {
       // 올바른 데이터가 들어올 경우
@@ -66,7 +66,7 @@ const PloggingListPage = () => {
       const data = isLogin
         ? await getPostsList(keyword, value)
         : await getPostsListUnAuth(keyword, value);
-      console.log(keyword, data);
+
       setPageData(data.data); // pageData 설정
     } else {
       // 잘못된 데이터가 들어올 경우
