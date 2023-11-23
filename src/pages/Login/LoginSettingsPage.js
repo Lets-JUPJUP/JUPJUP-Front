@@ -8,7 +8,6 @@ import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 
 import { memberGetMyProfile_, memberUpdateProfile_ } from "../../api/member";
-import { notificationSubscribeSSE } from "../../api/notification";
 
 import background2 from "../../assets/login/background2.png";
 import tag from "../../assets/login/tag.png";
@@ -79,8 +78,6 @@ const LoginSettingsPage = () => {
           localStorage.setItem("id", myProfile.id);
           localStorage.removeItem("temptoken");
 
-          //SSE 구독 요청
-          notificationSubscribeSSE(tempToken);
           alert("회원가입 완료");
 
           navigate("/");
@@ -88,7 +85,7 @@ const LoginSettingsPage = () => {
         }
       } catch (err) {
         console.log(err);
-        alert("회원가입 & SSE 구독 오류");
+        alert("회원가입 오류");
       }
     } else if (!isHaveGender && isValid) {
       setShowModal(true);

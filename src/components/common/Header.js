@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import logo from "../../assets/common/logo.png";
 import alarm from "../../assets/common/alarm.png";
 import user from "../../assets/common/user.png";
 import GradientLine from "./GradientLine";
 import { useNavigate } from "react-router-dom";
+
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
 const Header = ({
   title,
@@ -21,6 +23,53 @@ const Header = ({
   };
 
   const navigate = useNavigate();
+
+  const accessToken = localStorage.getItem("juptoken");
+  const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+
+  //sse 구독, 실시간 메세지 받기
+  const EventSource = EventSourcePolyfill || NativeEventSource;
+
+  const [isNewNoti, setIsNewNoti] = useState(false);
+
+  useEffect(() => {
+    if (accessToken) {
+      let eventSource;
+      const fetchSse = async () => {
+        console.log("구독");
+        try {
+          eventSource = new EventSource(
+            `${SERVER_DOMAIN}/api/v1/notifications/subscribe`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+              withCredentials: true,
+            }
+          );
+
+          /* EVENTSOURCE ONMESSAGE ---------------------------------------------------- */
+          eventSource.onmessage = async (event) => {
+            //data:{"id":3,"content":"신청한 플로깅 모임이 인원을 충족하여 성사되었습니다.","contentId":2,"isRead":false,"notificationType":"FLOGGING","time":"2023-11-16T23:19:16.552449"}
+
+            const res = await event.data;
+            console.log(res);
+            if (!res.includes("EventStream Created.")) {
+              setIsNewNoti(true); // 헤더 알림 아이콘 상태 변경
+            }
+          };
+
+          /* EVENTSOURCE ONERROR ------------------------------------------------------ */
+          eventSource.onerror = async (event) => {
+            if (!event.error.message.includes("No activity"))
+              eventSource.close();
+          };
+        } catch (error) {}
+      };
+      fetchSse();
+      return () => eventSource.close();
+    }
+  }, []);
 
   return (
     <>
@@ -45,14 +94,18 @@ const Header = ({
         )}
 
         <div className="btns">
-          <div
-            className="btn"
-            onClick={() => {
-              navigate("/notifications");
-            }}
-          >
-            <img src={alarm} alt="알림모음으로" />
-          </div>
+          {isNewNoti ? (
+            <>있음</>
+          ) : (
+            <div
+              className="btn"
+              onClick={() => {
+                navigate("/notifications");
+              }}
+            >
+              <img src={alarm} alt="알림모음으로" />
+            </div>
+          )}
           <div
             className="btn"
             onClick={() => {
