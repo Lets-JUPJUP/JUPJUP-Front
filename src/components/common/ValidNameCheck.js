@@ -63,7 +63,7 @@ const ValidNameCheck = ({
         ) : (
           <>
             <input
-              maxLength="15"
+              maxLength="8"
               autofocus="autofocus"
               className="name-input"
               placeholder={nickname}
@@ -124,12 +124,18 @@ const Wrapper = styled.div`
       color: black;
       width: 90px;
       text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .name-input {
       font-size: 16px;
       font-weight: 600;
       width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       border: none;
       outline: none;
       text-align: center;

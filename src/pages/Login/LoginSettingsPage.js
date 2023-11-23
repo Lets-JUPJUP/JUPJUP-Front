@@ -86,6 +86,7 @@ const LoginSettingsPage = () => {
           alert("회원가입 완료");
 
           navigate("/");
+          window.location.reload();
         }
       } catch (err) {
         console.log(err);

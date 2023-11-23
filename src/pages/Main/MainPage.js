@@ -8,6 +8,7 @@ import Recommendations from "../../components/main/Recommendations";
 import { useNavigate } from "react-router-dom";
 import { postsGetMyCount } from "../../api/posts";
 import { eventGetEventList } from "../../api/event";
+import Footer from "../../components/common/Footer";
 const MainPage = () => {
   const navigate = useNavigate();
 
@@ -34,7 +35,9 @@ const MainPage = () => {
     }
   };
   useEffect(() => {
-    getData();
+    setTimeout(() => {
+      getData();
+    }, 1);
   }, []);
   return (
     <>
@@ -76,6 +79,7 @@ const MainPage = () => {
           </div>
         </div>
       </Wrapper>
+      {isLogin && <Footer isNotFixed={true} />}
     </>
   );
 };
@@ -99,7 +103,7 @@ const Wrapper = styled.div`
 
   .map-btn {
     box-sizing: border-box;
-    width: 160px;
+    //width: 160px;
     height: 68px;
     flex-shrink: 0;
     border-radius: 8px;
@@ -141,7 +145,7 @@ const Wrapper = styled.div`
     }
 
     .join-btn {
-      width: 125px;
+      // width: 125px;
       height: 40px;
       box-sizing: border-box;
       padding: 8px 12px;

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 // Footer
-const Footer = () => {
+const Footer = ({ isNotFixed = false }) => {
   const onLogout = () => {
     localStorage.removeItem("juptoken");
     window.location.reload("/");
   };
   return (
-    <Wrapper>
+    <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
       <div className="contents">
         <div onClick={onLogout}>로그아웃</div>
         <div>회원탈퇴</div>
@@ -31,8 +31,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
 
-  position: fixed;
-  bottom: 0;
+  /* position: fixed;
+  bottom: 0; */
 
   .contents {
     display: flex;
@@ -41,5 +41,10 @@ const Wrapper = styled.div`
 
     width: 90%;
     margin-top: 12px;
+  }
+
+  &.isFixed {
+    position: fixed;
+    bottom: 0;
   }
 `;
