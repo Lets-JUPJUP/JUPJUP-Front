@@ -113,7 +113,7 @@ const Form = () => {
       const res = await postsCreatePlogging(inputs_to_send);
       if (res.status === 200) {
         alert("모집글이 등록 되었습니다.");
-        navigate("/plogging-list"); //리스트 목록으로 추후 수정
+        navigate("/plogging-list");
       }
     } catch (err) {
       console.log(err);
