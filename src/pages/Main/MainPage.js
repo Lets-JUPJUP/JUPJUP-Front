@@ -22,7 +22,7 @@ const MainPage = () => {
         const data = (await postsGetMyCount()).data.data;
         setHistory(data);
       } catch (err) {
-        alert("데이터를 가져오는데 실패했습니다.");
+        console.log(err);
       }
     }
 
