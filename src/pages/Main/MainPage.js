@@ -29,7 +29,6 @@ const MainPage = () => {
     try {
       const data = (await eventGetEventList()).data.data;
       setList(data);
-      console.log("sdasd", data);
     } catch (err) {
       alert("공식행사 데이터 get오류");
     }

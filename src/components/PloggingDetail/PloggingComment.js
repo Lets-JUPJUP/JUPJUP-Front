@@ -21,7 +21,6 @@ const PloggingComment = ({
     const data = await getCommentsByPost(postId);
     setCommentData(data.data.commentDtoList);
     setCommentNo(data.data.commentNo);
-    console.log("댓글", data.data);
   };
   useEffect(() => {
     getData();

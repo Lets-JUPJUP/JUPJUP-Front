@@ -33,7 +33,6 @@ client.interceptors.response.use(
     if (error.response.data.status === "UNAUTHORIZED") {
       try {
         // 토큰 재발급
-        console.log("ddd");
         const res = await memberGetNewToken();
 
         if (res.status === 200) {

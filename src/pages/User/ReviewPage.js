@@ -33,7 +33,6 @@ const ReviewPage = () => {
     let copy = [...selectedList];
     copy[badgeId] = !copy[badgeId];
     setSelectList(copy);
-    console.log(copy);
   };
   const getData = async () => {
     const data_profile = await memberGeUserProfile(memberId);

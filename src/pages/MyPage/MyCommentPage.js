@@ -15,7 +15,6 @@ const MyCommentPage = () => {
   const getData = async () => {
     const data = await getCommentedPosts();
     setMyData(data.data);
-    console.log(data.data);
   };
   useEffect(() => {
     getData();
