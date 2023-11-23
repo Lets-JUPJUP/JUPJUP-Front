@@ -1,29 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+
 import Header from "../../components/common/Header";
 import PloggingPostBox from "../../components/common/PloggingPostBox";
 import FloatingButton from "../../components/common/FloatingButton";
 import AdBanner from "../../components/common/AdBanner";
-import { useState } from "react";
+
+import { checkStatus } from "../../components/common/checkPostsStatus";
+import { getHostedPosts, getJoinedPosts } from "../../api/posts";
 
 const MySchedulePage = () => {
+  const navigate = useNavigate();
+  // 내가 주최한 플로깅 데이터
+  const [myHostedData, setMyHostedData] = useState([]);
+
+  // 내가 참여한 플로깅 데이터
+  const [myActiveData, setMyActiveData] = useState([]);
+
+  // 내가 참여한 리뷰하기가 뜨는 마감된 플로깅 데이터
+  const [myEndedData, setMyEndedData] = useState([]);
+
+  const getData = async () => {
+    // 내가 주최한 플로깅 데이터 받아오기
+    const data1 = await getHostedPosts();
+    setMyHostedData(data1.data);
+    console.log("내가 주최한 플로깅", data1.data);
+
+    // 내가 참여한 플로깅 데이터 받아오기
+    const data2 = await getJoinedPosts();
+    setMyActiveData(data2.data.activePosts);
+    console.log("내가 참여한 플로깅 데이터", data2.data.activePosts);
+
+    setMyEndedData(data2.data.endedPosts);
+    console.log("마감된 플로깅", data2.data.endedPosts);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   // '주최한 플로깅'을 선택한 경우 true
   const [isHostClicked, setIsHostClicked] = useState(true);
   const onTabClick = () => {
     setIsHostClicked(!isHostClicked);
   };
+
+  // 리뷰하기로 이동
+  const linkToReviewPage = (authorId, postId) => {
+    navigate(`/review/${authorId}/${postId}`);
+  };
+
   return (
     <Wrapper>
       <Header title="내 플로깅 일정" isLogin={true} />
-      <DivisionLine />
 
-      <ReviewDiv>
-        <div className="mainText">이 플로깅 어떠셨나요?</div>
-        <ReviewButton>리뷰하기</ReviewButton>
-      </ReviewDiv>
-      <PostDiv>
-        <PloggingPostBox />
-      </PostDiv>
+      {myEndedData.length > 0 ? (
+        myEndedData.map((post) => {
+          return (
+            <>
+              <DivisionLine />
+              <ReviewDiv>
+                <div className="mainText">이 플로깅 어떠셨나요?</div>
+                <ReviewButton
+                  onClick={() => linkToReviewPage(post.authorId, post.id)}
+                >
+                  리뷰하기
+                </ReviewButton>
+              </ReviewDiv>
+              <PostDiv>
+                <PloggingPostBox
+                  key={post.id}
+                  status={checkStatus(post)}
+                  id={post.id}
+                  fileUrls={post.fileUrls}
+                  title={post.title}
+                  isHearted={post.isHearted}
+                  startPlace={post.startPlace}
+                  startDate={post.startDate}
+                  postAgeRanges={post.postAgeRanges}
+                  postGender={post.postGender}
+                  withPet={post.withPet}
+                />
+              </PostDiv>
+            </>
+          );
+        })
+      ) : (
+        <DivisionLine />
+      )}
 
       <DivisionLine />
       {/* ReviewDiv에서부터 DivisionLine은 24시간 이내 플로깅을 했을 때만 보여짐 */}
@@ -45,18 +109,43 @@ const MySchedulePage = () => {
 
       {isHostClicked === true ? (
         <PostDiv>
-          <PloggingPostBox />
-          <PloggingPostBox />
-          <PloggingPostBox />
-          <PloggingPostBox status="finish" />
+          {myHostedData.map((post) => {
+            return (
+              <PloggingPostBox
+                key={post.id}
+                status={checkStatus(post)}
+                id={post.id}
+                fileUrls={post.fileUrls}
+                title={post.title}
+                isHearted={post.isHearted}
+                startPlace={post.startPlace}
+                startDate={post.startDate}
+                postAgeRanges={post.postAgeRanges}
+                postGender={post.postGender}
+                withPet={post.withPet}
+              />
+            );
+          })}
         </PostDiv>
       ) : (
         <PostDiv>
-          <PloggingPostBox status="join" />
-          <PloggingPostBox status="join" />
-          <PloggingPostBox status="finish" />
-          <PloggingPostBox status="finish" />
-          <PloggingPostBox status="finish" />
+          {myActiveData.map((post) => {
+            return (
+              <PloggingPostBox
+                key={post.id}
+                status={checkStatus(post)}
+                id={post.id}
+                fileUrls={post.fileUrls}
+                title={post.title}
+                isHearted={post.isHearted}
+                startPlace={post.startPlace}
+                startDate={post.startDate}
+                postAgeRanges={post.postAgeRanges}
+                postGender={post.postGender}
+                withPet={post.withPet}
+              />
+            );
+          })}
         </PostDiv>
       )}
 

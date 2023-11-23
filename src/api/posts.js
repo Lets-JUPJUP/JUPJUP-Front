@@ -81,3 +81,23 @@ export const deletePloggingPosts = async (id) => {
     throw err;
   }
 };
+
+// 사용자가 주최한 게시글 리스트 조회
+export const getHostedPosts = async () => {
+  try {
+    const res = await client.get(`/api/v1/posts/hosted`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// 사용자가 참여한 게시글 리스트 조회
+export const getJoinedPosts = async () => {
+  try {
+    const res = await client.get(`/api/v1/posts/joined`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
