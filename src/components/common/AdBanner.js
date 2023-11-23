@@ -50,6 +50,8 @@ const Wrapper = styled.div`
 
   position: relative;
 
+  z-index: 10;
+
   &.isFixed {
     position: fixed;
     bottom: 0;
