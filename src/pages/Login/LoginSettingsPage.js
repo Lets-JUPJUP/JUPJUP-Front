@@ -44,7 +44,7 @@ const LoginSettingsPage = () => {
     const data = await memberGetMyProfile_(tempToken);
     setMyProfile(data);
     if (data.gender !== "NOT_DEFINED") {
-      setIsHaveGender(false); //true로 바꿔
+      setIsHaveGender(true);
       setGender(data.gender);
     }
     setNickname(data.nickname);
