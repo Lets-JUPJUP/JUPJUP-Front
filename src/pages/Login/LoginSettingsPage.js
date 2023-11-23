@@ -45,8 +45,8 @@ const LoginSettingsPage = () => {
     const data = await memberGetMyProfile_(tempToken);
     setMyProfile(data);
     if (data.gender !== "NOT_DEFINED") {
-      setIsHaveGender(true);
-      setGender(data.gender);
+      setIsHaveGender(false); //true로 바꿔
+      // setGender(data.gender);
     }
     setNickname(data.nickname);
   };
@@ -106,13 +106,19 @@ const LoginSettingsPage = () => {
             <div className="subtitle">이후 수정이 불가능한 정보입니다</div>
             <div className="btns">
               <GenderBtn
-                onClick={() => setGender("MALE")}
+                onClick={() => {
+                  setGender("MALE");
+                  setIsHaveGender(true);
+                }}
                 $isClicked={gender === "MALE"}
               >
                 남성
               </GenderBtn>
               <GenderBtn
-                onClick={() => setGender("FEMALE")}
+                onClick={() => {
+                  setGender("FEMALE");
+                  setIsHaveGender(true);
+                }}
                 $isClicked={gender === "FEMALE"}
               >
                 여성
