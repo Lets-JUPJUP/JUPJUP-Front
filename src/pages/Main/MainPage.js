@@ -99,7 +99,7 @@ const Wrapper = styled.div`
 
   .map-btn {
     box-sizing: border-box;
-    width: 160px;
+    //width: 160px;
     height: 68px;
     flex-shrink: 0;
     border-radius: 8px;
@@ -141,7 +141,7 @@ const Wrapper = styled.div`
     }
 
     .join-btn {
-      width: 125px;
+      // width: 125px;
       height: 40px;
       box-sizing: border-box;
       padding: 8px 12px;
