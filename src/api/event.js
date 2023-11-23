@@ -46,3 +46,15 @@ export const postEventComment = async (id, comment) => {
     throw err;
   }
 };
+
+// 성동구 행사 정보에 댓글 삭제하기
+export const deleteEventComment = async (postId, commentId) => {
+  try {
+    const res = await client.delete(
+      `/api/v1/eventInfos/${postId}/comments/${commentId}`
+    );
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

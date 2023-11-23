@@ -6,6 +6,7 @@ import ic_report from "../../assets/common/ic_report.png";
 import ic_delete from "../../assets/common/ic_delete.png";
 import { settingDate } from "./time";
 import { getCommentsByPost, deletePloggingComment } from "../../api/comment";
+import { deleteEventComment, getEventComment } from "../../api/event";
 
 // 댓글 컴포넌트
 const CommentBox = ({
@@ -34,8 +35,8 @@ const CommentBox = ({
     navigate(`/user-report/${commentInfo.writerInfoDto.writerId}`);
   };
 
-  // 댓글 삭제 서버에 제출
-  const handleDelete = async () => {
+  // 댓글 삭제 서버에 제출 - 플로깅 상세 페이지
+  const handleDeletePloggingDetail = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       try {
         await deletePloggingComment(commentInfo.id);
@@ -44,6 +45,22 @@ const CommentBox = ({
       } finally {
         const newCommentData = await getCommentsByPost(postId);
         setCommentData(newCommentData.data.commentDtoList);
+      }
+    } else {
+      return;
+    }
+  };
+
+  // 댓글 삭제 서버에 제출 - 공식 행사 상세 페이지
+  const handleDeleteEvent = async () => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      try {
+        await deleteEventComment(postId, commentInfo.id);
+      } catch (err) {
+        alert("댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      } finally {
+        const newCommentData = await getEventComment(postId);
+        setCommentData(newCommentData.data.eventcommentDtoList);
       }
     } else {
       return;
@@ -72,7 +89,11 @@ const CommentBox = ({
               src={ic_delete}
               alt="delete"
               className="delete"
-              onClick={handleDelete}
+              onClick={
+                location === "event"
+                  ? handleDeleteEvent
+                  : handleDeletePloggingDetail
+              }
             />
           ) : (
             <img

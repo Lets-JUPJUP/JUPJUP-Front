@@ -24,7 +24,7 @@ const EventPage = () => {
   const [commentData, setCommentData] = useState([]);
 
   const { id } = useParams(); // 이벤트 게시글 아이디
-  const userId = localStorage.getItem("id"); // 유저 아이디
+  const userId = parseInt(localStorage.getItem("id")); // 유저 아이디
 
   // 관심 있어요 (★) 클릭
   const onStarClick = () => {
