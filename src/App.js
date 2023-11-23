@@ -23,7 +23,6 @@ import MySchedulePage from "./pages/MyPage/MySchedulePage";
 
 import { PrivateRoute, PrivateRouteTemp } from "./router/PrivateRoute";
 
-
 function App() {
   return (
     <Routes>
@@ -43,6 +42,7 @@ function App() {
         <Route path="/mypage/interest" element={<MyInterestPage />} />
         <Route path="/mypage/comment" element={<MyCommentPage />} />
         <Route path="/mypage/schedule" element={<MySchedulePage />} />
+        <Route path="/event/:id" element={<EventPage />} />
       </Route>
 
       <Route element={<PrivateRouteTemp />}>
@@ -56,7 +56,6 @@ function App() {
       <Route path="/kakao-login" element={<KakaoLoginPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
 
-      <Route path="/event/:id" element={<EventPage />} />
       <Route path="/trash-map" element={<TrashMapPage />} />
     </Routes>
   );
