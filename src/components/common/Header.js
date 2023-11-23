@@ -8,6 +8,7 @@ import GradientLine from "./GradientLine";
 import { useNavigate } from "react-router-dom";
 
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { notificationGetUnreadCount } from "../../api/notification";
 
 const Header = ({
   title,
@@ -33,7 +34,20 @@ const Header = ({
 
   const [isNewNoti, setIsNewNoti] = useState(false);
 
+  const getCount = async () => {
+    try {
+      const res = (await notificationGetUnreadCount()).data.data;
+      if (!res.includes("0")) {
+        setIsNewNoti(true);
+      }
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
+    getCount();
+
     if (accessToken) {
       let eventSource;
       const fetchSse = async () => {
