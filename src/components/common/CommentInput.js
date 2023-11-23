@@ -8,6 +8,7 @@ import {
   postPloggingComment,
   postPloggingReplyComment,
 } from "../../api/comment";
+import { getEventComment, postEventComment } from "../../api/event";
 
 // 댓글 입력창
 const CommentInput = ({
@@ -29,21 +30,16 @@ const CommentInput = ({
     setIsReplyMode([false, null]); // 대댓글 모드 false, parentId 지우기
   };
 
-  // 댓글 서버에 제출
-  const handleSubmit = async () => {
+  // 댓글 서버에 제출 - 플로깅 상세 페이지
+  const handleSubmitPloggingDetail = async () => {
     if (content.length === 0) {
       alert("댓글을 1자 이상 작성해주세요.");
       return;
     }
     try {
-      if (location === "event") {
-        // 공식 행사 페이지일 때
-      } else {
-        // 플로깅 상세 페이지일 때
-        isReplyMode[0] === true
-          ? await postPloggingReplyComment(postId, content, isReplyMode[1]) // 대댓글일 경우 post
-          : await postPloggingComment(postId, content); // 일반 댓글일 경우 post
-      }
+      isReplyMode[0] === true
+        ? await postPloggingReplyComment(postId, content, isReplyMode[1]) // 대댓글일 경우 post
+        : await postPloggingComment(postId, content); // 일반 댓글일 경우 post
     } catch (err) {
       alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
     } finally {
@@ -54,6 +50,28 @@ const CommentInput = ({
       setCommentData(newCommentData.data.commentDtoList);
       // 대댓글 모드 false
       setIsReplyMode([false, null]);
+    }
+  };
+
+  // 댓글 서버에 제출 - 이벤트 페이지
+  const handleSubmitEvent = async () => {
+    if (content.length === 0) {
+      alert("댓글을 1자 이상 작성해주세요.");
+      return;
+    }
+    try {
+      await postEventComment(postId, content);
+    } catch (err) {
+      alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      console.log(err);
+    } finally {
+      // 댓글 업데이트
+      const newCommentData = await getEventComment(postId);
+      setCommentData(newCommentData.data.eventcommentDtoList);
+      // content 초기화
+      setContent("");
+      // 댓글창 크기 줄이기
+      setInputFocused(false);
     }
   };
 
@@ -80,8 +98,19 @@ const CommentInput = ({
               value={content}
             />
             <div className="buttonDiv">
-              <img src={ic_close} alt="close" onClick={closeInput} />
-              <img src={ic_arrowup} alt="submit" onClick={handleSubmit} />
+              {/* x 버튼 플로깅 상세 페이지에만 존재함 */}
+              {location === "event" ? null : (
+                <img src={ic_close} alt="close" onClick={closeInput} />
+              )}
+              <img
+                src={ic_arrowup}
+                alt="submit"
+                onClick={
+                  location === "event"
+                    ? handleSubmitEvent
+                    : handleSubmitPloggingDetail
+                }
+              />
             </div>
           </MainDiv>
         </Wrapper>

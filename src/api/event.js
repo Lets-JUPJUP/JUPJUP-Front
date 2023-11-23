@@ -24,3 +24,25 @@ export const eventPostJoin = async (id) => {
 export const eventDeleteJoin = async (id) => {
   return client.delete(`api/v1/eventinfos/${id}/join`);
 };
+
+// 성동구 행사 정보에 댓글 조회하기
+export const getEventComment = async (id) => {
+  try {
+    const res = await client.get(`/api/v1/eventInfos/${id}/comments`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// 성동구 행사 정보에 댓글 남기기
+export const postEventComment = async (id, comment) => {
+  try {
+    const res = await client.post(`/api/v1/eventInfos/${id}/comments`, {
+      content: comment,
+    });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
