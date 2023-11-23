@@ -6,6 +6,7 @@ import ic_report from "../../assets/common/ic_report.png";
 import ic_delete from "../../assets/common/ic_delete.png";
 import { settingDate } from "./time";
 import { getCommentsByPost, deletePloggingComment } from "../../api/comment";
+import { deleteEventComment, getEventComment } from "../../api/event";
 
 // 댓글 컴포넌트
 const CommentBox = ({
@@ -15,6 +16,7 @@ const CommentBox = ({
   setCommentData,
   setWriteMode,
   setIsReplyMode,
+  location = "ploggingDetail",
 }) => {
   const navigate = useNavigate();
 
@@ -33,8 +35,8 @@ const CommentBox = ({
     navigate(`/user-report/${commentInfo.writerInfoDto.writerId}`);
   };
 
-  // 댓글 삭제 서버에 제출
-  const handleDelete = async () => {
+  // 댓글 삭제 서버에 제출 - 플로깅 상세 페이지
+  const handleDeletePloggingDetail = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       try {
         await deletePloggingComment(commentInfo.id);
@@ -43,6 +45,22 @@ const CommentBox = ({
       } finally {
         const newCommentData = await getCommentsByPost(postId);
         setCommentData(newCommentData.data.commentDtoList);
+      }
+    } else {
+      return;
+    }
+  };
+
+  // 댓글 삭제 서버에 제출 - 공식 행사 상세 페이지
+  const handleDeleteEvent = async () => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      try {
+        await deleteEventComment(postId, commentInfo.id);
+      } catch (err) {
+        alert("댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      } finally {
+        const newCommentData = await getEventComment(postId);
+        setCommentData(newCommentData.data.eventcommentDtoList);
       }
     } else {
       return;
@@ -66,12 +84,25 @@ const CommentBox = ({
         </div>
         <div className="right">
           <div>{settingDate(commentInfo.createdDate)}</div>
-          <img
-            src={ic_comment}
-            alt="comment"
-            className="comment"
-            onClick={handleCoComment}
-          />
+          {commentInfo.writerInfoDto.writerId === userId ? (
+            <img
+              src={ic_delete}
+              alt="delete"
+              className="delete"
+              onClick={
+                location === "event"
+                  ? handleDeleteEvent
+                  : handleDeletePloggingDetail
+              }
+            />
+          ) : (
+            <img
+              src={ic_report}
+              alt="report"
+              className="report"
+              onClick={handleReport}
+            />
+          )}
         </div>
       </HeadDiv>
       <BodyDiv>
@@ -80,19 +111,12 @@ const CommentBox = ({
             ? "(작성자에 의해 삭제된 댓글입니다.)"
             : commentInfo.content}
         </div>
-        {commentInfo.writerInfoDto.writerId === userId ? (
+        {location === "event" ? null : (
           <img
-            src={ic_delete}
-            alt="delete"
-            className="delete"
-            onClick={handleDelete}
-          />
-        ) : (
-          <img
-            src={ic_report}
-            alt="report"
-            className="report"
-            onClick={handleReport}
+            src={ic_comment}
+            alt="comment"
+            className="comment"
+            onClick={handleCoComment}
           />
         )}
       </BodyDiv>
@@ -131,9 +155,16 @@ const HeadDiv = styled.div`
     border-radius: 20px;
   }
 
-  .comment {
+  .report {
     width: 16px;
     cursor: pointer;
+    margin-left: 4px; // gap
+  }
+
+  .delete {
+    width: 16px;
+    cursor: pointer;
+    margin-left: 4px; // gap
   }
 `;
 
@@ -147,16 +178,9 @@ const BodyDiv = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 
-  .report {
+  .comment {
     width: 16px;
     cursor: pointer;
-    margin-left: 4px; // gap
-  }
-
-  .delete {
-    width: 16px;
-    cursor: pointer;
-    margin-left: 4px; // gap
   }
 `;
 
