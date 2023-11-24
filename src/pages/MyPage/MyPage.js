@@ -86,11 +86,11 @@ const MyPage = () => {
           <Tag name={getKorGender(profile.gender)} />
         </div>
 
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ margin: "30px 0" }}>
           <Top3Badges list={badges} />
         </div>
 
-        <div className="bottom">
+        <div>
           <History
             contents={[
               {
@@ -104,7 +104,7 @@ const MyPage = () => {
           <MyMenu />
         </div>
       </Wrapper>
-      <Footer />
+      <Footer isNotFixed={true} />
     </>
   );
 };
