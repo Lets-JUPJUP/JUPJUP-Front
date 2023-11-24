@@ -19,7 +19,7 @@ const UserBottomSheet = ({
   // authorId 기반으로 나이대, 성별 찾기
   const getData = async () => {
     const data = await memberGeUserProfile(authorId);
-    console.log("authorData", data);
+    // console.log("authorData", data);
     setAuthorData(data);
   };
   useEffect(() => {
@@ -39,6 +39,7 @@ const UserBottomSheet = ({
             profileImageUrl={authorProfileImageUrl}
             tag1={getAgeRange(authorData.ageRange) + "대"}
             tag2={getKorGender(authorData.gender)}
+            userId={authorData.id}
           />
           <DivisionLine />
           <div className="participant">
@@ -50,6 +51,7 @@ const UserBottomSheet = ({
                     profileImageUrl={member.profileImageUrl}
                     tag1={getAgeRange(member.ageRange) + "대"}
                     tag2={getKorGender(member.gender)}
+                    userId={member.memberId}
                   />
                 );
               })

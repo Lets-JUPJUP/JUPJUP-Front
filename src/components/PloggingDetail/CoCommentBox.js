@@ -19,13 +19,20 @@ const CoCommentBox = ({ cocommentInfo, postId, userId, setCommentData }) => {
     navigate(`/user-report/${cocommentInfo.writerInfoDto.writerId}`);
   };
 
+  // 프로필 페이지로 이동
+  const handleProfile = () => {
+    navigate(`/user-profile/${cocommentInfo.writerInfoDto.writerId}`);
+  };
+
   // 대댓글 삭제
   const handleDeleteCoComment = async () => {
     if (window.confirm("대댓글을 삭제하시겠습니까?")) {
       try {
         await deletePloggingReplyComment(cocommentInfo.id);
       } catch (err) {
-        alert("대댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+        alert(
+          "대댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요."
+        );
       } finally {
         const newCommentData = await getCommentsByPost(postId);
         setCommentData(newCommentData.data.commentDtoList);
@@ -49,6 +56,7 @@ const CoCommentBox = ({ cocommentInfo, postId, userId, setCommentData }) => {
               }
               alt="user"
               className="user"
+              onClick={handleProfile}
             />
             <BoldText>{cocommentInfo.writerInfoDto.nickname}</BoldText>
           </div>
