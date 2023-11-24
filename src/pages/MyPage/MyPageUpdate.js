@@ -84,10 +84,10 @@ const MyPageUpdate = () => {
       <Wrapper>
         <GradientLine />
 
-        <SetProfileImg
+        {profile.profileImageUrl && <SetProfileImg
           profileImage={profile.profileImageUrl}
           setImgFile={setImgFile}
-        />
+        />}
 
         <ValidNameCheck
           setNickname={setNickname}
