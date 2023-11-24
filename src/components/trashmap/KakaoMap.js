@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { getTrashCanInRadius } from "../../api/trashmap";
 
+import ic_mapmarker from "../../assets/trashmap/ic_mapmarker.png";
 import pin_trash from "../../assets/trashmap/pin_trash.png";
 import pin_recycle from "../../assets/trashmap/pin_recycle.png";
 
@@ -11,6 +12,8 @@ const KakaoMap = ({
   setCurLocation,
   trashPageData,
   setTrashPageData,
+  setBsOpen,
+  setSelectedData,
 }) => {
   // 기본 위치 (성동구청)
   const defaultLocation = [37.5633088, 127.036696];
@@ -72,6 +75,11 @@ const KakaoMap = ({
     }
   };
 
+  const onMarkerClick = (trashElement) => {
+    setBsOpen(true);
+    setSelectedData(trashElement);
+  };
+
   return (
     <>
       {curLocation ? (
@@ -82,6 +90,13 @@ const KakaoMap = ({
         >
           <MapMarker
             position={{ lat: curLocation.latitude, lng: curLocation.longitude }}
+            image={{
+              src: ic_mapmarker, // 마커 이미지
+              size: {
+                width: 37,
+                height: 49,
+              }, // 마커이미지의 크기
+            }}
           >
             <InfoWindow>
               {isCenterDefault === true
@@ -107,6 +122,8 @@ const KakaoMap = ({
                         height: 40,
                       }, // 마커이미지의 크기
                     }}
+                    clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정
+                    onClick={() => onMarkerClick(trashElement)}
                   />
                 );
               })
