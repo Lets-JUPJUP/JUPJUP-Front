@@ -57,6 +57,7 @@ const PloggingInfo = ({
           <img
             src={authorProfileImageUrl ? authorProfileImageUrl : ic_userbig}
             alt="userbig"
+            onClick={linkToUserPage}
           />
         </div>
         <div className="userText">

@@ -5,9 +5,9 @@ import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 
 import ic_close from "../../assets/common/ic_close.png";
-import ic_share from "../../assets/PloggingDetail/ic_share.png";
 
 import PostImageBox from "../../components/PloggingDetail/PostImageBox";
+import KakaoShareBtn from "../../components/PloggingDetail/KakaoShareBtn";
 import PloggingInfo from "../../components/PloggingDetail/PloggingInfo";
 import PloggingComment from "../../components/PloggingDetail/PloggingComment";
 
@@ -137,7 +137,10 @@ const PloggingDetailPage = () => {
                 />
               ) : null}
 
-              <img src={ic_share} alt="share" className="share" />
+              <KakaoShareBtn
+                pageData={pageData}
+                commentLength={commentData.length}
+              />
             </ShareDiv>
             <DivisionLine />
             {/* 플로깅 정보 */}
@@ -248,10 +251,6 @@ const ShareDiv = styled.div`
     width: 20px;
     cursor: pointer;
     margin-right: 12px;
-  }
-  .share {
-    width: 16px;
-    cursor: pointer;
   }
 `;
 

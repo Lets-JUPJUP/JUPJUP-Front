@@ -26,6 +26,7 @@ const MyPageUpdate = () => {
   //프로필 이미지
   const [imgFile, setImgFile] = useState(null); //이미지 원본 파일
 
+  const [initialNickname, setInitialNickname] = useState("");
   const [nickname, setNickname] = useState("");
   //닉네임 유효성 체크 (중복, 유효문자)
   const [isValid, setIsValid] = useState(false);
@@ -42,6 +43,8 @@ const MyPageUpdate = () => {
       data_badges && setBadges(data_badges.bages);
 
       setNickname(data_profile.nickname);
+      // 초기 닉네임 설정
+      setInitialNickname(data_profile.nickname);
     } catch (err) {
       alert("데이터를 가져오는데 실패했습니다.");
     }
@@ -54,7 +57,7 @@ const MyPageUpdate = () => {
     const gender = profile.gender; // 사용자의 성별 정보 받아오기
     let img_url = [profile.profileImageUrl]; // 사용자의 기존 이미지 url
 
-    if (isValid) {
+    if (isValid || nickname === initialNickname) {
       // 유효 닉네임일 경우 post
       if (imgFile) {
         //새로 등록한 이미지가 있을 경우 s3 업로드, url 얻기
@@ -84,10 +87,12 @@ const MyPageUpdate = () => {
       <Wrapper>
         <GradientLine />
 
-        {profile.profileImageUrl && <SetProfileImg
-          profileImage={profile.profileImageUrl}
-          setImgFile={setImgFile}
-        />}
+        {profile.profileImageUrl && (
+          <SetProfileImg
+            profileImage={profile.profileImageUrl}
+            setImgFile={setImgFile}
+          />
+        )}
 
         <ValidNameCheck
           setNickname={setNickname}
