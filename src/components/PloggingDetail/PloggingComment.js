@@ -60,7 +60,9 @@ const PloggingComment = ({
                         <CoCommentBox
                           key={index}
                           cocommentInfo={cocomment}
+                          postId={postId}
                           userId={userId}
+                          setCommentData={setCommentData}
                         />
                       );
                     })

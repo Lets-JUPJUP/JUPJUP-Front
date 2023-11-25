@@ -35,6 +35,11 @@ const CommentBox = ({
     navigate(`/user-report/${commentInfo.writerInfoDto.writerId}`);
   };
 
+  // 프로필 페이지로 이동
+  const handleProfile = () => {
+    navigate(`/user-profile/${commentInfo.writerInfoDto.writerId}`)
+  };
+
   // 댓글 삭제 서버에 제출 - 플로깅 상세 페이지
   const handleDeletePloggingDetail = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
@@ -79,6 +84,7 @@ const CommentBox = ({
             }
             alt="user"
             className="user"
+            onClick={handleProfile}
           />
           <BoldText>{commentInfo.writerInfoDto.nickname}</BoldText>
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 
 import ic_userbig from "../../assets/common/ic_userbig.png";
@@ -9,9 +10,24 @@ isMine : 본인 정보일 경우 true - 배경색 x
 name : 사용자 이름
 tag1 : 태그1 (나이대)
 tag2 : 태그2 (성별)
+userId : 유저 아이디
 */
 
-const UserInfoBox = ({ isMine = false, profileImageUrl, name, tag1, tag2 }) => {
+const UserInfoBox = ({
+  isMine = false,
+  profileImageUrl,
+  name,
+  tag1,
+  tag2,
+  userId,
+}) => {
+  const navigate = useNavigate();
+
+  // 프로필 페이지로 이동
+  const handleProfile = () => {
+    navigate(`/user-profile/${userId}`);
+  };
+
   return (
     <Wrapper className={isMine === true ? "" : "greyColor"}>
       <div className="section">
@@ -19,6 +35,7 @@ const UserInfoBox = ({ isMine = false, profileImageUrl, name, tag1, tag2 }) => {
           src={profileImageUrl ? profileImageUrl : ic_userbig}
           alt="user"
           className="user"
+          onClick={handleProfile}
         />
         <div className="userName">{name}</div>
       </div>

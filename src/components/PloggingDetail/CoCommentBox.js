@@ -5,14 +5,41 @@ import ic_user from "../../assets/common/user.png";
 import ic_delete from "../../assets/common/ic_delete.png";
 import ic_report from "../../assets/common/ic_report.png";
 import { settingDate } from "../common/time";
+import {
+  deletePloggingReplyComment,
+  getCommentsByPost,
+} from "../../api/comment";
 
 // 대댓글 컴포넌트
-const CoCommentBox = ({ cocommentInfo, userId }) => {
+const CoCommentBox = ({ cocommentInfo, postId, userId, setCommentData }) => {
   const navigate = useNavigate();
 
   // 신고하기 페이지로 이동
   const handleReport = () => {
     navigate(`/user-report/${cocommentInfo.writerInfoDto.writerId}`);
+  };
+
+  // 프로필 페이지로 이동
+  const handleProfile = () => {
+    navigate(`/user-profile/${cocommentInfo.writerInfoDto.writerId}`);
+  };
+
+  // 대댓글 삭제
+  const handleDeleteCoComment = async () => {
+    if (window.confirm("대댓글을 삭제하시겠습니까?")) {
+      try {
+        await deletePloggingReplyComment(cocommentInfo.id);
+      } catch (err) {
+        alert(
+          "대댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요."
+        );
+      } finally {
+        const newCommentData = await getCommentsByPost(postId);
+        setCommentData(newCommentData.data.commentDtoList);
+      }
+    } else {
+      return;
+    }
   };
 
   return (
@@ -29,13 +56,19 @@ const CoCommentBox = ({ cocommentInfo, userId }) => {
               }
               alt="user"
               className="user"
+              onClick={handleProfile}
             />
             <BoldText>{cocommentInfo.writerInfoDto.nickname}</BoldText>
           </div>
           <div className="right">
             <div>{settingDate(cocommentInfo.createdDate)}</div>
             {cocommentInfo.writerInfoDto.writerId === userId ? (
-              <img src={ic_delete} alt="delete" className="delete" />
+              <img
+                src={ic_delete}
+                alt="delete"
+                className="delete"
+                onClick={handleDeleteCoComment}
+              />
             ) : (
               <img
                 src={ic_report}
@@ -97,7 +130,8 @@ const HeadDiv = styled.div`
     border-radius: 20px;
   }
 
-  .delete, .report {
+  .delete,
+  .report {
     width: 16px;
     cursor: pointer;
   }

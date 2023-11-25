@@ -54,3 +54,13 @@ export const deletePloggingComment = async (commentId) => {
     throw err;
   }
 };
+
+// 모집글에 대댓글 삭제하기
+export const deletePloggingReplyComment = async (replyId) => {
+  try {
+    const res = await client.delete(`/api/v1/comments/reply/${replyId}`);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
