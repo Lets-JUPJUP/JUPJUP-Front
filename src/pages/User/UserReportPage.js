@@ -24,31 +24,30 @@ const UserReportPage = () => {
     let urls = [];
     if (content === "") {
       alert("신고 사유를 작성해주세요.");
-    } else if (imgFile.length === 0) {
-      alert("신고 대상자의 부적절한 활동을 증명할 사진을 1장 첨부해주세요");
-    } else {
+      return;
+    } else if (imgFile.length !== 0) {
       //이미지 s3 업로드
       try {
         urls = await s3GetImageUrl(imgFile);
       } catch (err) {
         alert("이미지 업로드 에러");
       }
+    }
 
-      const inputs = {
-        targetId: id,
-        content: content,
-        images: urls,
-      };
-      try {
-        const res = await reportPostUserReport(inputs);
-        if (res.status) {
-          alert("신고/제보가 등록되었습니다.");
-          navigate("/");
-        }
-      } catch (err) {
-        alert("신고/제보 등록 에러");
-        console.log(err);
+    const inputs = {
+      targetId: id,
+      content: content,
+      images: urls,
+    };
+    try {
+      const res = await reportPostUserReport(inputs);
+      if (res.status) {
+        alert("신고/제보가 등록되었습니다.");
+        navigate("/");
       }
+    } catch (err) {
+      alert("신고/제보 등록 에러");
+      console.log(err);
     }
   };
 
