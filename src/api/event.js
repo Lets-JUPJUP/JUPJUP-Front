@@ -1,8 +1,11 @@
 import { client } from "./client";
+import axios from "axios";
+
+const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 
 //공식행사 전체 리스트 조회
 export const eventGetEventList = async () => {
-  return client.get("api/v1/eventInfos/lists");
+  return axios.get(`${SERVER_DOMAIN}/api/v1/eventInfos/lists`);
 };
 
 //공식행사 하나 상세 조회
