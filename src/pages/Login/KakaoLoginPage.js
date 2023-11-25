@@ -23,8 +23,6 @@ const KakaoLoginPage = () => {
           window.location.reload();
         },
       });
-
-      window.location.reload();
     } else {
       //토큰 임시 저장해 둔 뒤 프로필 생성 후 juptoken으로 토큰 다시 저장
       localStorage.setItem("temptoken", accessToken);
