@@ -150,6 +150,7 @@ const ReviewPage = () => {
         <div className="submit" onClick={handleSubmit}>
           선택 완료
         </div>
+        <div className="empty"></div>
 
         <AdBanner />
       </Wrapper>
@@ -222,6 +223,10 @@ const Wrapper = styled.div`
     font-style: normal;
     font-weight: 600;
     line-height: 24px; /* 150% */
+  }
+
+  .empty {
+    height: 150px;
   }
 `;
 
