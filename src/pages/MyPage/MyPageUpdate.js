@@ -12,6 +12,8 @@ import Top3Badges from "../../components/common/Top3Badges";
 
 import Footer from "../../components/common/Footer";
 
+import loading from "../../assets/common/loading.gif";
+
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 
@@ -84,35 +86,46 @@ const MyPageUpdate = () => {
   return (
     <>
       <Header title="내 프로필 수정" />
-      <Wrapper>
-        <GradientLine />
+      {Object.entries(profile).length > 0 ? (
+        <>
+          <Wrapper>
+            <GradientLine />
 
-        {profile.profileImageUrl && (
-          <SetProfileImg
-            profileImage={profile.profileImageUrl}
-            setImgFile={setImgFile}
-          />
-        )}
+            {profile.profileImageUrl && (
+              <SetProfileImg
+                profileImage={profile.profileImageUrl}
+                setImgFile={setImgFile}
+              />
+            )}
 
-        <ValidNameCheck
-          setNickname={setNickname}
-          nickname={nickname}
-          isValid={isValid}
-          setIsValid={setIsValid}
-        />
+            <ValidNameCheck
+              setNickname={setNickname}
+              nickname={nickname}
+              isValid={isValid}
+              setIsValid={setIsValid}
+            />
 
-        <UpdateButton onClick={handleSubmit}>수정 완료</UpdateButton>
+            <UpdateButton onClick={handleSubmit}>수정 완료</UpdateButton>
 
-        <div className="tags">
-          <Tag name={getAgeRange(profile.ageRange) + "대"} status="finish" />
-          <Tag name={getKorGender(profile.gender)} status="finish" />
-        </div>
+            <div className="tags">
+              <Tag
+                name={getAgeRange(profile.ageRange) + "대"}
+                status="finish"
+              />
+              <Tag name={getKorGender(profile.gender)} status="finish" />
+            </div>
 
-        <div style={{ marginTop: "20px" }}>
-          <Top3Badges list={badges} />
-        </div>
-      </Wrapper>
-      <Footer isNotFixed={true} />
+            <div style={{ marginTop: "20px" }}>
+              <Top3Badges list={badges} />
+            </div>
+          </Wrapper>
+          <Footer isNotFixed={true} />
+        </>
+      ) : (
+        <LoadingDiv>
+          <img src={loading} alt="loading" className="loading" />
+        </LoadingDiv>
+      )}
     </>
   );
 };
@@ -174,4 +187,16 @@ const UpdateButton = styled.button`
   border: 0px;
 
   margin-top: 22px;
+`;
+
+const LoadingDiv = styled.div`
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading {
+    width: 100px;
+    height: 100px;
+  }
 `;
