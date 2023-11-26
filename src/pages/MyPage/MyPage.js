@@ -35,7 +35,7 @@ const MyPage = () => {
       const data_history = (await postsGetUserCount(userId)).data.data;
 
       data_profile && setProfile(data_profile);
-      data_badges && setBadges(data_badges.bages);
+      data_badges && setBadges(data_badges.badges);
       data_history && setHistory(data_history);
     } catch (err) {
       alert("데이터를 가져오는데 실패했습니다.");
