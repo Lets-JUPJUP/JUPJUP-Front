@@ -72,8 +72,9 @@ const UserProfilePage = () => {
             <Tag name={getKorGender(profile.gender)} />
           </div>
 
-          <div className="badges"></div>
-          <Top3Badges list={badges} />
+          <div className="badges">
+            <Top3Badges list={badges} />
+          </div>
 
           <div className="history">
             <History
@@ -127,7 +128,7 @@ const Wrapper = styled.div`
   }
 
   .badges {
-    margin-top: 16vh;
+    margin-top: 40px;
   }
 
   .history {
