@@ -30,7 +30,7 @@ client.interceptors.response.use(
     const originalConfig = error.config;
 
     //토큰 만료일때
-    if (error.response.data.status === "UNAUTHORIZED") {
+    if (error.response.data && error.response.data.status === "UNAUTHORIZED") {
       try {
         // 토큰 재발급
         const res = await memberGetNewToken();

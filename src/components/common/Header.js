@@ -37,18 +37,18 @@ const Header = ({
   const getCount = async () => {
     try {
       const res = (await notificationGetUnreadCount()).data.data;
-      if (!res.includes("0")) {
+
+      if (res && !res.includes("0")) {
         setIsNewNoti(true);
       }
-      console.log(res);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    getCount();
-
     if (accessToken) {
+      getCount();
+
       let eventSource;
       const fetchSse = async () => {
         console.log("구독");
@@ -59,6 +59,7 @@ const Header = ({
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
+              heartbeatTimeout: 600000,
               withCredentials: true,
             }
           );
