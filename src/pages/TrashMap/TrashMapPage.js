@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
 import KakaoMap from "../../components/trashmap/KakaoMap";
@@ -19,6 +19,24 @@ const TrashMapPage = () => {
   // 사용자가 선택한 쓰레기통 정보
   const [selectedData, setSelectedData] = useState(null);
 
+  // 바텀시트
+  const bottomSheetRef = useRef();
+
+  // 각 쓰레기통에 대한 피드백 posted 여부
+  const initalArr = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  const [feedbackPosted, setFeedbackPosted] = useState(initalArr);
+
   // BottomSheet open 여부
   const [bsOpen, setBsOpen] = useState(false);
 
@@ -38,8 +56,34 @@ const TrashMapPage = () => {
         setBsOpen={setBsOpen}
         setSelectedData={setSelectedData}
       />
-      <StyledBottomSheet open={bsOpen} onDismiss={onDisMiss}>
-        <TrashBottomSheet selectedData={selectedData}/>
+      <StyledBottomSheet
+        ref={bottomSheetRef}
+        open={bsOpen}
+        onDismiss={onDisMiss}
+        snapPoints={({ headerHeight }) => [
+          headerHeight + 68,
+          headerHeight + 500,
+        ]}
+        defaultSnap={({ headerHeight }) => headerHeight + 68}
+        header={
+          <div
+            onClick={() => {
+              bottomSheetRef.current.snapTo(
+                ({ headerHeight }) => headerHeight + 500
+              );
+            }}
+          >
+            해당 쓰레기통에 대한 의견을 남겨주세요
+          </div>
+        }
+        expandOnContentDrag={true}
+      >
+        <TrashBottomSheet
+          selectedData={selectedData}
+          feedbackPosted={feedbackPosted}
+          setFeedbackPosted={setFeedbackPosted}
+          initalArr={initalArr}
+        />
       </StyledBottomSheet>
       <AdBanner />
     </>
@@ -49,7 +93,16 @@ const TrashMapPage = () => {
 export default TrashMapPage;
 
 const StyledBottomSheet = styled(BottomSheet)`
-  /* [data-rsbs-header] {
-    background-color: var(--main);
-  } */
+  [data-rsbs-header]:before {
+    background-color: var(--white, "#fff");
+  }
+
+  [data-rsbs-header] {
+    border-top-left-radius: 16px;
+    border-top-left-radius: var(--rsbs-overlay-rounded, 16px);
+    border-top-right-radius: 16px;
+    border-top-right-radius: var(--rsbs-overlay-rounded, 16px);
+    background-color: var(--main, "#410FD4");
+    color: var(--white, "#fff");
+  }
 `;
