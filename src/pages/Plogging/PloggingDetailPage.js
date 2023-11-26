@@ -21,6 +21,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import UserBottomSheet from "../../components/PloggingDetail/UserBottomSheet";
 import ParticipateAlert from "../../components/PloggingDetail/ParticipateAlert";
+import CancelAlert from "../../components/PloggingDetail/CancelAlert";
 
 import { deletePloggingPosts, getPostsDetail } from "../../api/posts";
 import { memberGetMyProfile } from "../../api/member";
@@ -35,6 +36,9 @@ const PloggingDetailPage = () => {
 
   // footer 참여하기 클릭 시 모달창 open 여부
   const [modalOpen, setModalOpen] = useState(false);
+
+  // footer 참여중 클릭시 모달창 open 여부
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
 
   // api로 받아온 detail data
   const [pageData, setPageData] = useState({});
@@ -197,6 +201,7 @@ const PloggingDetailPage = () => {
                 bsOpen={bsOpen}
                 setBsOpen={setBsOpen}
                 setModalOpen={setModalOpen}
+                setCancelModalOpen={setCancelModalOpen}
                 curMemberNum={plogMembersData.length}
                 maxMember={pageData.maxMember}
                 dueDate={pageData.dueDate}
@@ -211,6 +216,15 @@ const PloggingDetailPage = () => {
             {modalOpen === true ? (
               <ParticipateAlert
                 setModalOpen={setModalOpen}
+                postId={postId}
+                setIsPlogJoined={setIsPlogJoined}
+                setPlogMembersData={setPlogMembersData}
+              />
+            ) : null}
+
+            {cancelModalOpen === true ? (
+              <CancelAlert
+                setCancelModalOpen={setCancelModalOpen}
                 postId={postId}
                 setIsPlogJoined={setIsPlogJoined}
                 setPlogMembersData={setPlogMembersData}

@@ -10,6 +10,16 @@ export const postPloggingJoin = async (id) => {
   }
 };
 
+// 플로깅 참여 취소하기
+export const deletePloggingJoin = async (id) => {
+  try {
+    const res = await client.delete(`/api/v1/posts/${id}/join`);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 // 플로깅 참여한 멤버 조회하기
 export const getPostsJoinMembers = async (id) => {
   try {
