@@ -62,7 +62,7 @@ const MainPage = () => {
             </div>
           </div>
 
-          {history.totalPostsCount && (
+          {history && (
             <History
               contents={[
                 { count: history.totalPostsCount, text: "플로깅 모임" },

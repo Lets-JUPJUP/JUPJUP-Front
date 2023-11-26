@@ -15,6 +15,6 @@ export const notificationPostReadEach = async (id) => {
   return client.post(`api/v1/notifications/read/${id}`);
 };
 
-export const notificationGetUnreadCount = async (id) => {
+export const notificationGetUnreadCount = async () => {
   return client.get(`api/v1/notifications/count`);
 };

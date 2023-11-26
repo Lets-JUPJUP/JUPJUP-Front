@@ -30,7 +30,7 @@ const UserProfilePage = () => {
       const data_history = (await postsGetUserCount(id)).data.data;
 
       data_profile && setProfile(data_profile);
-      data_badges && setBadges(data_badges.bages);
+      data_badges && setBadges(data_badges.badges);
       data_history && setHistory(data_history);
     } catch (err) {
       alert("데이터를 가져오는데 실패했습니다.");
@@ -72,8 +72,9 @@ const UserProfilePage = () => {
             <Tag name={getKorGender(profile.gender)} />
           </div>
 
-          <div className="badges"></div>
-          <Top3Badges list={badges} />
+          <div className="badges">
+            <Top3Badges list={badges} />
+          </div>
 
           <div className="history">
             <History
@@ -127,7 +128,7 @@ const Wrapper = styled.div`
   }
 
   .badges {
-    margin-top: 16vh;
+    margin-top: 40px;
   }
 
   .history {
