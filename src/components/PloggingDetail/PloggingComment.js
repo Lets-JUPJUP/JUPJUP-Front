@@ -105,7 +105,8 @@ const CommentDiv = styled.div`
   margin-top: 8px;
 
   // 하단 댓글창 높이(34px)까지 합해서 여백 만들기
-  margin-bottom: 42px;
+  margin-bottom: 100px;
+  // 댓글창 모드일 때는 42px, 하단 푸터일 때는 100px
 
   .empty {
     height: 100px;
