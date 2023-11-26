@@ -1,0 +1,20 @@
+# Disallow Default (Only RoutePage allowed)
+User-agent: *
+Disallow: /
+Allow: /$
+
+# Google Search
+User-agent: Googlebot
+Allow : / 
+Disallow: /mypage
+Disallow: /login
+Disallow: /login-settings
+Disallow: /kakao-login
+
+# Naver Search
+User-agent: Yeti
+Allow : / 
+Disallow: /mypage
+Disallow: /login
+Disallow: /login-settings
+Disallow: /kakao-login

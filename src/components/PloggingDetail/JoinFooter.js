@@ -4,8 +4,6 @@ import { styled } from "styled-components";
 import ic_star_default from "../../assets/common/ic_star_default.png";
 import ic_star_clicked from "../../assets/common/ic_star_clicked.png";
 
-import useBottomDetection from "../common/useBottomDetection";
-
 import { countDDay } from "../common/time";
 import { deleteHeart, postHeart } from "../../api/heart";
 
@@ -24,8 +22,6 @@ const JoinFooter = ({
   setIsPlogJoined,
   postId,
 }) => {
-  const isScrollBottom = useBottomDetection();
-
   // 찜하기(★) 여부
   const [isStarClicked, setIsStarClicked] = useState(false);
 
@@ -57,7 +53,7 @@ const JoinFooter = ({
   };
 
   return (
-    <Wrapper className={isScrollBottom === true ? "displayNone" : ""}>
+    <Wrapper>
       <div className="main">
         <BigBoldText>{countDDay(dueDate)}</BigBoldText>
         <div className="right">
@@ -109,10 +105,6 @@ const Wrapper = styled.div`
   bottom: 0;
 
   z-index: 10;
-
-  &.displayNone {
-    display: none;
-  }
 
   .main {
     display: flex;

@@ -5,9 +5,10 @@ import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 
 import ic_close from "../../assets/common/ic_close.png";
-import ic_share from "../../assets/PloggingDetail/ic_share.png";
+import loading from "../../assets/common/loading.gif";
 
 import PostImageBox from "../../components/PloggingDetail/PostImageBox";
+import KakaoShareBtn from "../../components/PloggingDetail/KakaoShareBtn";
 import PloggingInfo from "../../components/PloggingDetail/PloggingInfo";
 import PloggingComment from "../../components/PloggingDetail/PloggingComment";
 
@@ -137,7 +138,10 @@ const PloggingDetailPage = () => {
                 />
               ) : null}
 
-              <img src={ic_share} alt="share" className="share" />
+              <KakaoShareBtn
+                pageData={pageData}
+                commentLength={commentData.length}
+              />
             </ShareDiv>
             <DivisionLine />
             {/* 플로깅 정보 */}
@@ -215,7 +219,9 @@ const PloggingDetailPage = () => {
           </Wrapper>
         </>
       ) : (
-        <div style={{ marginTop: "100px" }}>로딩 중..</div>
+        <LoadingDiv>
+          <img src={loading} alt="loading" className="loading" />
+        </LoadingDiv>
       )}
     </>
   );
@@ -249,10 +255,6 @@ const ShareDiv = styled.div`
     cursor: pointer;
     margin-right: 12px;
   }
-  .share {
-    width: 16px;
-    cursor: pointer;
-  }
 `;
 
 const DivisionLine = styled.div`
@@ -268,4 +270,17 @@ const CommentLine = styled.div`
   height: 1.2px;
   background: var(--light, "#f3efff");
   margin: 12px 0;
+`;
+
+const LoadingDiv = styled.div`
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading {
+    width: 100px;
+    height: 100px;
+  }
 `;

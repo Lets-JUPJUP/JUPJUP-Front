@@ -12,6 +12,8 @@ import Top3Badges from "../../components/common/Top3Badges";
 
 import Footer from "../../components/common/Footer";
 
+import loading from "../../assets/common/loading.gif";
+
 import { getAgeRange } from "../../components/common/ageRange";
 import { getKorGender } from "../../components/common/gender";
 
@@ -26,6 +28,7 @@ const MyPageUpdate = () => {
   //프로필 이미지
   const [imgFile, setImgFile] = useState(null); //이미지 원본 파일
 
+  const [initialNickname, setInitialNickname] = useState("");
   const [nickname, setNickname] = useState("");
   //닉네임 유효성 체크 (중복, 유효문자)
   const [isValid, setIsValid] = useState(false);
@@ -42,6 +45,8 @@ const MyPageUpdate = () => {
       data_badges && setBadges(data_badges.bages);
 
       setNickname(data_profile.nickname);
+      // 초기 닉네임 설정
+      setInitialNickname(data_profile.nickname);
     } catch (err) {
       alert("데이터를 가져오는데 실패했습니다.");
     }
@@ -54,7 +59,7 @@ const MyPageUpdate = () => {
     const gender = profile.gender; // 사용자의 성별 정보 받아오기
     let img_url = [profile.profileImageUrl]; // 사용자의 기존 이미지 url
 
-    if (isValid) {
+    if (isValid || nickname === initialNickname) {
       // 유효 닉네임일 경우 post
       if (imgFile) {
         //새로 등록한 이미지가 있을 경우 s3 업로드, url 얻기
@@ -81,33 +86,46 @@ const MyPageUpdate = () => {
   return (
     <>
       <Header title="내 프로필 수정" />
-      <Wrapper>
-        <GradientLine />
+      {Object.entries(profile).length > 0 ? (
+        <>
+          <Wrapper>
+            <GradientLine />
 
-        {profile.profileImageUrl && <SetProfileImg
-          profileImage={profile.profileImageUrl}
-          setImgFile={setImgFile}
-        />}
+            {profile.profileImageUrl && (
+              <SetProfileImg
+                profileImage={profile.profileImageUrl}
+                setImgFile={setImgFile}
+              />
+            )}
 
-        <ValidNameCheck
-          setNickname={setNickname}
-          nickname={nickname}
-          isValid={isValid}
-          setIsValid={setIsValid}
-        />
+            <ValidNameCheck
+              setNickname={setNickname}
+              nickname={nickname}
+              isValid={isValid}
+              setIsValid={setIsValid}
+            />
 
-        <UpdateButton onClick={handleSubmit}>수정 완료</UpdateButton>
+            <UpdateButton onClick={handleSubmit}>수정 완료</UpdateButton>
 
-        <div className="tags">
-          <Tag name={getAgeRange(profile.ageRange) + "대"} status="finish" />
-          <Tag name={getKorGender(profile.gender)} status="finish" />
-        </div>
+            <div className="tags">
+              <Tag
+                name={getAgeRange(profile.ageRange) + "대"}
+                status="finish"
+              />
+              <Tag name={getKorGender(profile.gender)} status="finish" />
+            </div>
 
-        <div style={{ marginTop: "20px" }}>
-          <Top3Badges list={badges} />
-        </div>
-      </Wrapper>
-      <Footer isNotFixed={true} />
+            <div style={{ marginTop: "20px" }}>
+              <Top3Badges list={badges} />
+            </div>
+          </Wrapper>
+          <Footer isNotFixed={true} />
+        </>
+      ) : (
+        <LoadingDiv>
+          <img src={loading} alt="loading" className="loading" />
+        </LoadingDiv>
+      )}
     </>
   );
 };
@@ -169,4 +187,16 @@ const UpdateButton = styled.button`
   border: 0px;
 
   margin-top: 22px;
+`;
+
+const LoadingDiv = styled.div`
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading {
+    width: 100px;
+    height: 100px;
+  }
 `;
