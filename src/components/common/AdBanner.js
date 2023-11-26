@@ -28,8 +28,10 @@ const AdBanner = ({ isNotFixed }) => {
     <Wrapper className={isNotFixed === true ? "" : "isFixed"}>
       <Banner className={isNotFixed === true ? "" : "isFixed"}>
         <StyledSlider {...settings}>
-          {list.map((el) => {
-            return <img className="banner_img" src={el.img} alt="" />;
+          {list.map((el, index) => {
+            return (
+              <img className="banner_img" src={el.img} alt="" key={index} />
+            );
           })}
         </StyledSlider>
       </Banner>

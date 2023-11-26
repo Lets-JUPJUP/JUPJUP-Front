@@ -50,6 +50,7 @@ const NotificationPage = () => {
           {notifications.map((el) => {
             return (
               <Notification
+                key={el.id}
                 type={el.notificationType}
                 content={el.content}
                 postId={el.contentId}
