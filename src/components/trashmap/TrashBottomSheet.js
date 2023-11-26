@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import { goodFeedbackList, badFeedbackList } from "./feedbackList";
+import { postTrashCanFeedback } from "../../api/trashmap";
 
 // 플로깅 상세 페이지 사용자 목록
 const TrashBottomSheet = ({ selectedData }) => {
@@ -11,6 +12,16 @@ const TrashBottomSheet = ({ selectedData }) => {
     "https://blog.kakaocdn.net/dn/W21sn/btriHBWbViQ/L13mvEr72tjXcnfFi2S9Ak/img.jpg";
 
   //   console.log(selectedData);
+  const onFeedbackClick = async (feedbackCode) => {
+    // post 보내기
+    const res = await postTrashCanFeedback(selectedData.id, feedbackCode);
+    // 색깔 변경
+    console.log("post에 대한 res", res);
+    if (res.status === 200) {
+      alert("해당 쓰레기통에 대한 피드백이 정상적으로 전달되었습니다!");
+    }
+  };
+
   return (
     <Wrapper>
       <div className="title">
@@ -31,7 +42,14 @@ const TrashBottomSheet = ({ selectedData }) => {
         <div className="subTitle">👍 좋아요</div>
         <div className="feedbackList">
           {goodFeedbackList.map((feedback, index) => {
-            return <TrashFeedBack key={index}>{feedback.title}</TrashFeedBack>;
+            return (
+              <TrashFeedBack
+                key={index}
+                onClick={() => onFeedbackClick(feedback.feedbackCode)}
+              >
+                {feedback.title}
+              </TrashFeedBack>
+            );
           })}
         </div>
       </div>
@@ -40,7 +58,14 @@ const TrashBottomSheet = ({ selectedData }) => {
         <div className="subTitle">👎 나빠요</div>
         <div className="feedbackList">
           {badFeedbackList.map((feedback, index) => {
-            return <TrashFeedBack key={index}>{feedback.title}</TrashFeedBack>;
+            return (
+              <TrashFeedBack
+                key={index}
+                onClick={() => onFeedbackClick(feedback.feedbackCode)}
+              >
+                {feedback.title}
+              </TrashFeedBack>
+            );
           })}
         </div>
       </div>
