@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 
 import ic_close from "../../assets/common/ic_close.png";
+import loading from "../../assets/common/loading.gif";
 
 import PostImageBox from "../../components/PloggingDetail/PostImageBox";
 import KakaoShareBtn from "../../components/PloggingDetail/KakaoShareBtn";
@@ -218,7 +219,9 @@ const PloggingDetailPage = () => {
           </Wrapper>
         </>
       ) : (
-        <div style={{ marginTop: "100px" }}>로딩 중..</div>
+        <LoadingDiv>
+          <img src={loading} alt="loading" className="loading" />
+        </LoadingDiv>
       )}
     </>
   );
@@ -267,4 +270,17 @@ const CommentLine = styled.div`
   height: 1.2px;
   background: var(--light, "#f3efff");
   margin: 12px 0;
+`;
+
+const LoadingDiv = styled.div`
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading {
+    width: 100px;
+    height: 100px;
+  }
 `;

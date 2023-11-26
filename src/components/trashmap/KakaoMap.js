@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { getTrashCanInRadius } from "../../api/trashmap";
 
+import loading from "../../assets/common/loading.gif";
 import ic_mapmarker from "../../assets/trashmap/ic_mapmarker.png";
 import pin_trash from "../../assets/trashmap/pin_trash.png";
 import pin_recycle from "../../assets/trashmap/pin_recycle.png";
@@ -130,7 +131,12 @@ const KakaoMap = ({
             : null}
         </StyledMap>
       ) : (
-        <div>로딩 중...위치 정보에 동의하지 않으셨다면 동의해주세요</div>
+        <LoadingDiv>
+          <div className="loadingContainer">
+            <img src={loading} alt="loading" className="loading" />
+            <div className="loadingText">위치 정보에 동의하지 않으셨다면 동의해주세요</div>
+          </div>
+        </LoadingDiv>
       )}
     </>
   );
@@ -148,4 +154,27 @@ const InfoWindow = styled.div`
   padding: 5px;
   background-color: var(--white, #fff);
   font-family: "Pretendard";
+`;
+
+const LoadingDiv = styled.div`
+  height: calc(100vh - 80px - 68px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .loading {
+    width: 100px;
+    height: 100px;
+  }
+
+  .loadingText {
+    font-size: 16px;
+    margin-top: 12px;
+  }
 `;

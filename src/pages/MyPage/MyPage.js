@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import Header from "../../components/common/Header";
 import GradientLine from "../../components/common/GradientLine";
 
+import loading from "../../assets/common/loading.gif";
 import default_profile from "../../assets/login/default-profile.png";
 import ic_settings from "../../assets/common/ic_settings.png";
 import edit from "../../assets/login/edit.png";
@@ -54,57 +55,65 @@ const MyPage = () => {
   return (
     <>
       <Header title="내 프로필" />
-      <Wrapper>
-        <GradientLine />
+      {Object.entries(profile).length > 0 ? (
+        <>
+          <Wrapper>
+            <GradientLine />
 
-        <div className="profileDiv">
-          <ProfileImage
-            url={profile.profileImageUrl}
-            default={default_profile}
-          />
-          <img
-            src={ic_settings}
-            alt="settings"
-            className="settings"
-            onClick={linkToUpdateMyPage}
-          />
-        </div>
+            <div className="profileDiv">
+              <ProfileImage
+                url={profile.profileImageUrl}
+                default={default_profile}
+              />
+              <img
+                src={ic_settings}
+                alt="settings"
+                className="settings"
+                onClick={linkToUpdateMyPage}
+              />
+            </div>
 
-        <div className="name">
-          <div className="name-value">{profile.nickname}</div>
-          <img
-            className="name-button"
-            src={edit}
-            alt="edit"
-            onClick={linkToUpdateMyPage}
-          />
-        </div>
-        <div className="line" />
+            <div className="name">
+              <div className="name-value">{profile.nickname}</div>
+              <img
+                className="name-button"
+                src={edit}
+                alt="edit"
+                onClick={linkToUpdateMyPage}
+              />
+            </div>
+            <div className="line" />
 
-        <div className="tags">
-          <Tag name={getAgeRange(profile.ageRange) + "대"} />
-          <Tag name={getKorGender(profile.gender)} />
-        </div>
+            <div className="tags">
+              <Tag name={getAgeRange(profile.ageRange) + "대"} />
+              <Tag name={getKorGender(profile.gender)} />
+            </div>
 
-        <div style={{ margin: "30px 0" }}>
-          <Top3Badges list={badges} />
-        </div>
+            <div style={{ margin: "30px 0" }}>
+              <Top3Badges list={badges} />
+            </div>
 
-        <div>
-          <History
-            contents={[
-              {
-                count: history.hostedPostCount,
-                text: "주최한 플로깅 모임",
-              },
-              { count: history.joinedPostCount, text: "플로깅 참여 횟수" },
-            ]}
-          />
+            <div>
+              <History
+                contents={[
+                  {
+                    count: history.hostedPostCount,
+                    text: "주최한 플로깅 모임",
+                  },
+                  { count: history.joinedPostCount, text: "플로깅 참여 횟수" },
+                ]}
+              />
 
-          <MyMenu />
-        </div>
-      </Wrapper>
-      <Footer isNotFixed={true} />
+              <MyMenu />
+            </div>
+          </Wrapper>
+          <Footer isNotFixed={true} />
+        </>
+      ) : (
+        <LoadingDiv>
+          <img src={loading} alt="loading" className="loading" />
+        </LoadingDiv>
+      )}
     </>
   );
 };
@@ -194,4 +203,16 @@ const ProfileImage = styled.div`
     `url(${
       props.url?.startsWith("https://") ? props.url : props.default
     }) gray center/cover no-repeat`};
+`;
+
+const LoadingDiv = styled.div`
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading {
+    width: 100px;
+    height: 100px;
+  }
 `;
