@@ -43,27 +43,33 @@ const KakaoMap = ({
 
     if (data.data.trashCans.length <= 0) {
       // 주변 쓰레기통이 없는 경우
-      if (
-        window.confirm(
-          "주변에 쓰레기통이 없습니다!\n성동구청 근처 쓰레기통을 검색할까요?"
-        )
-      ) {
-        // 성동구청 근처 쓰레기통 검색
-        const defaultData = await getTrashCanInRadius(...defaultLocation);
-        console.log("성동구청 근처 쓰레기통 조회", defaultData.data.trashCans);
-        setTrashPageData(defaultData.data.trashCans);
-        // 지도 중심 이동
-        setCurLocation({
-          latitude: defaultLocation[0],
-          longitude: defaultLocation[1],
-        });
-        // 지도의 중심이 사용자의 현재 위치가 아님을 표시
-        setIsCenterDefault(true);
-        return;
-      } else {
-        // 원하지 않는 경우 사용자의 현재 위치만 표시
-        return;
-      }
+      // 지도 다 로드된 후 alert 띄우기 위해 0.1초 이후 실행
+      setTimeout(async () => {
+        if (
+          window.confirm(
+            "주변에 쓰레기통이 없습니다!\n성동구청 근처 쓰레기통을 검색할까요?"
+          )
+        ) {
+          // 성동구청 근처 쓰레기통 검색
+          const defaultData = await getTrashCanInRadius(...defaultLocation);
+          console.log(
+            "성동구청 근처 쓰레기통 조회",
+            defaultData.data.trashCans
+          );
+          setTrashPageData(defaultData.data.trashCans);
+          // 지도 중심 이동
+          setCurLocation({
+            latitude: defaultLocation[0],
+            longitude: defaultLocation[1],
+          });
+          // 지도의 중심이 사용자의 현재 위치가 아님을 표시
+          setIsCenterDefault(true);
+          return;
+        } else {
+          // 원하지 않는 경우 사용자의 현재 위치만 표시
+          return;
+        }
+      }, 100);
     }
   };
 
@@ -134,7 +140,9 @@ const KakaoMap = ({
         <LoadingDiv>
           <div className="loadingContainer">
             <img src={loading} alt="loading" className="loading" />
-            <div className="loadingText">위치 정보에 동의하지 않으셨다면 동의해주세요</div>
+            <div className="loadingText">
+              위치 정보에 동의하지 않으셨다면 동의해주세요
+            </div>
           </div>
         </LoadingDiv>
       )}
