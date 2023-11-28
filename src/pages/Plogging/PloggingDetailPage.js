@@ -124,7 +124,11 @@ const PloggingDetailPage = () => {
   return (
     <>
       <Fixed>
-        <Header title={pageData.title} isLogin={true} isDetailPage={true} />
+        <Header
+          title={Object.entries(pageData).length > 0 ? pageData.title : "제목"}
+          isLogin={true}
+          isDetailPage={true}
+        />
       </Fixed>
       {Object.entries(pageData).length > 0 && userData ? (
         <>
