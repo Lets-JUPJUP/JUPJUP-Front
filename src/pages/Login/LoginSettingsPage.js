@@ -221,10 +221,12 @@ const LoginSettingsPage = () => {
             isTemp={true}
           />
           <div className="tags">
-            <div className="tag">
-              <img src={tag} className="tag-icon" alt="연령" />
-              {getAgeRange(myProfile.ageRange)}대
-            </div>
+            {isHaveAge && (
+              <div className="tag">
+                <img src={tag} className="tag-icon" alt="연령" />
+                {getAgeRange(myProfile.ageRange)}대
+              </div>
+            )}
             {isHaveGender && (
               <div className="tag">
                 <img src={tag} className="tag-icon" alt="성별" />
