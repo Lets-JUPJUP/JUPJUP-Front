@@ -22,6 +22,7 @@ const LoginSettingsPage = () => {
 
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
 
   //프로필 이미지
   const [imgFile, setImgFile] = useState(null); //이미지 원본 파일
@@ -29,9 +30,11 @@ const LoginSettingsPage = () => {
   //닉네임 유효성 체크 (중복, 유효문자)
   const [isValid, setIsValid] = useState(false);
   const [isHaveGender, setIsHaveGender] = useState(false);
+  const [isHaveAge, setIsHaveAge] = useState(false);
 
   // const [tempToken, setTempToken] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showAgeModal, setShowAgeModal] = useState(true);
 
   const navigate = useNavigate();
   const tempToken = localStorage.getItem("temptoken");
@@ -126,6 +129,91 @@ const LoginSettingsPage = () => {
             </div>
           </div>
         </GenderSettingModal>
+      )}
+      {showAgeModal && (
+        <AgeSettingModal>
+          <div className="modal">
+            <div className="title">나이를 알려주세요!</div>
+            <div className="subtitle">이후 수정이 불가능한 정보입니다</div>
+            <div className="btns">
+              {/* <GenderBtn
+                onClick={() => {
+                  setGender("MALE");
+                  setIsHaveGender(true);
+                }}
+                $isClicked={gender === "MALE"}
+              >
+                남성
+              </GenderBtn>
+              <GenderBtn
+                onClick={() => {
+                  setGender("FEMALE");
+                  setIsHaveGender(true);
+                }}
+                $isClicked={gender === "FEMALE"}
+              >
+                여성
+              </GenderBtn> */}
+              <Age
+                onClick={() => {
+                  setAge("AGE_10_19");
+                  setIsHaveAge(true);
+                }}
+                $isClicked={age === "AGE_10_19"}
+              >
+                10대
+              </Age>
+              <Age
+                onClick={() => {
+                  setAge("AGE_20_29");
+                  setIsHaveAge(true);
+                }}
+                $isClicked={age === "AGE_20_29"}
+              >
+                20대
+              </Age>
+              <Age
+                onClick={() => {
+                  setAge("AGE_30_39");
+                  setIsHaveAge(true);
+                }}
+                $isClicked={age === "AGE_30_39"}
+              >
+                30대
+              </Age>
+              <Age
+                onClick={() => {
+                  setAge("AGE_40_49");
+                  setIsHaveAge(true);
+                }}
+                $isClicked={age === "AGE_40_49"}
+              >
+                40대
+              </Age>
+              <Age
+                onClick={() => {
+                  setAge("AGE_50_59");
+                  setIsHaveAge(true);
+                }}
+                $isClicked={age === "AGE_50_59"}
+              >
+                50대
+              </Age>
+              <Age
+                onClick={() => {
+                  setAge("AGE_60_69");
+                  setIsHaveAge(true);
+                }}
+                $isClicked={age === "AGE_60_69"}
+              >
+                60대
+              </Age>
+            </div>
+            <div className="submit-btn" onClick={handleSubmit}>
+              입력 완료했어요!
+            </div>
+          </div>
+        </AgeSettingModal>
       )}
       <Header title={`${myProfile.nickname}님, 반가워요!`} />
 
@@ -265,7 +353,7 @@ const GenderSettingModal = styled.div`
   top: 0;
   bottom: 0;
   width: 100vw;
-  height: 100vhv;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
 
@@ -325,11 +413,93 @@ const GenderSettingModal = styled.div`
   }
 `;
 
+const AgeSettingModal = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--white, #fff);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+
+  .modal {
+    flex-shrink: 0;
+    width: 342px;
+    height: 164px;
+    border-radius: 8px;
+    background: var(--light, #f3efff);
+    padding-top: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title {
+    color: var(--black, #09090a);
+    text-align: center;
+  }
+
+  .subtitle {
+    color: var(--midgrey, #7e7e7e);
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
+  }
+  .btns {
+    width: 250px;
+    height: 50px;
+    overflow-x: scroll;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 3px;
+  }
+
+  .submit-btn {
+    display: flex;
+    width: 224px;
+    height: 40px;
+    padding: 8px 12px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 8px auto 0;
+    border-radius: 4px;
+    background: var(--sub, #beef62);
+    box-sizing: border-box;
+    color: var(--main, #410fd4);
+  }
+`;
+
 const GenderBtn = styled.div`
   box-sizing: border-box;
   display: flex;
   width: 108px;
   height: 40px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: ${(props) => (props.$isClicked ? " #410fd4" : "#7E7E7E")};
+`;
+const Age = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  height: 30px;
   padding: 8px 12px;
   justify-content: center;
   align-items: center;
