@@ -27,12 +27,18 @@ export const memberCheckValidName = async (nickname) => {
   }
 };
 
-export const memberUpdateProfile = async (nickname, gender, profileImage) => {
+export const memberUpdateProfile = async (
+  nickname,
+  gender,
+  age,
+  profileImage
+) => {
   //프로필 생성 및 수정
   try {
     const res = await client.put("/api/v1/members", {
       nickname: nickname,
       gender: gender,
+      ageRange: age,
       profileImage: profileImage,
     });
 
@@ -73,6 +79,7 @@ export const memberUpdateProfile_ = async (
   nickname,
   gender,
   profileImage,
+  age,
   accessToken
 ) => {
   return await axios.put(
@@ -81,6 +88,7 @@ export const memberUpdateProfile_ = async (
       nickname: nickname,
       gender: gender,
       profileImage: profileImage,
+      ageRange: age,
     },
     {
       headers: {

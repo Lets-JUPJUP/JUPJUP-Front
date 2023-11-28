@@ -34,7 +34,7 @@ const LoginSettingsPage = () => {
 
   // const [tempToken, setTempToken] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [showAgeModal, setShowAgeModal] = useState(true);
+  const [showAgeModal, setShowAgeModal] = useState(false);
 
   const navigate = useNavigate();
   const tempToken = localStorage.getItem("temptoken");
@@ -50,13 +50,17 @@ const LoginSettingsPage = () => {
       setIsHaveGender(true);
       setGender(data.gender);
     }
+    if (data.ageRange !== "NOT_DEFINED") {
+      setIsHaveAge(true);
+      setAge(data.ageRange);
+    }
     setNickname(data.nickname);
   };
 
   const handleSubmit = async () => {
-    //성별 정보있고, 유효 닉네임일 경우 post
+    //성별,나이 정보있고, 유효 닉네임일 경우 post
     var img_url = [myProfile.profileImageUrl]; //기존 이미지 url
-    if (isHaveGender && isValid) {
+    if (isHaveGender && isHaveAge && isValid) {
       if (imgFile) {
         //새로 등록한 이미지가 있을 경우 s3 업로드, url 얻기
         try {
@@ -71,6 +75,7 @@ const LoginSettingsPage = () => {
             nickname,
             gender,
             ...img_url, //배열 속 이미지 url 한개
+            age,
             tempToken
           )
         ).status;
@@ -92,6 +97,8 @@ const LoginSettingsPage = () => {
       }
     } else if (!isHaveGender && isValid) {
       setShowModal(true);
+    } else if (!isHaveAge && isValid) {
+      setShowAgeModal(true);
     } else {
       alert("유효하지 않은 닉네임입니다.");
     }
@@ -136,24 +143,6 @@ const LoginSettingsPage = () => {
             <div className="title">나이를 알려주세요!</div>
             <div className="subtitle">이후 수정이 불가능한 정보입니다</div>
             <div className="btns">
-              {/* <GenderBtn
-                onClick={() => {
-                  setGender("MALE");
-                  setIsHaveGender(true);
-                }}
-                $isClicked={gender === "MALE"}
-              >
-                남성
-              </GenderBtn>
-              <GenderBtn
-                onClick={() => {
-                  setGender("FEMALE");
-                  setIsHaveGender(true);
-                }}
-                $isClicked={gender === "FEMALE"}
-              >
-                여성
-              </GenderBtn> */}
               <Age
                 onClick={() => {
                   setAge("AGE_10_19");
