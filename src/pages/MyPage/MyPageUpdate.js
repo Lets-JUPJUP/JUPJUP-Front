@@ -42,7 +42,7 @@ const MyPageUpdate = () => {
       const data_badges = (await reviewsGetTop3Reviews(userId)).data.data;
 
       data_profile && setProfile(data_profile);
-      data_badges && setBadges(data_badges.bages);
+      data_badges && setBadges(data_badges.badges);
 
       setNickname(data_profile.nickname);
       // 초기 닉네임 설정
@@ -117,7 +117,7 @@ const MyPageUpdate = () => {
               <Tag name={getKorGender(profile.gender)} status="finish" />
             </div>
 
-            <div style={{ marginTop: "20px" }}>
+            <div style={{ marginTop: "30px" }}>
               <Top3Badges list={badges} />
             </div>
           </Wrapper>
