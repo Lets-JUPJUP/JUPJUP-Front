@@ -18,6 +18,7 @@ const CommentInput = ({
   isReplyMode,
   setIsReplyMode,
   setCommentData,
+  setCommentNo,
 }) => {
   // textarea focus 여부 (true일 경우 댓글창 크기가 커짐)
   const [inputFocused, setInputFocused] = useState(false);
@@ -50,6 +51,8 @@ const CommentInput = ({
       setCommentData(newCommentData.data.commentDtoList);
       // 대댓글 모드 false
       setIsReplyMode([false, null]);
+      // 댓글 개수 update
+      setCommentNo(newCommentData.data.commentNo);
     }
   };
 

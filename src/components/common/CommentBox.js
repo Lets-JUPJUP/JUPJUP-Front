@@ -14,6 +14,7 @@ const CommentBox = ({
   postId,
   userId,
   setCommentData,
+  setCommentNo,
   setWriteMode,
   setIsReplyMode,
   location = "ploggingDetail",
@@ -37,7 +38,7 @@ const CommentBox = ({
 
   // 프로필 페이지로 이동
   const handleProfile = () => {
-    navigate(`/user-profile/${commentInfo.writerInfoDto.writerId}`)
+    navigate(`/user-profile/${commentInfo.writerInfoDto.writerId}`);
   };
 
   // 댓글 삭제 서버에 제출 - 플로깅 상세 페이지
@@ -48,8 +49,11 @@ const CommentBox = ({
       } catch (err) {
         alert("댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
       } finally {
+        // 댓글 데이터 update
         const newCommentData = await getCommentsByPost(postId);
         setCommentData(newCommentData.data.commentDtoList);
+        // 댓글 개수 update
+        setCommentNo(newCommentData.data.commentNo);
       }
     } else {
       return;

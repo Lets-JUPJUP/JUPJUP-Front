@@ -12,11 +12,11 @@ const PloggingComment = ({
   userId,
   commentData,
   setCommentData,
+  commentNo,
+  setCommentNo,
   setIsReplyMode,
 }) => {
-  // 댓글 개수 (대댓글 포함)
-  const [commentNo, setCommentNo] = useState(0);
-
+  // 댓글 데이터, 댓글 개수 가져오기
   const getData = async () => {
     const data = await getCommentsByPost(postId);
     setCommentData(data.data.commentDtoList);
@@ -51,6 +51,7 @@ const PloggingComment = ({
                   postId={postId}
                   userId={userId}
                   setCommentData={setCommentData}
+                  setCommentNo={setCommentNo}
                   setWriteMode={setWriteMode}
                   setIsReplyMode={setIsReplyMode}
                 />
@@ -63,6 +64,7 @@ const PloggingComment = ({
                           postId={postId}
                           userId={userId}
                           setCommentData={setCommentData}
+                          setCommentNo={setCommentNo}
                         />
                       );
                     })

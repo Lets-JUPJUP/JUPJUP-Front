@@ -56,6 +56,9 @@ const PloggingDetailPage = () => {
   // 댓글 데이터
   const [commentData, setCommentData] = useState([]);
 
+  // 댓글 개수 (대댓글 포함)
+  const [commentNo, setCommentNo] = useState(0);
+
   // 대댓글 모드 state [대댓글인지, parentId]
   const [isReplyMode, setIsReplyMode] = useState([false, null]);
 
@@ -176,6 +179,8 @@ const PloggingDetailPage = () => {
               userId={userData.id}
               commentData={commentData}
               setCommentData={setCommentData}
+              commentNo={commentNo}
+              setCommentNo={setCommentNo}
               setIsReplyMode={setIsReplyMode}
             />
             <FloatingButton isWriteBtnHidden={true} />
@@ -199,6 +204,7 @@ const PloggingDetailPage = () => {
                 isReplyMode={isReplyMode}
                 setIsReplyMode={setIsReplyMode}
                 setCommentData={setCommentData}
+                setCommentNo={setCommentNo}
               />
             ) : (
               <JoinFooter
