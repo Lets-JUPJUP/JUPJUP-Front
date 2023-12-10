@@ -47,7 +47,7 @@ const CommentBox = ({
       try {
         await deletePloggingComment(commentInfo.id);
       } catch (err) {
-        alert("댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+        alert("댓글을 삭제하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
       } finally {
         // 댓글 데이터 update
         const newCommentData = await getCommentsByPost(postId);
@@ -66,7 +66,7 @@ const CommentBox = ({
       try {
         await deleteEventComment(postId, commentInfo.id);
       } catch (err) {
-        alert("댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+        alert("댓글을 삭제하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
       } finally {
         const newCommentData = await getEventComment(postId);
         setCommentData(newCommentData.data.eventcommentDtoList);

@@ -42,7 +42,7 @@ const CommentInput = ({
         ? await postPloggingReplyComment(postId, content, isReplyMode[1]) // 대댓글일 경우 post
         : await postPloggingComment(postId, content); // 일반 댓글일 경우 post
     } catch (err) {
-      alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      alert("댓글을 작성하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
     } finally {
       // JoinFooter가 나오도록 변경
       setWriteMode(false);
@@ -65,7 +65,7 @@ const CommentInput = ({
     try {
       await postEventComment(postId, content);
     } catch (err) {
-      alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      alert("댓글을 작성하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
       console.log(err);
     } finally {
       // 댓글 업데이트
