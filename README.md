@@ -26,7 +26,7 @@
 | :-: | :-: |
 |  <img src="https://avatars.githubusercontent.com/u/79829662?v=4" width="150"> | <img src="https://avatars.githubusercontent.com/u/81233784?v=4" width="150">| 
 |[송지민](https://github.com/songing01)|[김민정](https://github.com/wowalswjd)|
-| - | 쓰레기통 지도 페이지<br/>플로깅 리스트 페이지<br/>플로깅 상세 페이지<br/>공식행사 상세 페이지<br/>마이페이지<br/>|
+| 회원가입/로그인 페이지<br/>메인 페이지<br/>모집글 작성 페이지<br/>리뷰 작성 페이지<br/>알림 목록 페이지<br/>회원 신고 페이지<br/> | 쓰레기통 지도 페이지<br/>플로깅 리스트 페이지<br/>플로깅 상세 페이지<br/>공식행사 상세 페이지<br/>마이페이지<br/>|
 
 
 </div>
