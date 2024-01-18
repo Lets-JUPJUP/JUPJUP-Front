@@ -56,6 +56,9 @@ const PloggingDetailPage = () => {
   // 댓글 데이터
   const [commentData, setCommentData] = useState([]);
 
+  // 댓글 개수 (대댓글 포함)
+  const [commentNo, setCommentNo] = useState(0);
+
   // 대댓글 모드 state [대댓글인지, parentId]
   const [isReplyMode, setIsReplyMode] = useState([false, null]);
 
@@ -110,7 +113,7 @@ const PloggingDetailPage = () => {
         await deletePloggingPosts(postId);
       } catch (err) {
         alert(
-          "게시글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요."
+          "게시글을 삭제하는 과정에서 오류가 발생했습니다. 다시 시도해주세요."
         );
         console.log(err);
       } finally {
@@ -124,7 +127,11 @@ const PloggingDetailPage = () => {
   return (
     <>
       <Fixed>
-        <Header title={pageData.title} isLogin={true} isDetailPage={true} />
+        <Header
+          title={Object.entries(pageData).length > 0 ? pageData.title : "제목"}
+          isLogin={true}
+          isDetailPage={true}
+        />
       </Fixed>
       {Object.entries(pageData).length > 0 && userData ? (
         <>
@@ -172,6 +179,8 @@ const PloggingDetailPage = () => {
               userId={userData.id}
               commentData={commentData}
               setCommentData={setCommentData}
+              commentNo={commentNo}
+              setCommentNo={setCommentNo}
               setIsReplyMode={setIsReplyMode}
             />
             <FloatingButton isWriteBtnHidden={true} />
@@ -195,6 +204,7 @@ const PloggingDetailPage = () => {
                 isReplyMode={isReplyMode}
                 setIsReplyMode={setIsReplyMode}
                 setCommentData={setCommentData}
+                setCommentNo={setCommentNo}
               />
             ) : (
               <JoinFooter

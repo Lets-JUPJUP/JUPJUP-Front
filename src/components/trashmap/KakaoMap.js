@@ -162,6 +162,11 @@ const InfoWindow = styled.div`
   padding: 5px;
   background-color: var(--white, #fff);
   font-family: "Pretendard";
+  font-weight: 600;
+
+  width: 150px;
+  max-width: 180px;
+  text-align: center;
 `;
 
 const LoadingDiv = styled.div`

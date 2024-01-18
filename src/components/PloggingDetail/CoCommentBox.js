@@ -11,7 +11,13 @@ import {
 } from "../../api/comment";
 
 // 대댓글 컴포넌트
-const CoCommentBox = ({ cocommentInfo, postId, userId, setCommentData }) => {
+const CoCommentBox = ({
+  cocommentInfo,
+  postId,
+  userId,
+  setCommentData,
+  setCommentNo,
+}) => {
   const navigate = useNavigate();
 
   // 신고하기 페이지로 이동
@@ -31,11 +37,14 @@ const CoCommentBox = ({ cocommentInfo, postId, userId, setCommentData }) => {
         await deletePloggingReplyComment(cocommentInfo.id);
       } catch (err) {
         alert(
-          "대댓글을 삭제하는 과정에서 오류가 생겼습니다. 다시 시도해주세요."
+          "대댓글을 삭제하는 과정에서 오류가 발생했습니다. 다시 시도해주세요."
         );
       } finally {
+        // 댓글 데이터 update
         const newCommentData = await getCommentsByPost(postId);
         setCommentData(newCommentData.data.commentDtoList);
+        // 댓글 개수 update
+        setCommentNo(newCommentData.data.commentNo);
       }
     } else {
       return;

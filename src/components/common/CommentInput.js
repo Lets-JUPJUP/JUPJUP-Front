@@ -18,6 +18,7 @@ const CommentInput = ({
   isReplyMode,
   setIsReplyMode,
   setCommentData,
+  setCommentNo,
 }) => {
   // textarea focus 여부 (true일 경우 댓글창 크기가 커짐)
   const [inputFocused, setInputFocused] = useState(false);
@@ -41,7 +42,7 @@ const CommentInput = ({
         ? await postPloggingReplyComment(postId, content, isReplyMode[1]) // 대댓글일 경우 post
         : await postPloggingComment(postId, content); // 일반 댓글일 경우 post
     } catch (err) {
-      alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      alert("댓글을 작성하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
     } finally {
       // JoinFooter가 나오도록 변경
       setWriteMode(false);
@@ -50,6 +51,8 @@ const CommentInput = ({
       setCommentData(newCommentData.data.commentDtoList);
       // 대댓글 모드 false
       setIsReplyMode([false, null]);
+      // 댓글 개수 update
+      setCommentNo(newCommentData.data.commentNo);
     }
   };
 
@@ -62,7 +65,7 @@ const CommentInput = ({
     try {
       await postEventComment(postId, content);
     } catch (err) {
-      alert("댓글을 작성하는 과정에서 오류가 생겼습니다. 다시 시도해주세요.");
+      alert("댓글을 작성하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
       console.log(err);
     } finally {
       // 댓글 업데이트
