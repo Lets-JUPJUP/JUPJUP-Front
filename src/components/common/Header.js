@@ -111,35 +111,37 @@ const Header = ({
           </div>
         )}
 
-        <div className="btns">
-          {isNewNoti ? (
+        {accessToken && (
+          <div className="btns">
+            {isNewNoti ? (
+              <div
+                className="btn"
+                onClick={() => {
+                  navigate("/notifications");
+                }}
+              >
+                <img src={new_notification} alt="알림모음으로" />
+              </div>
+            ) : (
+              <div
+                className="btn"
+                onClick={() => {
+                  navigate("/notifications");
+                }}
+              >
+                <img src={alarm} alt="알림모음으로" />
+              </div>
+            )}
             <div
               className="btn"
               onClick={() => {
-                navigate("/notifications");
+                navigate("/mypage");
               }}
             >
-              <img src={new_notification} alt="알림모음으로" />
+              <img src={user} alt="마이페이지로" />
             </div>
-          ) : (
-            <div
-              className="btn"
-              onClick={() => {
-                navigate("/notifications");
-              }}
-            >
-              <img src={alarm} alt="알림모음으로" />
-            </div>
-          )}
-          <div
-            className="btn"
-            onClick={() => {
-              navigate("/mypage");
-            }}
-          >
-            <img src={user} alt="마이페이지로" />
           </div>
-        </div>
+        )}
       </Wrapper>
 
       {isDetailPage === true ? <GradientLine /> : null}
