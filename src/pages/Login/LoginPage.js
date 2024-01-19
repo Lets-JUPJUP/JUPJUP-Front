@@ -13,7 +13,7 @@ const LoginPage = () => {
     const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
     const KAKAO_AUTH_URL = `${SERVER_DOMAIN}/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI}`;
 
-    window.location.href = KAKAO_AUTH_URL;
+    window.open(KAKAO_AUTH_URL);
   };
   return (
     <Wrapper>
