@@ -13,7 +13,7 @@ const JoinFooter = ({
   bsOpen,
   setBsOpen,
   setModalOpen,
-  setCancelModalOpen,
+  // setCancelModalOpen,
   curMemberNum,
   maxMember,
   dueDate,
@@ -55,9 +55,9 @@ const JoinFooter = ({
   };
 
   // 참여 취소 모달 띄우기
-  const openCancelModal = () => {
-    setCancelModalOpen(true);
-  };
+  // const openCancelModal = () => {
+  //   setCancelModalOpen(true);
+  // };
 
   return (
     <Wrapper>
@@ -72,7 +72,7 @@ const JoinFooter = ({
           {countDDay(dueDate) === "모집 마감" ? (
             <JoinFinishButton>참여마감</JoinFinishButton>
           ) : isPlogJoined === true ? (
-            <JoinAlreadyButton onClick={openCancelModal}>
+            <JoinAlreadyButton>
               참여중
             </JoinAlreadyButton>
           ) : (

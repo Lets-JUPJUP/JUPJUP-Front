@@ -4,6 +4,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { getTrashCanInRadius } from "../../api/trashmap";
 
 import loading from "../../assets/common/loading.gif";
+import ic_reset from "../../assets/trashmap/ic_reset_white.png";
 import ic_mapmarker from "../../assets/trashmap/ic_mapmarker.png";
 import pin_trash from "../../assets/trashmap/pin_trash.png";
 import pin_recycle from "../../assets/trashmap/pin_recycle.png";
@@ -22,6 +23,14 @@ const KakaoMap = ({
   // 사용자의 현재 위치인지 기본 위치인지
   const [isCenterDefault, setIsCenterDefault] = useState(false);
 
+  // 새로고침 상태
+  const [refreshNum, setRefreshNum] = useState(0);
+
+  // 새로고침 버튼 클릭 시 상태 변경 -> useEffect 실행
+  const onRefreshButtonClick = () => {
+    setRefreshNum((prev) => prev + 1);
+  };
+
   useEffect(() => {
     // 성공 시 successHandler, 실패 시 errorHandler 함수가 실행
     if (navigator.geolocation) {
@@ -30,7 +39,7 @@ const KakaoMap = ({
       alert("GeoLocation 기능을 사용할 수 없습니다. 다시 시도해주세요");
       return;
     }
-  }, []);
+  }, [refreshNum]);
 
   const successHandler = async (response) => {
     console.log(response); // coords: GeolocationCoordinates {latitude: 위도, longitude: 경도, …} timestamp: 1673446873903
@@ -95,6 +104,12 @@ const KakaoMap = ({
           level={3}
           isPanto={true}
         >
+          <ButtonDiv>
+            <button className="refreshBtn" onClick={onRefreshButtonClick}>
+              <img src={ic_reset} alt="새로고침" />
+              <span>현재 위치에서 검색</span>
+            </button>
+          </ButtonDiv>
           <MapMarker
             position={{ lat: curLocation.latitude, lng: curLocation.longitude }}
             image={{
@@ -189,5 +204,30 @@ const LoadingDiv = styled.div`
   .loadingText {
     font-size: 16px;
     margin-top: 12px;
+  }
+`;
+
+const ButtonDiv = styled.div`
+  position: absolute;
+  top: 90px; // header 80px + marginTop 10px
+  z-index: 50;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .refreshBtn {
+    background: var(--main, #410fd4);
+    color: var(--white, #fff);
+    border-radius: 4px;
+    border: 2px solid var(--white, #fff);
+    padding: 5px 8px;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    img {
+      width: 10px;
+    }
   }
 `;
