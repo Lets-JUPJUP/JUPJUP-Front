@@ -58,6 +58,7 @@ const UserReportPage = () => {
         <Content
           placeholder="어떤 문제가 있는지 알려주세요."
           onChange={handleChange}
+          maxLength={500}
         />
         <div className="photo-container">
           <AddPhoto

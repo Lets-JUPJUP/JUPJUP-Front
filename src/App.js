@@ -22,6 +22,9 @@ import MyCommentPage from "./pages/MyPage/MyCommentPage";
 import MySchedulePage from "./pages/MyPage/MySchedulePage";
 
 import { PrivateRoute, PrivateRouteTemp } from "./router/PrivateRoute";
+import AdminLoginPage from "./pages/Admin/AdminLoginPage";
+import UserManagePage from "./pages/Admin/UserManagePage";
+import AdminKakaoPage from "./pages/Admin/AdminKakaoPage";
 
 function App() {
   return (
@@ -57,6 +60,11 @@ function App() {
       <Route path="/plogging-list" element={<PloggingListPage />} />
 
       <Route path="/trash-map" element={<TrashMapPage />} />
+
+      {/* 관리자 페이지. 추후 루트 파일 분리 & 접근제한 설정 예정 */}
+      <Route path="/admin" element={<AdminLoginPage />} />
+      <Route path="/admin/kakao-login" element={<AdminKakaoPage />} />
+      <Route path="/admin/user-manage" element={<UserManagePage />} />
     </Routes>
   );
 }
