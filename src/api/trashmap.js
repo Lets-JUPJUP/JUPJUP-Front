@@ -1,4 +1,3 @@
-import { async } from "q";
 import { client } from "./client";
 
 // 반경 내 쓰레기통 조회
@@ -25,9 +24,9 @@ export const postTrashCanFeedback = async (trashCanId, feedbackCode) => {
 };
 
 // 피드백 조회
-export const getTrashCanFeedback = async () => {
+export const getTrashCanFeedback = async (trashCanId) => {
   try {
-    const res = await client.get(`/api/v1/trashCans/feedbacks`);
+    const res = await client.get(`/api/v1/trashCans/feedbacks/${trashCanId}`);
     return res.data;
   } catch (err) {
     throw err;
