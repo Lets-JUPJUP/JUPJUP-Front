@@ -22,21 +22,6 @@ const TrashMapPage = () => {
   // 바텀시트
   const bottomSheetRef = useRef();
 
-  // 각 쓰레기통에 대한 피드백 posted 여부
-  const initalArr = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-  const [feedbackPosted, setFeedbackPosted] = useState(initalArr);
-
   // BottomSheet open 여부
   const [bsOpen, setBsOpen] = useState(false);
 
@@ -78,12 +63,7 @@ const TrashMapPage = () => {
         }
         expandOnContentDrag={true}
       >
-        <TrashBottomSheet
-          selectedData={selectedData}
-          feedbackPosted={feedbackPosted}
-          setFeedbackPosted={setFeedbackPosted}
-          initalArr={initalArr}
-        />
+        <TrashBottomSheet selectedData={selectedData} />
       </StyledBottomSheet>
       <AdBanner />
     </>
