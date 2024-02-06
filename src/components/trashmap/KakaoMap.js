@@ -210,7 +210,7 @@ const LoadingDiv = styled.div`
 const ButtonDiv = styled.div`
   position: absolute;
   top: 90px; // header 80px + marginTop 10px
-  z-index: 50;
+  z-index: 2; // bottomsheet z-index == 3
   width: 100%;
   display: flex;
   justify-content: center;
