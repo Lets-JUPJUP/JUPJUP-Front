@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 import ic_back from "../../assets/admin/ic_back.png";
@@ -11,12 +12,24 @@ import ic_back from "../../assets/admin/ic_back.png";
  */
 
 const AdminHeader = ({ title, subTitle = null, backBtn = false }) => {
+  const navigate = useNavigate();
+
+  // 이전 페이지로 이동하는 함수
+  const onGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Wrapper>
       <div className="mainSection">
         <div className="left">
           {backBtn === true && (
-            <img src={ic_back} className="backBtn" alt="뒤로가기" />
+            <img
+              src={ic_back}
+              className="backBtn"
+              alt="뒤로가기"
+              onClick={onGoBack}
+            />
           )}
           <div className="title">{title}</div>
         </div>
@@ -25,7 +38,11 @@ const AdminHeader = ({ title, subTitle = null, backBtn = false }) => {
           <LogoutBtn>로그아웃</LogoutBtn>
         </div>
       </div>
-      {subTitle !== null && <div className="subTitle">{subTitle}</div>}
+      {subTitle !== null ? (
+        <div className="subTitle">{subTitle}</div>
+      ) : (
+        <div className="subTitleHidden">부제목</div>
+      )}
     </Wrapper>
   );
 };
@@ -82,6 +99,11 @@ const Wrapper = styled.div`
 
   .subTitle {
     margin-top: 12px;
+  }
+
+  .subTitleHidden {
+    margin-top: 12px;
+    visibility: hidden;
   }
 `;
 
