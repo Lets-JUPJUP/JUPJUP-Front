@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { goodFeedbackList, badFeedbackList } from "./feedbackList";
-import { postTrashCanFeedback } from "../../api/trashmap";
+import { getTrashCanFeedback, postTrashCanFeedback } from "../../api/trashmap";
 
 // 플로깅 상세 페이지 사용자 목록
 const TrashBottomSheet = ({ selectedData }) => {
@@ -11,15 +12,62 @@ const TrashBottomSheet = ({ selectedData }) => {
   const recycleStationImgUrl =
     "https://blog.kakaocdn.net/dn/W21sn/btriHBWbViQ/L13mvEr72tjXcnfFi2S9Ak/img.jpg";
 
-  //   console.log(selectedData);
+  const isLogin = !!localStorage.getItem("juptoken"); // 로그인 여부
+
+  const navigate = useNavigate();
+
+  // 각 쓰레기통에 대한 피드백 posted 여부
+  const [isFeedbackPosted, setIsFeedbackPosted] = useState({
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
+    7: false,
+    8: false,
+    9: false,
+  });
+
+  // 쓰레기통 피드백 여부 받아오는 함수
+  const getFeedbackData = async () => {
+    const res = await getTrashCanFeedback(selectedData.id);
+    // console.log(selectedData.id);
+    // console.log("쓰레기통 피드백 여부", res.data);
+    setIsFeedbackPosted(res.data);
+  };
+
+  useEffect(() => {
+    getFeedbackData();
+  }, [selectedData.id]);
+
+  // 피드백 버튼 클릭 시 실행되는 함수
   const onFeedbackClick = async (feedbackCode) => {
-    // post 보내기
-    const res = await postTrashCanFeedback(selectedData.id, feedbackCode);
-    // 색깔 변경
-    console.log("post에 대한 res", res);
-    if (res.status === 200) {
-      alert("해당 쓰레기통에 대한 피드백이 정상적으로 전달되었습니다!");
+    try {
+      // post 보내기
+      const res = await postTrashCanFeedback(selectedData.id, feedbackCode);
+      alert(`'${res.data.data.feedback}' 피드백이 정상적으로 전달되었습니다!`);
+      // 색깔 변경
+      setIsFeedbackPosted((prevState) => {
+        return { ...prevState, [feedbackCode]: true };
+      });
+    } catch (err) {
+      console.log(err);
+      alert(
+        "피드백을 전달하는 과정에서 오류가 발생했습니다. 다시 시도해주세요."
+      );
     }
+  };
+
+  // 이미 전달된 피드백 버튼 클릭 시 실행되는 함수
+  const onAlreadyClick = () => {
+    alert("이미 관리자에게 전달된 피드백입니다!");
+  };
+
+  // 로그인하러가기 버튼 클릭 시 실행되는 함수
+  const onGoToLoginBtnClick = () => {
+    navigate("/login");
   };
 
   return (
@@ -38,37 +86,60 @@ const TrashBottomSheet = ({ selectedData }) => {
             : trashCanImgUrl
         }
       />
-      <div className="feedbackSection">
-        <div className="subTitle">👍 좋아요</div>
-        <div className="feedbackList">
-          {goodFeedbackList.map((feedback, index) => {
-            return (
-              <TrashFeedBack
-                key={index}
-                onClick={() => onFeedbackClick(feedback.feedbackCode)}
-              >
-                {feedback.title}
-              </TrashFeedBack>
-            );
-          })}
+      {/* 로그인된 사용자가 아닐 경우 피드백 조회/전송 불가 */}
+      {isLogin ? (
+        <>
+          <div className="feedbackSection">
+            <div className="subTitle">👍 좋아요</div>
+            <div className="feedbackList">
+              {goodFeedbackList.map((feedback, index) => {
+                // 이미 제출한 피드백의 경우 보라색 버튼으로 변경
+                return isFeedbackPosted[feedback.feedbackCode] === false ? (
+                  <TrashFeedBack
+                    key={index}
+                    onClick={() => onFeedbackClick(feedback.feedbackCode)}
+                  >
+                    {feedback.title}
+                  </TrashFeedBack>
+                ) : (
+                  <TrashFeedBackClicked key={index} onClick={onAlreadyClick}>
+                    {feedback.title}
+                  </TrashFeedBackClicked>
+                );
+              })}
+            </div>
+          </div>
+          <DivisionLine />
+          <div className="feedbackSection">
+            <div className="subTitle">👎 나빠요</div>
+            <div className="feedbackList">
+              {badFeedbackList.map((feedback, index) => {
+                // 이미 제출한 피드백의 경우 보라색 버튼으로 변경
+                return isFeedbackPosted[feedback.feedbackCode] === false ? (
+                  <TrashFeedBack
+                    key={index}
+                    onClick={() => onFeedbackClick(feedback.feedbackCode)}
+                  >
+                    {feedback.title}
+                  </TrashFeedBack>
+                ) : (
+                  <TrashFeedBackClicked key={index} onClick={onAlreadyClick}>
+                    {feedback.title}
+                  </TrashFeedBackClicked>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="loginSection">
+          <div className="message">쓰레기통 피드백 기능은</div>
+          <div className="message">로그인 후 이용 가능합니다.</div>
+          <GoToLoginBtn onClick={onGoToLoginBtnClick}>
+            로그인하러 가기
+          </GoToLoginBtn>
         </div>
-      </div>
-      <DivisionLine />
-      <div className="feedbackSection">
-        <div className="subTitle">👎 나빠요</div>
-        <div className="feedbackList">
-          {badFeedbackList.map((feedback, index) => {
-            return (
-              <TrashFeedBack
-                key={index}
-                onClick={() => onFeedbackClick(feedback.feedbackCode)}
-              >
-                {feedback.title}
-              </TrashFeedBack>
-            );
-          })}
-        </div>
-      </div>
+      )}
     </Wrapper>
   );
 };
@@ -111,6 +182,19 @@ const Wrapper = styled.div`
       margin-top: 12px;
     }
   }
+
+  .loginSection {
+    height: 270px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .message {
+      font-size: 16px;
+    }
+  }
 `;
 
 const TrashImage = styled.div`
@@ -144,4 +228,17 @@ const DivisionLine = styled.div`
   width: 95%;
   height: 1.2px;
   background: var(--main, "#410FD4");
+`;
+
+const GoToLoginBtn = styled.button`
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 0px;
+  border-radius: 4px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background: var(--sub, #beef62);
+  color: var(--main, #410fd4);
 `;
