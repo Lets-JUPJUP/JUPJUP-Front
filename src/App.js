@@ -26,6 +26,7 @@ import { PrivateRoute, PrivateRouteTemp } from "./router/PrivateRoute";
 import AdminLoginPage from "./pages/Admin/AdminLoginPage";
 import AdminKakaoPage from "./pages/Admin/AdminKakaoPage";
 import EventManagePage from "./pages/Admin/EventManagePage";
+import EventRegisterPage from "./pages/Admin/EventRegisterPage";
 import UserManagePage from "./pages/Admin/UserManagePage";
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
       <Route path="/admin" element={<AdminLoginPage />} />
       <Route path="/admin/kakao-login" element={<AdminKakaoPage />} />
       <Route path="/admin/event-manage" element={<EventManagePage />} />
+      <Route path="/admin/event-register" element={<EventRegisterPage />} />
       <Route path="/admin/user-manage" element={<UserManagePage />} />
     </Routes>
   );
