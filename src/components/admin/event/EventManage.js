@@ -78,6 +78,10 @@ const Table = styled.table`
     text-align: left;
   }
 
+  th {
+    white-space: nowrap;
+  }
+
   th,
   td {
     box-sizing: border-box;
