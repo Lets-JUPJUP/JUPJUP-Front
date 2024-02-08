@@ -1,21 +1,33 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 import logo from "../../assets/admin/logo_white.png";
 
 // 관리자 페이지 사이드 바
 const AdminSideBar = () => {
+  const navigate = useNavigate();
+
+  const onMenuClick = (menuUrl) => {
+    navigate(`/admin/${menuUrl}`);
+  };
+
   return (
     <Wrapper>
       <img src={logo} alt="logo" />
       <MenuSection>
-        <Text>공식행사 관리</Text>
+        <Text onClick={() => onMenuClick("event-manage")}>공식행사 관리</Text>
         <div className="menuBlock">
-          <Text className="menuTitle">사용자 관리</Text>
+          <Text
+            onClick={() => onMenuClick("user-manage")}
+            className="menuTitle"
+          >
+            사용자 관리
+          </Text>
           <SubText>사용자 전체 조회</SubText>
           <SubText>문의/신고내역 조회</SubText>
         </div>
-        <Text>쓰레기통 관리</Text>
+        <Text onClick={() => onMenuClick("trash-manage")}>쓰레기통 관리</Text>
       </MenuSection>
     </Wrapper>
   );
@@ -25,7 +37,7 @@ export default AdminSideBar;
 
 const Wrapper = styled.div`
   width: 22%;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--main, "#410FD4");
   color: var(--white, #fff);
 
