@@ -3,23 +3,22 @@ import styled from "styled-components";
 
 import AdminSideBar from "../../components/admin/AdminSideBar";
 import AdminHeader from "../../components/admin/AdminHeader";
+import EventRegister from "../../components/admin/event/EventRegister";
 
-import EventManage from "../../components/admin/event/EventManage";
-
-const EventManagePage = () => {
+const EventRegisterPage = () => {
   return (
     <Wrapper>
       <AdminSideBar />
       <div className="content">
-        <AdminHeader title={"공식행사 관리"} />
+        <AdminHeader title={"공식행사 등록"} backBtn={true} />
         {/* 본문 컴포넌트  */}
-        <EventManage />
+        <EventRegister />
       </div>
     </Wrapper>
   );
 };
 
-export default EventManagePage;
+export default EventRegisterPage;
 
 const Wrapper = styled.div`
   display: flex;

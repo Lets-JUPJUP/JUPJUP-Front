@@ -4,22 +4,26 @@ import styled from "styled-components";
 import AdminSideBar from "../../components/admin/AdminSideBar";
 import AdminHeader from "../../components/admin/AdminHeader";
 
-import EventManage from "../../components/admin/event/EventManage";
+import TrashDetail from "../../components/admin/trash/TrashDetail";
 
-const EventManagePage = () => {
+const TrashDetailPage = () => {
   return (
     <Wrapper>
       <AdminSideBar />
       <div className="content">
-        <AdminHeader title={"공식행사 관리"} />
+        <AdminHeader
+          title={"쓰레기통 관리 상세"}
+          subTitle={"각 쓰레기통 데이터를 클릭해 상세 정보를 조회하세요."}
+          backBtn={true}
+        />
         {/* 본문 컴포넌트  */}
-        <EventManage />
+        <TrashDetail />
       </div>
     </Wrapper>
   );
 };
 
-export default EventManagePage;
+export default TrashDetailPage;
 
 const Wrapper = styled.div`
   display: flex;
