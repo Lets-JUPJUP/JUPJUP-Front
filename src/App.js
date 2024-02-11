@@ -30,6 +30,7 @@ import EventRegisterPage from "./pages/Admin/EventRegisterPage";
 import UserManagePage from "./pages/Admin/UserManagePage";
 import TrashManagePage from "./pages/Admin/TrashManagePage";
 import TrashDetailPage from "./pages/Admin/TrashDetailPage";
+import ReportManagePage from "./pages/Admin/ReportManagePage";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
       <Route path="/admin/event-manage" element={<EventManagePage />} />
       <Route path="/admin/event-register" element={<EventRegisterPage />} />
       <Route path="/admin/user-manage" element={<UserManagePage />} />
+      <Route path="/admin/report-manage" element={<ReportManagePage />} />
       <Route path="/admin/trash-manage" element={<TrashManagePage />} />
       <Route path="/admin/trash-detail/:id" element={<TrashDetailPage />} />
     </Routes>

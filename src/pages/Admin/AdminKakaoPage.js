@@ -7,9 +7,6 @@ const AdminKakaoPage = () => {
   const navigate = useNavigate();
 
   const navigateUser = async (accessToken) => {
-    //프로필 생성 완료했는지, 중간 이탈했는지 여부 확인해서 navigate
-
-    console.log("glglgl");
     localStorage.setItem("admintoken", accessToken);
     navigate("/admin/user-manage");
     window.location.reload();

@@ -1,23 +1,25 @@
 import React from "react";
+
 import styled from "styled-components";
 
 import AdminSideBar from "../../components/admin/AdminSideBar";
 import AdminHeader from "../../components/admin/AdminHeader";
-import UserManage from "../../components/admin/user/UserManage";
+import ReportManage from "../../components/admin/declaration/ReportManage";
 
-const UserManagePage = () => {
+const ReportManagePage = () => {
   return (
     <Wrapper>
       <AdminSideBar />
       <div className="content">
-        <AdminHeader title={"사용자 전체 조회"} />
-        <UserManage />
+        <AdminHeader title={"신고내역 조회"} />
+        {/* 본문 컴포넌트  */}
+        <ReportManage />
       </div>
     </Wrapper>
   );
 };
 
-export default UserManagePage;
+export default ReportManagePage;
 
 const Wrapper = styled.div`
   display: flex;
