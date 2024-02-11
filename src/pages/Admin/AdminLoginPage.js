@@ -1,10 +1,9 @@
 import React from "react";
 import kakao from "../../assets/login/kakao.png";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-const AdminLoginPage = () => {
-  const navigate = useNavigate();
+import logo from "../../assets/common/logo.png";
 
+const AdminLoginPage = () => {
   const handlekakaoLogin = () => {
     const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
     const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
@@ -14,6 +13,10 @@ const AdminLoginPage = () => {
   };
   return (
     <Wrapper>
+      <div className="bg" />
+      <img src={logo} className="logo" alt="" />
+
+      <div className="text">Admin</div>
       <div className="login-button" onClick={handlekakaoLogin}>
         <img src={kakao} className="kakao-icon" alt="" />
         카카오 로그인
@@ -30,6 +33,21 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .bg {
+    width: 100%;
+    height: 264px;
+    flex-shrink: 0;
+    background: linear-gradient(
+      180deg,
+      #d9d9d9 0%,
+      rgba(217, 217, 217, 0) 100%
+    );
+  }
+
+  .text {
+    font-weight: 700;
+    margin-top: 270px;
+  }
   .login-button {
     cursor: pointer;
     z-index: 1;
@@ -56,5 +74,10 @@ const Wrapper = styled.div`
       height: 16.622px;
       flex-shrink: 0;
     }
+  }
+
+  .logo {
+    width: 313px;
+    height: 99px;
   }
 `;

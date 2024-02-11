@@ -24,8 +24,12 @@ const AdminSideBar = () => {
           >
             사용자 관리
           </Text>
-          <SubText>사용자 전체 조회</SubText>
-          <SubText>문의/신고내역 조회</SubText>
+          <SubText onClick={() => onMenuClick("user-manage")}>
+            사용자 전체 조회
+          </SubText>
+          <SubText onClick={() => onMenuClick("report-manage")}>
+            신고내역 조회
+          </SubText>
         </div>
         <Text onClick={() => onMenuClick("trash-manage")}>쓰레기통 관리</Text>
       </MenuSection>
