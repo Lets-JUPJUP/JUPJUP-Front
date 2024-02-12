@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { adminGetTrashCanFeedbacks } from "../../../api/admin";
 
 const TrashDetail = () => {
+  // 특정 쓰레기통 id
+  const trashCanId = useParams().id;
+
+  // 쓰레기통 정보 데이터
+  const [trashCanInfo, setTrashCanInfo] = useState({});
+
+  // 쓰레기통 피드백 데이터
+  const [trashCanFeedbacks, setTrashCanFeedbacks] = useState([]);
+
+  const getData = async () => {
+    try {
+      const data = (await adminGetTrashCanFeedbacks(trashCanId)).data.data;
+      // console.log("특정 쓰레기통 조회", data);
+      data && setTrashCanInfo(data.trashCanDto);
+      data && setTrashCanFeedbacks(data.feedbacks);
+    } catch (err) {
+      alert("특정 쓰레기통 피드백 데이터 조회 오류");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Wrapper>
       <Table>
@@ -16,11 +42,15 @@ const TrashDetail = () => {
         </thead>
         <tbody>
           <tr>
-            <td className="odd">ID</td>
-            <td className="even">푸르미 재활용 정거장</td>
-            <td className="odd">카테고리</td>
-            <td className="even">위치 000000000000</td>
-            <td className="odd">위치 상세 000000</td>
+            <td className="odd">{trashCanInfo.trashCanId}</td>
+            <td className="even">
+              {trashCanInfo.trashCanType === "STREET_TRASH_CAN"
+                ? "가로 쓰레기통"
+                : "푸르미 재활용 정거장"}
+            </td>
+            <td className="odd">{trashCanInfo.trashCategory}</td>
+            <td className="even">{trashCanInfo.address}</td>
+            <td className="odd">{trashCanInfo.detail}</td>
           </tr>
         </tbody>
       </Table>
@@ -34,8 +64,8 @@ const TrashDetail = () => {
         </thead>
         <tbody>
           <tr>
-            <td className="odd">37.1111111</td>
-            <td className="even">125.5555555</td>
+            <td className="odd">{trashCanInfo.latitude}</td>
+            <td className="even">{trashCanInfo.longitude}</td>
           </tr>
         </tbody>
       </Table>
@@ -50,12 +80,12 @@ const TrashDetail = () => {
           </tr>
         </thead>
         <tbody>
-          {[1, 2, 3, 4, 5].map(() => {
+          {trashCanFeedbacks.map((feedback) => {
             return (
-              <tr>
-                <td className="odd">0</td>
-                <td className="even">피드백 내용이 기억이 안 나요</td>
-                <td className="odd">00</td>
+              <tr key={feedback.feedbackCode}>
+                <td className="odd">{feedback.feedbackCode}</td>
+                <td className="even">{feedback.feedback}</td>
+                <td className="odd">{feedback.count}</td>
               </tr>
             );
           })}
@@ -107,8 +137,8 @@ const Table = styled.table`
     background: var(--grey2, #cdcdcd);
   }
 
-  .deleteImage {
-    width: 20px;
-    cursor: pointer;
+  .address {
+    max-width: 350px;
+    word-wrap: break-word;
   }
 `;

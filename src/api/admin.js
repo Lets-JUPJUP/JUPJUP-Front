@@ -35,3 +35,8 @@ export const adminDeleteUser = async (memberId) => {
 export const adminGetTrashCanLists = async (pageNo) => {
   return adminClient.get(`api/v1/admins/trashCans/list?pageNo=${pageNo}`);
 };
+
+// 특정 쓰레기통 피드백 조회
+export const adminGetTrashCanFeedbacks = async (trashCanId) => {
+  return adminClient.get(`api/v1/admins/trashCans/${trashCanId}`);
+};
