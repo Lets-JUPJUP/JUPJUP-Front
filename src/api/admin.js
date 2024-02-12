@@ -11,6 +11,11 @@ export const adminPostEvent = async (inputs) => {
   return adminClient.post(`/api/v1/admins/eventInfos`, inputs);
 };
 
+// 공식 행사 정보 게시글 삭제
+export const adminDeleteEvent = async (eventId) => {
+  return adminClient.delete(`/api/v1/admins/eventInfos/${eventId}`);
+};
+
 //신고 내역 조회
 export const adminGetReports = async () => {
   return adminClient.get("api/v1/admins/reports");
