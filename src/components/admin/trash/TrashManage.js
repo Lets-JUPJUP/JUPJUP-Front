@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
-import { adminGetTrashCans } from "../../../api/admin";
+import { adminGetTrashCanLists } from "../../../api/admin";
 
 import TrashRow from "./TrashRow";
 import Pagination from "react-js-pagination";
@@ -14,10 +14,10 @@ const TrashManage = () => {
   const getData = async () => {
     try {
       // pageNo 0부터 시작하므로 -1
-      const data = (await adminGetTrashCans(pageNo - 1)).data.data;
+      const data = (await adminGetTrashCanLists(pageNo - 1)).data.data;
       data && setPageInfo(data.pageInfo);
       data && setTrashCans(data.trashCans);
-      console.log("전체 쓰레기통 피드백 조회", data);
+      // console.log("전체 쓰레기통 피드백 조회", data);
     } catch (err) {
       alert("쓰레기통 피드백 데이터 조회 오류");
     }
