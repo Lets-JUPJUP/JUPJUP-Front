@@ -1,5 +1,11 @@
 import { adminClient } from "./client";
 import { client } from "./client";
+
+// 공식 행사 정보 리스트 조회
+export const adminGetEvents = async () => {
+  return adminClient.get(`/api/v1/admins/eventInfos/lists`);
+};
+
 //신고 내역 조회
 export const adminGetReports = async () => {
   return adminClient.get("api/v1/admins/reports");

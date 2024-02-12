@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import ic_close from "../../../assets/admin/ic_close_black.png";
+import { adminGetEvents } from "../../../api/admin";
+import EventRow from "./EventRow";
 
 const EventManage = () => {
+  const [events, setEvents] = useState([]);
+
   const navigate = useNavigate();
+
+  const getData = async () => {
+    try {
+      const data = (await adminGetEvents()).data.data;
+      console.log("공식 행사 조회", data);
+      data && setEvents(data);
+    } catch (err) {
+      alert("공식 행사 데이터 조회 오류");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   // 공식행사 등록 페이지로 이동하는 함수
   const onGoToRegisterPage = () => {
@@ -27,17 +44,8 @@ const EventManage = () => {
           </tr>
         </thead>
         <tbody>
-          {[1, 2, 3, 4, 5].map(() => {
-            return (
-              <tr>
-                <td className="odd">행사 제목</td>
-                <td className="even">img URL 00000000000000000000</td>
-                <td className="odd">WEB URL 00000000000000000000</td>
-                <td className="even">
-                  <img src={ic_close} className="deleteImage" alt="삭제" />
-                </td>
-              </tr>
-            );
+          {events.map((event) => {
+            return <EventRow event={event} />;
           })}
         </tbody>
       </Table>
@@ -96,8 +104,27 @@ const Table = styled.table`
     background: var(--grey2, #cdcdcd);
   }
 
-  .deleteImage {
-    width: 20px;
+  .delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 20px;
+      cursor: pointer;
+    }
+  }
+
+  .title {
+    max-width: 200px;
+    word-wrap: break-word;
+  }
+
+  .url {
     cursor: pointer;
+    max-width: 250px;
+    word-wrap: break-word;
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
   }
 `;
