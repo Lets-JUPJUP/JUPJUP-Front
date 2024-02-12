@@ -6,6 +6,11 @@ export const adminGetEvents = async () => {
   return adminClient.get(`/api/v1/admins/eventInfos/lists`);
 };
 
+// 공식 행사 정보 게시글 작성
+export const adminPostEvent = async (inputs) => {
+  return adminClient.post(`/api/v1/admins/eventInfos`, inputs);
+};
+
 //신고 내역 조회
 export const adminGetReports = async () => {
   return adminClient.get("api/v1/admins/reports");
