@@ -47,7 +47,7 @@ const TrashManage = () => {
         </thead>
         <tbody>
           {trashCans.map((trashCan) => {
-            return <TrashRow trashCan={trashCan} />;
+            return <TrashRow trashCan={trashCan} key={trashCan.trashCanId} />;
           })}
         </tbody>
       </Table>

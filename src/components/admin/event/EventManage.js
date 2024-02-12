@@ -13,7 +13,7 @@ const EventManage = () => {
   const getData = async () => {
     try {
       const data = (await adminGetEvents()).data.data;
-      console.log("공식 행사 조회", data);
+      // console.log("공식 행사 조회", data);
       data && setEvents(data);
     } catch (err) {
       alert("공식 행사 데이터 조회 오류");
@@ -45,7 +45,7 @@ const EventManage = () => {
         </thead>
         <tbody>
           {events.map((event) => {
-            return <EventRow event={event} />;
+            return <EventRow event={event} key={event.id}/>;
           })}
         </tbody>
       </Table>
