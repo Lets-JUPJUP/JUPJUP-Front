@@ -16,6 +16,11 @@ export const adminDeleteEvent = async (eventId) => {
   return adminClient.delete(`/api/v1/admins/eventInfos/${eventId}`);
 };
 
+// 전체 쓰레기통 피드백 조회
+export const adminGetTrashCans = async (pageNo) => {
+  return adminClient.get(`api/v1/admins/trashCans/list?pageNo=${pageNo}`);
+};
+
 //신고 내역 조회
 export const adminGetReports = async () => {
   return adminClient.get("api/v1/admins/reports");
