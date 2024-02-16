@@ -42,7 +42,11 @@ const UserAll = () => {
                 <td className="even">{user.ageRange}</td>
                 <td className="odd">{user.gender}</td>
                 <td className="even">
-                  <DeleteUserBtn targetId={user.id} />
+                  {user.memberStatus !== "BLOCKED" ? (
+                    <DeleteUserBtn targetId={user.id} />
+                  ) : (
+                    "강제탈퇴"
+                  )}
                 </td>
               </tr>
             );
