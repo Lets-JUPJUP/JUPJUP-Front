@@ -10,7 +10,12 @@ export const memberGetMyProfile = async () => {
 
     return res.data.data;
   } catch (err) {
-    console.log(err);
+    if (err.response.data.errorCode === "C1002") {
+      alert("관리자에 의해 강제 탈퇴되어 서비스를 사용할 수 없습니다.");
+      window.history.back();
+    } else {
+      console.log(err);
+    }
   }
 };
 
@@ -71,7 +76,12 @@ export const memberGetMyProfile_ = async (accessToken) => {
 
     return res.data.data;
   } catch (err) {
-    console.log(err);
+    if (err.response.data.errorCode === "C1002") {
+      alert("관리자에 의해 강제 탈퇴되어 서비스를 사용할 수 없습니다.");
+      window.history.back();
+    } else {
+      console.log(err);
+    }
   }
 };
 
