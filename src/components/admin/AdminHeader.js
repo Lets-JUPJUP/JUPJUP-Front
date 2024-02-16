@@ -19,6 +19,12 @@ const AdminHeader = ({ title, subTitle = null, backBtn = false }) => {
     navigate(-1);
   };
 
+  const onLogout = () => {
+    localStorage.removeItem("admintoken");
+    alert("로그아웃 되었습니다.");
+    window.location.reload("/admin");
+  };
+
   return (
     <Wrapper>
       <div className="mainSection">
@@ -34,8 +40,7 @@ const AdminHeader = ({ title, subTitle = null, backBtn = false }) => {
           <div className="title">{title}</div>
         </div>
         <div className="right">
-          <div>관리자 : adminID</div>
-          <LogoutBtn>로그아웃</LogoutBtn>
+          <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>
         </div>
       </div>
       {subTitle !== null ? (
