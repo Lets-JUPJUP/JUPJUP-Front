@@ -12,7 +12,7 @@ const DeleteModal = ({ targetId, setIsOpenModal }) => {
         window.location.reload();
       }
     } catch (err) {
-      alert("강제 탈퇴 오류");
+      alert("강제 탈퇴 오류 또는 이미 탈퇴된 회원입니다.");
     }
   };
   return (
