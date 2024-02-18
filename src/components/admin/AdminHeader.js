@@ -22,7 +22,7 @@ const AdminHeader = ({ title, subTitle = null, backBtn = false }) => {
   const onLogout = () => {
     localStorage.removeItem("admintoken");
     alert("로그아웃 되었습니다.");
-    window.location.reload("/admin");
+    window.location.reload();
   };
 
   return (

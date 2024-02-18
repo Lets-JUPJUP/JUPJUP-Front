@@ -6,7 +6,7 @@ const Footer = ({ isNotFixed = false }) => {
   const onLogout = () => {
     localStorage.removeItem("juptoken");
     alert("로그아웃 되었습니다.");
-    window.location.reload("/");
+    window.location.reload();
   };
 
   const onDelete = async () => {
@@ -18,7 +18,7 @@ const Footer = ({ isNotFixed = false }) => {
         if (res.status === 200) {
           localStorage.removeItem("juptoken");
           alert("회원탈퇴 되었습니다.");
-          window.location.reload("/");
+          window.location.reload();
         }
       } catch (err) {
         console.log(err);
