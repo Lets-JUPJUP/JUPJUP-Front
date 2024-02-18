@@ -13,3 +13,10 @@ const isTemp = !!localStorage.getItem("temptoken");
 export const PrivateRouteTemp = () => {
   return isLogin ? <Navigate to="/" /> : <Outlet />;
 };
+
+//로그인 완료 관리자만 접근 가능한 페이지
+const isAdminLogin = !!localStorage.getItem("admintoken");
+
+export const AdminPrivateRoute = () => {
+  return isAdminLogin ? <Outlet /> : <Navigate to="/admin" />;
+};

@@ -21,7 +21,11 @@ import MyInterestPage from "./pages/MyPage/MyInterestPage";
 import MyCommentPage from "./pages/MyPage/MyCommentPage";
 import MySchedulePage from "./pages/MyPage/MySchedulePage";
 
-import { PrivateRoute, PrivateRouteTemp } from "./router/PrivateRoute";
+import {
+  AdminPrivateRoute,
+  PrivateRoute,
+  PrivateRouteTemp,
+} from "./router/PrivateRoute";
 
 import AdminLoginPage from "./pages/Admin/AdminLoginPage";
 import AdminKakaoPage from "./pages/Admin/AdminKakaoPage";
@@ -60,22 +64,22 @@ function App() {
       </Route>
 
       <Route path="/" element={<MainPage />} />
-
       <Route path="/login" element={<LoginPage />} />
       <Route path="/kakao-login" element={<KakaoLoginPage />} />
       <Route path="/plogging-list" element={<PloggingListPage />} />
-
       <Route path="/trash-map" element={<TrashMapPage />} />
 
-      {/* 관리자 페이지. 추후 루트 파일 분리 & 접근제한 설정 예정 */}
+      {/* 관리자 페이지 */}
       <Route path="/admin" element={<AdminLoginPage />} />
       <Route path="/admin/kakao-login" element={<AdminKakaoPage />} />
-      <Route path="/admin/event-manage" element={<EventManagePage />} />
-      <Route path="/admin/event-register" element={<EventRegisterPage />} />
-      <Route path="/admin/user-manage" element={<UserManagePage />} />
-      <Route path="/admin/report-manage" element={<ReportManagePage />} />
-      <Route path="/admin/trash-manage" element={<TrashManagePage />} />
-      <Route path="/admin/trash-detail/:id" element={<TrashDetailPage />} />
+      <Route element={<AdminPrivateRoute />}>
+        <Route path="/admin/event-manage" element={<EventManagePage />} />
+        <Route path="/admin/event-register" element={<EventRegisterPage />} />
+        <Route path="/admin/user-manage" element={<UserManagePage />} />
+        <Route path="/admin/report-manage" element={<ReportManagePage />} />
+        <Route path="/admin/trash-manage" element={<TrashManagePage />} />
+        <Route path="/admin/trash-detail/:id" element={<TrashDetailPage />} />
+      </Route>
     </Routes>
   );
 }
