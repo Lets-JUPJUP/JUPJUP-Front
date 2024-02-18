@@ -1,5 +1,4 @@
-import { adminClient } from "./client";
-import { client } from "./client";
+import { adminClient } from "./adminClient";
 
 // 공식 행사 정보 리스트 조회
 export const adminGetEvents = async () => {
