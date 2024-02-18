@@ -38,22 +38,21 @@ client.interceptors.response.use(
         if (res.status === 200) {
           //로컬스토리지 저장 후 새로고침
           localStorage.setItem("juptoken", res.data.data.accessToken);
-          window.location.reload();
 
           //client의 api 콜 헤더에 재발급 받은 token 넣기
           originalConfig.headers[
             "Authorization"
           ] = `Bearer ${res.data.data.accessToken}`;
           //실행하던 api 이어서 실행
+          client.defaults.headers.common.Authorization = `Bearer ${res.data.data.accessToken}`;
+
           return tempClient(originalConfig);
         }
       } catch (err) {
         // 토큰 재발급 실패할 경우 (refreshToken 만료)
-        console.log(err);
-        alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+        console.log("리프레시 토큰 만료", err);
         //만료된 토큰 제거
         localStorage.removeItem("juptoken");
-
         window.location.replace("/login");
       }
     }
