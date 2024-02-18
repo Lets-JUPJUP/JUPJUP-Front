@@ -59,15 +59,3 @@ client.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-//관리자용
-export const adminClient = axios.create();
-
-adminClient.defaults.baseURL = `${SERVER_DOMAIN}/`;
-adminClient.defaults.withCredentials = true;
-
-const admintoken = localStorage.getItem("admintoken"); // access token
-
-adminClient.defaults.headers.common["Authorization"] = admintoken
-  ? `Bearer ${admintoken}`
-  : null;

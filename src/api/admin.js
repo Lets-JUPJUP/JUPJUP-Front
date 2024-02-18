@@ -1,4 +1,4 @@
-import { adminClient } from "./client";
+import { adminClient } from "./adminClient";
 
 //신고 내역 조회
 export const adminGetReports = async () => {
