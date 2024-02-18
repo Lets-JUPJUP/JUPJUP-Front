@@ -1,5 +1,5 @@
 import { adminClient } from "./client";
-import { client } from "./client";
+
 //신고 내역 조회
 export const adminGetReports = async () => {
   return adminClient.get("api/v1/admins/reports");
