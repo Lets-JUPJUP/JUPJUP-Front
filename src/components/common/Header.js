@@ -4,6 +4,7 @@ import logo from "../../assets/common/logo.png";
 import alarm from "../../assets/common/alarm.png";
 import new_notification from "../../assets/common/new_notification.png";
 import user from "../../assets/common/user.png";
+import back from "../../assets/common/ic_back_main.png";
 import GradientLine from "./GradientLine";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +17,8 @@ const Header = ({
   title2 = false,
   link = false,
 }) => {
+  const navigate = useNavigate();
+
   const toHome = () => {
     window.location.href = "/";
   };
@@ -24,7 +27,10 @@ const Header = ({
     window.location.href = `${link}`;
   };
 
-  const navigate = useNavigate();
+  // 이전 페이지로 이동하는 함수
+  const toBack = () => {
+    navigate(-1);
+  };
 
   const accessToken = localStorage.getItem("juptoken");
   const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
@@ -93,15 +99,42 @@ const Header = ({
     <>
       <Wrapper>
         {isDetailPage === true ? (
-          <div className="detailTitle">{title}</div>
+          <div className="detail">
+            <img
+              className="detailBackBtn"
+              src={back}
+              alt="back"
+              onClick={toBack}
+            />
+            <div className="detailTitle">{title}</div>
+          </div>
         ) : (
           <div className="left">
-            <img
-              className="logo"
-              src={logo}
-              alt="Let's JUPJUP"
-              onClick={toHome}
-            />
+            {/* 플로깅 이벤트 페이지, 공식 행사 페이지의 경우 back button 추가 */}
+            {title === "플로깅 이벤트" || title === "공식 행사" ? (
+              <>
+                <img
+                  className="backBtn"
+                  src={back}
+                  alt="back"
+                  onClick={toBack}
+                />
+                <img
+                  className="logo"
+                  src={logo}
+                  style={{ marginLeft: "42px" }}
+                  alt="Let's JUPJUP"
+                  onClick={toHome}
+                />
+              </>
+            ) : (
+              <img
+                className="logo"
+                src={logo}
+                alt="Let's JUPJUP"
+                onClick={toHome}
+              />
+            )}
             <div className="title">{title}</div>
             {title2 && link && (
               <div className="title2" onClick={toLink}>
@@ -162,10 +195,36 @@ const Wrapper = styled.div`
   /* margin-bottom: 10px; */
   padding-bottom: 10px;
 
+  position: relative;
+
+  .detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+
+    .detailBackBtn {
+      height: 24px;
+    }
+
+    .detailTitle {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
   .left {
     height: 48px;
     display: flex;
-    align-items: start;
+    /* align-items: start; */
+    align-items: flex-end;
+    gap: 8px;
+
+    .backBtn {
+      position: absolute;
+      height: 36px;
+      left: 16px;
+    }
 
     .logo {
       margin-left: 24px;
@@ -176,26 +235,16 @@ const Wrapper = styled.div`
     }
 
     .title {
-      align-self: flex-end;
-      margin-left: 8px;
       font-size: 16px;
       font-weight: 600;
     }
 
     .title2 {
-      align-self: flex-end;
-      margin-left: 8px;
       font-size: 16px;
       font-weight: 600;
 
       color: var(--grey, #e8e8e8);
     }
-  }
-
-  .detailTitle {
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 24px;
   }
 
   .btns {
