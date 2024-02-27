@@ -81,7 +81,7 @@ const PloggingListPage = () => {
   return (
     <>
       <Fixed>
-        <Header />
+        <Header title={"플로깅 이벤트"}/>
         <FilteringBox
           exceptEnded={exceptEnded}
           setExceptEnded={setExceptEnded}
