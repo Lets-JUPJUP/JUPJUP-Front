@@ -49,7 +49,7 @@ const PloggingListPage = () => {
 
   useEffect(() => {
     getData();
-  }, [selectedBtn, exceptEnded]);
+  }, [selectedBtn]);
 
   return (
     <>

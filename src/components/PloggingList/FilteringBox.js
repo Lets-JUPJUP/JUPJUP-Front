@@ -29,10 +29,9 @@ const FilteringBox = ({
   ];
 
   // 필터링 기능
-  const toggleButtonClick = (id) => {
-    const element = btnList[id];
+  const toggleButtonClick = (keyword) => {
     // url에 필터링 요소를 붙이기
-    navigate(currentUrl + element.keyword);
+    navigate(currentUrl + keyword);
   };
 
   useEffect(() => {
@@ -73,7 +72,7 @@ const FilteringBox = ({
               key={index}
               className={selectedBtn?.title === item.title ? "isClicked" : ""}
               onClick={() => {
-                toggleButtonClick(item.id);
+                toggleButtonClick(item.keyword);
               }}
             >
               {item.title}
