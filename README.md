@@ -1,6 +1,7 @@
 ## Lets-JUPJUP 프론트엔드 레포지토리
 
 <div align="center">
+<h3> 🏆 2023 제2회 SW개발 공모전 피우다 프로젝트(성동구 공공서비스 문제 해결) 우수상 </h3>
 <h3> 🔗배포 URL: https://lets-jupjup.com/ </h3>
 <h3> 🚮 프로젝트명 : 레츠줍줍 (Lets-JUPJUP) </h3>
 <img width="450" alt="jupjup-logo" src="https://github.com/Lets-JUPJUP/JUPJUP-Front/assets/81233784/06b104db-3583-4080-9abb-6e143a890908">
