@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
+
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="성동구를 위한 플로깅 운동 주도 웹 서비스"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- og tag -->
+    <meta property="og:title" content="Lets-JUPJUP" />
+    <meta property="og:url" content="https://lets-jupjup.com/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://lets-jupjup.com/Lets-JUPJUP.png"
+    />
+    <meta
+      property="og:description"
+      content="성동구를 위한 플로깅 운동 주도 웹 서비스"
+    />
+    <meta property="og:site_name" content="Lets-JUPJUP" />
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -24,6 +42,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_KAKAOMAP_API_KEY%"
+    ></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>Lets-JUPJUP</title>
   </head>
   <body>
